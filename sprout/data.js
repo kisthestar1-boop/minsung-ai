@@ -71,6 +71,8 @@ const RPGMAP={home:[.105,.86],npc:[.145,.8],
  wild:[{k:'wb0',fx:.348,row:.335,ci:1},{k:'wb1',fx:.493,row:.87,ci:2},{k:'wb2',fx:.55,row:.43,ci:3},{k:'wb3',fx:.65,row:.53,ci:4},{k:'wb4',fx:.795,row:.52,ci:5},{k:'wb5',fx:.755,row:.65,ci:6}]};
 /* 일반 몬스터 이름과 그림 (편집기용) */
 const MONINFO={e0:['시든 새싹','sprite_e0'],e1:['가시 덤불','sprite_e1'],e2:['졸린 독버섯','sprite_e2'],e3:['그림자 도깨비불','sprite_e3'],m0:['투덜 진흙이','m_e0'],m1:['따끔 잠자리','m_e1'],m2:['삐죽 부들이','m_e2'],m3:['등불 유령','m_e3']};
+/* 일반 몬스터 능력치 (새 엔진용) — hp 체력, dmg 공격, range 사거리, spd 속도, rate 공격 간격(초), shot 쏘는 공격, xp 경험치 */
+const MONSTAT={e0:{hp:50,dmg:6,range:36,spd:50,rate:1,xp:6},e1:{hp:40,dmg:8,range:30,spd:95,rate:.9,xp:7},e2:{hp:150,dmg:7,range:40,spd:35,rate:1.2,xp:14},e3:{hp:45,dmg:8,range:205,spd:45,rate:1.3,shot:1,xp:8},m0:{hp:110,dmg:10,range:38,spd:45,rate:1.1,xp:12},m1:{hp:60,dmg:11,range:34,spd:100,rate:.8,xp:10},m2:{hp:70,dmg:11,range:210,spd:40,rate:1.4,shot:1,xp:11},m3:{hp:70,dmg:12,range:205,spd:50,rate:1.3,shot:1,xp:11}};
 /* 편집기(새싹 엔진)에서 고친 내용 덮어쓰기 — 이 기기에 저장된 편집 내용이 있으면 표에 반영 */
 (function(){let E=null;try{E=JSON.parse(localStorage.getItem('sprout_edit')||'null')}catch(e){}if(!E||E.v!==1)return;window.__EDIT=E;
  if(E.map){for(const k of ['home','npc','camps','wild'])if(E.map[k])RPGMAP[k]=E.map[k]}

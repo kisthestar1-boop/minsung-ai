@@ -19,16 +19,18 @@
 | 바닥 | 화면 (카메라·그리기) | `src/render.js` | ✅ |
 | 바닥 | 조작 | `src/input.js` | ✅ |
 | 뼈대 | 물체와 부품 | `src/world.js` | ✅ |
-| 뼈대 | 기본 부품 | `src/parts.js` | 🔨 |
-| 뼈대 | 전투 | — | ⚪ 다음 |
-| 뼈대 | 몬스터 머리 | — | ⚪ 다음 |
-| 게임 규칙 | 기술 · 성장 · 퀘스트와 야영지 · 카드와 동료 | — | ⚪ |
+| 뼈대 | 기본 부품 | `src/parts.js` | ✅ |
+| 뼈대 | 전투 (피해 한 곳 통과·발사체·범위·느려짐·기절) | `src/combat.js` | ✅ |
+| 뼈대 | 몬스터 머리 (대기→추격→공격→돌아가기) | `src/ai.js` | ✅ |
+| 게임 규칙 | 기술 · 성장 | — | ⚪ 다음 |
+| 게임 규칙 | 퀘스트와 야영지 · 카드와 동료 | — | ⚪ |
 | 겉모습 | 화면 부품 · 소리 · 저장 | — | ⚪ |
 | 도구 | 내용 표 | `sprout/data.js` | ✅ |
 | 도구 | 편집기 | `engine/index.html` | 🔨 |
 | 도구 | 자동 시험 | `engine/tests/` | 🔨 |
 
-- 시험 장면: `engine/play.html` (장면 코드 `engine/game/adventure.js`) — 지도 위에서 소환사가 걷고 정령이 따라와요.
+- 시험 장면: `engine/play.html` (장면 코드 `engine/game/adventure.js`) — 지도 위에서 걷고 야영지 몬스터와 싸워요. `?hero=c_war` 처럼 직업을 바꿀 수 있어요.
+- 엔진 시험: `tests/engine_scene.js`(걷기) · `tests/engine_combat.js`(다섯 직업 90초 자동 전투) · `tests/engine_combat_unit.js`(부품별)
 - 지금 사람들이 하는 게임은 아직 `sprout/index.html` 이에요. 새 엔진이 완성 기준을 통과하면 옮겨요.
 
 ## 시험 (engine/tests)
