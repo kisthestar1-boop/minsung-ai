@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>새싹 원정대 v6.0</title>
+<title>새싹 원정대 v6.1</title>
 <meta name="theme-color" content="#2f4a2c">
 <style>
 :root{--ink:#3a2f22;--cream:#fbf5e6}
@@ -870,7 +870,7 @@ function updDuel(dt){const D=DU;if(D.done){D.T+=dt;return}if(D.modeSel)return;co
   else if(u.hero&&D.chest&&D.chest.r===u.r&&Math.hypot(D.chest.x-u.x,D.chest.y-u.y)>6){gx=D.chest.x;gy=D.chest.y}
   else if(u.hero&&heroHold(u)){}
   else if(u.camp){const dd=Math.hypot(u.camp.x-u.x,u.camp.y-u.y);if(dd>8){gx=u.camp.x;gy=u.camp.y}else{u.hp=Math.min(u.hpMax,u.hp+u.hpMax*.12*dt);u.fx=-1}}
-  else if(u.pal){const h=D.H[1].u,tx=h?h.x-(h.fx||1)*38:homeX()+26,ty=h?h.y+(u.palI?24:-24):homeY(),dd=Math.hypot(tx-u.x,ty-u.y);u.fast=dd>110;if(dd>22){gx=tx;gy=ty}if(h&&(MW()?Math.hypot(h.x-homeX(),h.y-homeY())<130:Math.abs(h.x-(dLX()+44))<90))u.hp=Math.min(u.hpMax,u.hp+u.hpMax*.14*dt)}
+  else if(u.pal){const h=D.H[1].u,tx=h?h.x-(h.fx||1)*(u.palI>1?64:38):homeX()+26,ty=h?h.y+(u.palI>1?0:u.palI?24:-24):homeY(),dd=Math.hypot(tx-u.x,ty-u.y);u.fast=dd>110;if(dd>22){gx=tx;gy=ty}if(h&&(MW()?Math.hypot(h.x-homeX(),h.y-homeY())<130:Math.abs(h.x-(dLX()+44))<90))u.hp=Math.min(u.hpMax,u.hp+u.hpMax*.14*dt)}
   else{const near=(ecx-u.x)*u.side<170;gx=ecx;gy=near?cy-8:laneYX(u.r,u.x+u.side*70);if(!near)gx=u.x+u.side*100}
   if(u.tw)gx=null;
   if(gx!=null&&u.hero&&u.side>0&&SV.rpg&&!(tgt&&(bd<125||tgt===D.lock)))gx=null;
@@ -1334,7 +1334,7 @@ function drawTitle(dt){
  button(W-232,H-58,104,40,'📖 도감',()=>{scene='book'},'#cfe7b8');
  button(W-120,H-58,104,40,SV.mute?'🔇 음악':'🎵 음악',()=>{SV.mute=!SV.mute;save();if(SV.mute)bgmStop();else bgmStart()},'#e7e0f6');
  btns.unshift({x:0,y:0,w:W,h:H,cb:startGame});
- ctx.fillStyle='rgba(58,41,30,.7)';ctx.font='bold 12px system-ui';ctx.fillText('v6.0 · 몬스터 카드·스킬 트리 · 효과음 Kenney (CC0)',14,H-14);
+ ctx.fillStyle='rgba(58,41,30,.7)';ctx.font='bold 12px system-ui';ctx.fillText('v6.1 · 직업 스킬 트리·몬스터 카드 · 효과음 Kenney (CC0)',14,H-14);
  if(loaded<NAMES.length){ctx.fillStyle='#fff';ctx.font='bold 13px system-ui';ctx.fillText('그림 불러오는 중… '+loaded+'/'+NAMES.length,14,24)}
  // 꽃잎 (천천히)
  for(let i=0;i<22;i++){const sp=18+(i%5)*6,x=((i*137+titleT*sp*1.4)%(W+80))-40,y=((i*89+titleT*(sp+10))%(H+60))-30;ctx.save();ctx.translate(x,y);ctx.rotate(titleT*.8+i);ctx.fillStyle=i%3?'rgba(255,214,228,.75)':'rgba(255,240,200,.7)';ctx.beginPath();ctx.ellipse(0,0,6,3,0,0,7);ctx.fill();ctx.restore()}
@@ -1493,48 +1493,64 @@ function monPal(cid,i){const D=DU,k=cidK(cid),el=cidE(cid),h=D.H[1].u,x=h?h.x-30
  u.hp=u.hpMax=u.hpMax*1.6*m*(el?2.4:1);u.dmg*=m*(el?1.5:1);if(el){u.gold=1;u.rad*=1.3}
  D.fx.push({ring:1,x:u.x,y:u.y-10,r:6,life:.5,col:RAR[mcRar(cid)][1]})}
 {const _ps=palSpawn;palSpawn=function(k,i){const D=DU,cid=(SV.pals||[])[i];if(cid&&mcN(cid)>0){monPal(cid,i);return}if(!k||!UCARD[k])k=D.deck[i];if(!k||!UCARD[k])return;_ps(k,i);const u=D.units[D.units.length-1],m=1+.15*TR('t_pal');if(u&&u.pal&&m>1){u.hp=u.hpMax=u.hpMax*m;u.dmg*=m}}}
-function palRefresh(){const D=DU;if(!D||D.mode!=='rpg'||D.done)return;D.units=D.units.filter(u=>!u.pal);D.palR=[];[0,1].forEach(i=>palSpawn(D.deck[i],i))}
-function palSet(cid){SV.pals=SV.pals||[null,null];const i=SV.pals.indexOf(cid);if(i>=0)SV.pals[i]=null;else{const j=SV.pals.indexOf(null);if(j>=0)SV.pals[j]=cid;else SV.pals=[SV.pals[1],cid]}save();palRefresh();SFX.get()}
+function palRefresh(){const D=DU;if(!D||D.mode!=='rpg'||D.done)return;D.units=D.units.filter(u=>!u.pal);D.palR=[];for(let i=0;i<palSlots();i++)palSpawn(D.deck[i],i)}
+function palSet(cid){SV.pals=SV.pals||[null,null];const n=DU&&DU.mode==='rpg'?palSlots():2;while(SV.pals.length<n)SV.pals.push(null);const i=SV.pals.indexOf(cid);if(i>=0)SV.pals[i]=null;else{let j=-1;for(let q=0;q<n;q++)if(SV.pals[q]==null){j=q;break}if(j>=0)SV.pals[j]=cid;else{SV.pals.splice(0,1);SV.pals.splice(n-1,0,cid)}}save();palRefresh();SFX.get()}
 function mcGive(c,x,y){SV.mc=SV.mc||{};const s0=mcStar(c);SV.mc[c]=(SV.mc[c]||0)+1;SV.cpity=SV.cpity||{};SV.cpity[c]=0;const s1=mcStar(c),D=DU,first=SV.mc[c]===1;
- SV.pals=SV.pals||[null,null];let eq=0;if(first&&SV.pals.indexOf(null)>=0&&SV.pals.indexOf(c)<0){SV.pals[SV.pals[1]==null?1:0]=c;eq=1}save();
+ SV.pals=SV.pals||[null,null];let eq=0;if(first&&(SV.pals[0]==null||SV.pals[1]==null)&&SV.pals.indexOf(c)<0){SV.pals[SV.pals[1]==null?1:0]=c;eq=1}save();
  if(D){D.capShow={c,t:2.6,up:s1>s0&&!first,first};D.cardNew=1;D.flash=Math.max(D.flash||0,.18);if(x!=null)for(let i=0;i<16;i++){const a=i/16*6.283;D.fx.push({x,y:y-18,vx:Math.cos(a)*150,vy:Math.sin(a)*100-40,life:.6,col:RAR[mcRar(c)][1],r:3,nog:1})}
   D.capShow.eq=eq;if(eq)palRefresh();else if(s1>s0&&SV.pals.indexOf(c)>=0)palRefresh()}SFX.lv()}
 function mcKill(u){const D=DU;if(u.hero||u.tw||u.boss||u.spr||MCR[u.k]==null)return;
  const lr=TR('t_leech'),h=D.H[1].u;if(lr&&h&&h.hp>0)h.hp=Math.min(h.hpMax,h.hp+h.hpMax*.03*lr);const gr=TR('t_gold');if(gr)D.en=Math.min(99,D.en+gr);
  if(!(u.camp||u.neu))return;const c=u.k+(u.elite&&MCIDS.indexOf(u.k+'*')>=0?'*':'');if(Math.random()<mcChance(c))mcGive(c,u.x,u.y);else{SV.cpity=SV.cpity||{};SV.cpity[c]=(SV.cpity[c]||0)+(cidE(c)?.15:.02)}}
-/* --- 스킬 트리 --- */
-const TRB=[['⚔','힘','#d9603a','#fde3d6'],['💧','마법','#3a8fd9','#d9ecfc'],['🌿','수호','#3fa554','#dcf3df']];
+/* --- 스킬 트리 (직업별) --- */
 const TRN={
- t_atk:{b:0,t:0,s:0,i:'🗡',n:'날카로운 일격',mx:5,d:r=>'공격력 +'+8*r+'%'},
- t_smash:{b:0,t:1,s:0,i:'💥',n:'필살 숙련',mx:5,req:['t_atk'],d:r=>'고유 기술(큰 버튼) 피해 +'+20*r+'%'},
- t_crit:{b:0,t:2,s:1,i:'🎯',n:'치명타',mx:3,req:['t_smash'],x:'t_haste',d:r=>'우리 편 공격이 '+8*r+'% 확률로 2배'},
- t_haste:{b:0,t:2,s:2,i:'⚡',n:'연속기',mx:3,req:['t_smash'],x:'t_crit',d:r=>'모든 기술 대기 시간 -'+10*r+'%'},
- t_leech:{b:0,t:3,s:0,i:'💗',n:'승리의 기운',mx:3,req:['t_crit','t_haste'],d:r=>'적을 쓰러뜨릴 때마다 체력 '+3*r+'% 회복'},
- t_ult:{b:0,t:4,s:0,i:'🌟',n:'폭풍의 핵',mx:3,req:['t_leech'],lv:10,d:r=>'폭풍(전직 기술) 피해 +'+30*r+'%'},
- water:{b:1,t:0,s:0,i:'💧',n:'물보라',mx:5,d:r=>'주변 적 모두에게 마법 피해 · '+r+'단계'},
- t_surge:{b:1,t:1,s:1,i:'🌊',n:'거센 물결',mx:3,req:['water'],x:'t_ice',d:r=>'마법·폭풍 피해 +'+15*r+'%'},
- t_ice:{b:1,t:1,s:2,i:'❄',n:'얼음 물결',mx:3,req:['water'],x:'t_surge',d:r=>'마법에 맞은 적이 '+(.5*r)+'초 얼어붙음'},
- t_echo:{b:1,t:2,s:0,i:'🔁',n:'메아리',mx:1,req:['t_surge','t_ice'],d:r=>'물보라가 한 번 더 터짐 (절반 피해)'},
- t_catch:{b:1,t:3,s:0,i:'🃏',n:'포획술',mx:3,req:['t_echo'],d:r=>'몬스터 카드를 얻을 확률 +'+25*r+'%'},
- t_gold:{b:1,t:4,s:0,i:'🪙',n:'행운의 샘',mx:3,req:['t_catch'],d:r=>'적을 쓰러뜨릴 때마다 금화 +'+r},
- rain:{b:2,t:0,s:1,i:'🌿',n:'치유의 비',mx:5,d:r=>'주변 아군 체력 회복 · '+r+'단계'},
- cheer:{b:2,t:0,s:2,i:'📣',n:'응원의 깃발',mx:5,d:r=>'주변 아군 공격력 +'+12*r+'%'},
- t_hp:{b:2,t:1,s:0,i:'💚',n:'튼튼한 몸',mx:5,req:['rain','cheer'],d:r=>'체력 +'+10*r+'%'},
- t_shell:{b:2,t:2,s:1,i:'🛡',n:'단단한 껍질',mx:3,req:['t_hp'],x:'t_regen',d:r=>'받는 피해 -'+7*r+'%'},
- t_regen:{b:2,t:2,s:2,i:'🌱',n:'새싹 재생',mx:3,req:['t_hp'],x:'t_shell',d:r=>'1초마다 체력 '+(.6*r).toFixed(1)+'% 회복'},
- t_pal:{b:2,t:3,s:0,i:'🐾',n:'동료 지휘',mx:3,req:['t_shell','t_regen'],d:r=>'동료의 공격·체력 +'+15*r+'%'},
- t_revive:{b:2,t:4,s:0,i:'🌸',n:'다시 피는 꽃',mx:1,req:['t_pal'],d:r=>'쓰러지면 60초에 한 번 바로 부활'}
+ t_atk:{i:'🗡',n:'날카로운 일격',mx:5,d:r=>'공격력 +'+8*r+'%'},
+ t_hp:{i:'💚',n:'튼튼한 몸',mx:5,d:r=>'체력 +'+10*r+'%'},
+ t_smash:{i:'💥',n:'필살 숙련',mx:5,d:r=>'고유 기술(큰 버튼) 피해 +'+20*r+'%'},
+ t_crit:{i:'🎯',n:'치명타',mx:3,d:r=>'우리 편 공격이 '+8*r+'% 확률로 2배'},
+ t_haste:{i:'⚡',n:'연속기',mx:3,d:r=>'모든 기술 대기 시간 -'+10*r+'%'},
+ t_leech:{i:'💗',n:'승리의 기운',mx:3,d:r=>'적을 쓰러뜨릴 때마다 체력 '+3*r+'% 회복'},
+ t_ult:{i:'🌟',n:'폭풍의 핵',mx:3,lv:10,d:r=>'폭풍(전직 기술) 피해 +'+30*r+'%'},
+ water:{i:'💧',n:'물보라',mx:5,d:r=>'주변 적 모두에게 마법 피해 · '+r+'단계'},
+ t_surge:{i:'🌊',n:'거센 물결',mx:3,d:r=>'마법·폭풍 피해 +'+15*r+'%'},
+ t_ice:{i:'❄',n:'얼음 물결',mx:3,d:r=>'마법에 맞은 적이 '+(.5*r)+'초 얼어붙음'},
+ t_echo:{i:'🔁',n:'메아리',mx:1,d:r=>'물보라가 한 번 더 터짐 (절반 피해)'},
+ t_catch:{i:'🃏',n:'포획술',mx:3,d:r=>'몬스터 카드를 얻을 확률 +'+25*r+'%'},
+ t_gold:{i:'🪙',n:'전리품',mx:3,d:r=>'적을 쓰러뜨릴 때마다 금화 +'+r},
+ rain:{i:'🌿',n:'치유의 비',mx:5,d:r=>'주변 아군 체력 회복 · '+r+'단계'},
+ cheer:{i:'📣',n:'응원의 깃발',mx:5,d:r=>'주변 아군 공격력 +'+12*r+'%'},
+ t_shell:{i:'🛡',n:'단단한 껍질',mx:3,d:r=>'받는 피해 -'+7*r+'%'},
+ t_regen:{i:'🌱',n:'새싹 재생',mx:3,d:r=>'1초마다 체력 '+(.6*r).toFixed(1)+'% 회복'},
+ t_pal:{i:'🐾',n:'동료 지휘',mx:3,d:r=>'동료의 공격·체력 +'+15*r+'%'},
+ t_revive:{i:'🌸',n:'다시 피는 꽃',mx:1,d:r=>'쓰러지면 60초에 한 번 바로 부활'},
+ t_range:{i:'🏹',n:'매의 눈',mx:3,d:r=>'공격이 닿는 거리 +'+10*r+'%'},
+ t_spd:{i:'👟',n:'바람 걸음',mx:3,d:r=>'이동 속도 +'+7*r+'%'},
+ t_dodge:{i:'💨',n:'날쌘 몸',mx:3,d:r=>'적의 공격을 '+8*r+'% 확률로 피함'},
+ t_slot:{i:'➕',n:'셋째 동료',mx:1,d:r=>'동료 칸이 3개로 늘어남'}
 };
+/* 직업: [기술, 줄, 칸(-1~1), 먼저 배울 것(하나만 있으면 됨), 둘 중 하나] */
+const TRJ={
+ war:{i:'🛡',n:'전사',col:'#d9603a',lt:'#fde3d6',p:'앞에서 버티고 크게 때려요',t:[['t_atk',0,0],['t_hp',1,-1,['t_atk']],['t_smash',1,1,['t_atk']],['t_shell',2,-1,['t_hp'],'t_regen'],['t_regen',2,0,['t_hp'],'t_shell'],['t_leech',2,1,['t_smash']],['t_revive',3,-.5,['t_shell','t_regen']],['t_ult',3,1,['t_leech']],['cheer',4,0,['t_revive','t_ult']]]},
+ arc:{i:'🏹',n:'궁수',col:'#3fa554',lt:'#dcf3df',p:'멀리서 빠르게 쏴요',t:[['t_atk',0,0],['t_range',1,-1,['t_atk']],['t_spd',1,1,['t_atk']],['t_crit',2,-1,['t_range'],'t_haste'],['t_haste',2,0,['t_range'],'t_crit'],['t_gold',2,1,['t_spd']],['t_smash',3,-.5,['t_crit','t_haste']],['t_leech',3,1,['t_gold']],['t_ult',4,0,['t_smash','t_leech']]]},
+ mag:{i:'🔮',n:'마법사',col:'#3a8fd9',lt:'#d9ecfc',p:'넓게 터뜨리고 얼려요',t:[['water',0,0],['t_surge',1,-1,['water'],'t_ice'],['t_ice',1,1,['water'],'t_surge'],['t_echo',2,0,['t_surge','t_ice']],['t_haste',3,-1,['t_echo']],['rain',3,1,['t_echo']],['t_smash',4,-1,['t_haste']],['t_hp',4,1,['rain']],['t_ult',5,0,['t_smash','t_hp']]]},
+ rog:{i:'🗡',n:'도적',col:'#7a55c9',lt:'#e7defa',p:'빠르게 찌르고 훔쳐요',t:[['t_spd',0,0],['t_crit',1,-1,['t_spd']],['t_gold',1,1,['t_spd']],['t_dodge',2,-1,['t_crit'],'t_leech'],['t_leech',2,0,['t_crit'],'t_dodge'],['t_catch',2,1,['t_gold']],['t_smash',3,-.5,['t_dodge','t_leech']],['t_haste',3,1,['t_catch']],['t_ult',4,0,['t_smash','t_haste']]]},
+ sum:{i:'🐾',n:'소환사',col:'#d99a20',lt:'#fbeecb',p:'몬스터 동료와 함께 싸워요',t:[['t_pal',0,0],['t_catch',1,-1,['t_pal']],['rain',1,1,['t_pal']],['t_slot',2,-1,['t_catch']],['cheer',2,1,['rain']],['t_hp',3,-1,['t_slot'],'t_regen'],['t_regen',3,0,['t_slot'],'t_hp'],['t_revive',3,1,['cheer']],['t_ult',4,0,['t_hp','t_regen','t_revive']]]}
+};
+const TRREC={sprout:'sum',frost:'mag',thief:'rog',baker:'sum',fox:'arc',sheep:'war',hedgehog:'war',owl:'mag',bunny:'sum',frog:'sum',knight:'war',assassin:'rog',lancer:'war',bear:'war',elf:'arc',raccoon:'arc',mage:'mag',deer:'sum',monk:'war',wolf:'war',turtle:'war',gunner:'arc',alch:'mag',penguin:'mag',crow:'mag',bard:'sum'};
+function trJ(){const c=DU.H[1].cls;return c&&TRJ[c]||null}
+function trNode(k){const J=trJ();return J?J.t.find(q=>q[0]===k):null}
 function trSpent(){const Hh=DU.H[1];let s=0;for(const k in TRN)s+=(k in HSK?Hh.sk[k]:(Hh.tr||{})[k])||0;return s}
 function trPts(){return Math.max(0,DU.H[1].lv-1-trSpent())}
-function trWhy(k){const n=TRN[k],r=TR(k);if(r>=n.mx)return '최고 단계예요';if(n.x&&TR(n.x)>0)return '옆 기술('+TRN[n.x].n+')을 골라서 배울 수 없어요';if(n.req&&!n.req.some(q=>TR(q)>0))return '먼저 배워야 해요: '+n.req.map(q=>TRN[q].n).join(' 또는 ');if(n.lv&&DU.H[1].lv<n.lv)return '영웅 Lv.'+n.lv+'부터 배울 수 있어요';if(trPts()<1)return '포인트가 없어요 · 레벨이 오르면 1점씩 생겨요';return ''}
+function palSlots(){return 2+(TR('t_slot')?1:0)}
+function trWhy(k){const n=TRN[k],q=trNode(k),r=TR(k);if(!q)return '이 직업의 기술이 아니에요';if(r>=n.mx)return '최고 단계예요';if(q[4]&&TR(q[4])>0)return '옆 기술('+TRN[q[4]].n+')을 골라서 배울 수 없어요';if(q[3]&&!q[3].some(x=>TR(x)>0))return '먼저 배워야 해요: '+q[3].map(x=>TRN[x].n).join(' 또는 ');if(n.lv&&DU.H[1].lv<n.lv)return '영웅 Lv.'+n.lv+'부터 배울 수 있어요';if(trPts()<1)return '포인트가 없어요 · 레벨이 오르면 1점씩 생겨요';return ''}
 function trLearn(k){const D=DU,Hh=D.H[1];if(trWhy(k))return false;const r=TR(k);if(k in HSK)Hh.sk[k]=r+1;else Hh.tr[k]=r+1;const u=Hh.u;
- if(u){if(k==='t_atk')u.dmg*=(1+.08*(r+1))/(1+.08*r);if(k==='t_hp'){const f=(1+.1*(r+1))/(1+.1*r);u.hpMax*=f;u.hp*=f}if(k==='water'&&u.skT.water==null)u.skT.water=1;if(k==='rain'&&u.skT.rain==null)u.skT.rain=1}
- if(k==='t_pal')palRefresh();rlSave();SFX.skill();return true}
-function trReset(){const D=DU,Hh=D.H[1];Hh.sk={};Hh.tr={};const u=Hh.u;if(u){const hr=u.hp/u.hpMax,x=u.x,y=u.y;D.units=D.units.filter(o=>o!==u);Hh.u=null;heroSpawn(1);Hh.u.x=x;Hh.u.y=y;Hh.u.hp=Hh.u.hpMax*hr;Hh.u.spawnT=0}palRefresh();rlSave();SFX.get()}
-{const _hs=heroSpawn;heroSpawn=function(side){_hs(side);if(side>0&&DU.H[1].tr){const u=DU.H[1].u,a=1+.08*TR('t_atk'),h=1+.1*TR('t_hp');u.dmg*=a;u.hpMax*=h;u.hp=u.hpMax}}}
-{const _rs=rpgSetup;rpgSetup=function(){const D=DU,r=(SV.rl||{})[heroKey()];D.H[1].tr=Object.assign({},(r&&r.tr)||{});_rs()}}
-{const _sv=rlSave;rlSave=function(){const D=DU;if(!D||D.mode!=='rpg')return;_sv();SV.rl[heroKey()].tr=Object.assign({},D.H[1].tr||{});save()}}
+ if(u){if(k==='t_atk')u.dmg*=(1+.08*(r+1))/(1+.08*r);if(k==='t_hp'){const f=(1+.1*(r+1))/(1+.1*r);u.hpMax*=f;u.hp*=f}if(k==='t_range')u.d.range*=(1+.1*(r+1))/(1+.1*r);if(k==='t_spd')u.d.spd*=(1+.07*(r+1))/(1+.07*r);if(k==='water'&&u.skT.water==null)u.skT.water=1;if(k==='rain'&&u.skT.rain==null)u.skT.rain=1}
+ if(k==='t_pal'||k==='t_slot')palRefresh();D.trPop={k,t:.5};rlSave();SFX.skill();return true}
+function trReset(job){const D=DU,Hh=D.H[1];Hh.sk={};Hh.tr={};if(job!==undefined)Hh.cls=job;D.trSel=null;const u=Hh.u;if(u){const hr=u.hp/u.hpMax,x=u.x,y=u.y;D.units=D.units.filter(o=>o!==u);Hh.u=null;heroSpawn(1);Hh.u.x=x;Hh.u.y=y;Hh.u.hp=Hh.u.hpMax*hr;Hh.u.spawnT=0}palRefresh();rlSave();SFX.get()}
+function trPick(job){const D=DU;trReset(job);D.trSel=TRJ[job].t[0][0];D.banner={t:2,txt:TRJ[job].i+' '+TRJ[job].n+'의 길을 걸어요!'};SFX.lv()}
+{const _hs=heroSpawn;heroSpawn=function(side){_hs(side);if(side>0&&DU.H[1].tr){const u=DU.H[1].u,a=1+.08*TR('t_atk'),h=1+.1*TR('t_hp');u.dmg*=a;u.hpMax*=h;u.hp=u.hpMax;u.d.range*=1+.1*TR('t_range');u.d.spd*=1+.07*TR('t_spd')}}}
+{const _rs=rpgSetup;rpgSetup=function(){const D=DU,r=(SV.rl||{})[heroKey()];D.H[1].tr=Object.assign({},(r&&r.cls&&r.tr)||{});D.H[1].cls=(r&&r.cls)||null;_rs();if(!D.H[1].cls){D.H[1].sk={};}if(palSlots()>2)palSpawn(D.deck[2],2)}}
+{const _sv=rlSave;rlSave=function(){const D=DU;if(!D||D.mode!=='rpg')return;_sv();SV.rl[heroKey()].tr=Object.assign({},D.H[1].tr||{});SV.rl[heroKey()].cls=D.H[1].cls||null;save()}}
 {const _hx=heroXP;heroXP=function(side,n){const D=DU,l0=D.H[side]?D.H[side].lv:0;_hx(side,n);if(side>0&&D.mode==='rpg'&&D.H[1].tr&&D.H[1].lv>l0){D.pick=null;if(!(D.banner&&D.banner.t>1.5&&!D.banner.small))D.banner={t:2.2,txt:'⭐ 스킬 포인트 +'+(D.H[1].lv-l0)+' · 위의 🌳 스킬을 눌러요',small:1}}}}
 {const _hk=heroSkills;heroSkills=function(u,Hh,dt){const D=DU;if(!(u.side>0&&Hh.tr))return _hk(u,Hh,dt);const q=D.castQ,d0=u.dmg,w0=u.skT.water;
  const f=q==='smash'?1+.2*TR('t_smash'):q==='ult'?1+.3*TR('t_ult'):1;u.dmg=d0*f;_hk(u,Hh,dt*(1+.1*TR('t_haste')));u.dmg/=f;
@@ -1542,7 +1558,7 @@ function trReset(){const D=DU,Hh=D.H[1];Hh.sk={};Hh.tr={};const u=Hh.u;if(u){con
  if(TR('t_echo')&&w0<=.05&&u.skT.water>3)D.echo={t:.4}}}
 {const _dh=duelHit;duelHit=function(o,dm,side,at){const D=DU;if(D.H&&D.H[1].tr){if(side>0){if(at==='g'){dm*=1+.15*TR('t_surge');const ic=TR('t_ice');if(ic&&!o.hero&&!o.tw&&!o.boss){if(!(o.frz>0))D.fx.push({x:o.x,y:o.y-46,vx:0,vy:-20,life:.6,txt:'❄',col:'#bfe6ff'});o.frz=Math.max(o.frz||0,.5*ic)}}
    const cr=TR('t_crit');if(cr&&Math.random()<.08*cr){dm*=2;D.fx.push({x:o.x,y:o.y-58,vx:0,vy:-40,life:.6,txt:'치명!',big:1,col:'#ff8a3a'})}}
-  else if(o===D.H[1].u){dm*=1-.07*TR('t_shell')}}_dh(o,dm,side,at)}}
+  else if(o===D.H[1].u){const dg=TR('t_dodge');if(dg&&Math.random()<.08*dg){D.fx.push({x:o.x,y:o.y-58,vx:0,vy:-40,life:.6,txt:'피했다!',col:'#d9c8ff'});return}dm*=1-.07*TR('t_shell')}}_dh(o,dm,side,at)}}
 {const _ud=updDuel;updDuel=function(dt){const D=DU;if(D&&(D.treeOpen||D.cardOpen))return;if(!D||D.done||D.modeSel||!D.mode)return _ud(dt);
  const pre=D.units.filter(u=>u.side<0&&u.hp>0&&!u.dead),fz=D.units.filter(u=>u.frz>0&&u.hp>0);for(const u of fz){u._fx=u.x;u._fy=u.y}const hd0=D.H[1].dead>0;
  _ud(dt);if(DU!==D)return;
@@ -1568,29 +1584,52 @@ function drawMCard(c,x,y,w,h,o){o=o||{};const k=cidK(c),own=mcN(c)>0||o.show,R=R
  if(o.sel){ctx.strokeStyle='#ffe07a';ctx.lineWidth=3;roundRect(x-3,y-3,w+6,h+6,10);ctx.stroke()}ctx.restore();ctx.textAlign='left'}
 function modalBase(title,sub){btns=[];const pw=Math.min(W-40,780),ph=H-36,px=W/2-pw/2,py=18;ctx.save();ctx.fillStyle='rgba(24,16,8,.62)';ctx.fillRect(0,0,W,H);ctx.fillStyle='rgba(20,12,4,.4)';roundRect(px+3,py+5,pw,ph,14);ctx.fill();const g=ctx.createLinearGradient(0,py,0,py+ph);g.addColorStop(0,'#fffaf0');g.addColorStop(1,'#f0e3c8');ctx.fillStyle=g;roundRect(px,py,pw,ph,14);ctx.fill();ctx.strokeStyle='#6b4a2c';ctx.lineWidth=2.5;roundRect(px,py,pw,ph,14);ctx.stroke();
  ctx.fillStyle='#3a2616';ctx.font='900 19px system-ui';ctx.textAlign='left';ctx.fillText(title,px+18,py+31);if(sub){const tw=ctx.measureText(title).width;ctx.font='bold 12px system-ui';ctx.fillStyle='#7a5a3a';ctx.fillText(sub,px+18+tw+14,py+30,pw-tw-260)}
- const bx=px+pw-46,by=py+8;ctx.fillStyle='#b0461a';roundRect(bx,by,36,32,9);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 17px system-ui';ctx.textAlign='center';ctx.fillText('✕',bx+18,by+22);ctx.textAlign='left';btns.push({x:bx-6,y:by-6,w:48,h:44,cb:()=>{DU.treeOpen=DU.cardOpen=0;SFX.get()}});ctx.restore();return {px,py,pw,ph}}
-function drawTree(){const D=DU,Hh=D.H[1],M=modalBase('🌳 스킬 트리',HEROES[heroKey()].n+' Lv.'+Hh.lv+' · 가지마다 길이 갈려요'),px=M.px,py=M.py,pw=M.pw,pts=trPts();ctx.save();
- {const t='남은 포인트 '+pts,x=px+pw-190,y=py+10;ctx.fillStyle=pts?'#2f9e44':'#8a7c6c';roundRect(x,y,132,28,14);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 13px system-ui';ctx.textAlign='center';ctx.fillText(t,x+66,y+19)}
- const cw=(pw-36)/3,y0=py+52,rh=56,nh=44;
- for(let b=0;b<3;b++){const cx=px+18+b*cw,B=TRB[b];ctx.fillStyle=B[3];roundRect(cx+4,y0,cw-8,rh*5+30,10);ctx.fill();ctx.fillStyle=B[2];roundRect(cx+4,y0,cw-8,22,10);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 12.5px system-ui';ctx.textAlign='center';ctx.fillText(B[0]+' '+B[1],cx+cw/2,y0+16);
-  ctx.strokeStyle='rgba(90,60,30,.35)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx+cw/2,y0+34);ctx.lineTo(cx+cw/2,y0+30+rh*4+10);ctx.stroke()}
- for(const k in TRN){const n=TRN[k],B=TRB[n.b],cx=px+18+n.b*cw,r=TR(k),why=trWhy(k),w=n.s?(cw-26)/2:Math.min(cw-40,176),x=n.s===0?cx+cw/2-w/2:n.s===1?cx+10:cx+cw-10-w,y=y0+30+n.t*rh,mx=r>=n.mx,can=!why,exc=n.x&&TR(n.x)>0,sel=D.trSel===k;
-  ctx.globalAlpha=exc?.38:(r||can)?1:.62;ctx.fillStyle='rgba(40,25,10,.25)';roundRect(x+1.5,y+3,w,nh,9);ctx.fill();ctx.fillStyle=r?B[2]:can?'#fffdf6':'#d9d0c0';roundRect(x,y,w,nh,9);ctx.fill();ctx.strokeStyle=mx?'#e0a020':sel?'#3a2616':r?'rgba(40,25,10,.6)':can?B[2]:'#a09482';ctx.lineWidth=mx||sel?3:1.8;roundRect(x,y,w,nh,9);ctx.stroke();
-  ctx.textAlign='left';ctx.font='19px system-ui';ctx.fillStyle='#000';ctx.fillText(n.i,x+7,y+29);ctx.font='900 '+(n.s?10.5:12)+'px system-ui';ctx.fillStyle=r?'#fff':'#3a2616';ctx.fillText(n.n,x+32,y+19,w-36);ctx.font='bold 10.5px system-ui';ctx.fillStyle=r?'#fff6d0':'#7a6a56';ctx.fillText(r+' / '+n.mx+(mx?' ★':''),x+32,y+35);
-  if(can&&!r){ctx.globalAlpha=.6+.4*Math.sin(performance.now()/260);ctx.fillStyle='#ff5a4a';ctx.beginPath();ctx.arc(x+w-7,y+7,4.5,0,7);ctx.fill()}ctx.globalAlpha=1;
-  btns.push({x:x-2,y:y-3,w:w+4,h:nh+6,cb:()=>{DU.trSel=k;SFX.get()}})}
- {const y=y0+rh*5+38,k=D.trSel&&TRN[D.trSel]?D.trSel:null,x=px+18,w=pw-36,h=M.py+M.ph-y-12;ctx.fillStyle='rgba(60,40,20,.1)';roundRect(x,y,w,h,10);ctx.fill();ctx.textAlign='left';
-  if(!k){ctx.font='bold 13px system-ui';ctx.fillStyle='#5a4028';ctx.fillText('기술을 눌러 보세요 · 레벨이 오를 때마다 1점 · 둘로 갈린 칸은 하나만 고를 수 있어요',x+14,y+h/2+5)}
-  else{const n=TRN[k],r=TR(k),why=trWhy(k);ctx.font='900 15px system-ui';ctx.fillStyle='#3a2616';ctx.fillText(n.i+' '+n.n+'  '+r+'/'+n.mx,x+14,y+22);ctx.font='bold 12.5px system-ui';ctx.fillStyle='#5a4028';ctx.fillText((r?'지금: '+n.d(r)+'   ':'')+(r<n.mx?'다음: '+n.d(r+1):''),x+14,y+42,w-170);if(why&&r<n.mx){ctx.fillStyle='#b0461a';ctx.font='bold 11.5px system-ui';ctx.fillText(why,x+14,y+59,w-170)}
-   const bw=132,bh=Math.min(44,h-12),bx=x+w-bw-8,by=y+(h-bh)/2;ctx.fillStyle=why?'#b9ad98':'#2f9e44';roundRect(bx,by,bw,bh,11);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 15px system-ui';ctx.textAlign='center';ctx.fillText(r>=n.mx?'완성':'배우기',bx+bw/2,by+bh/2+5.5);btns.push({x:bx,y:by,w:bw,h:bh,cb:()=>{if(!trLearn(k))SFX.get()}})}}
- {const x=px+pw-330,y=py+12,w=128,h=24;ctx.fillStyle='rgba(60,40,20,.14)';roundRect(x,y,w,h,12);ctx.fill();ctx.fillStyle='#5a4028';ctx.font='bold 11.5px system-ui';ctx.textAlign='center';ctx.fillText('↺ 처음부터 다시 찍기',x+w/2,y+16.5);btns.push({x,y:y-4,w,h:h+8,cb:()=>trReset()})}
+ const bx=px+pw-46,by=py+8;ctx.fillStyle='#b0461a';roundRect(bx,by,36,32,9);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 17px system-ui';ctx.textAlign='center';ctx.fillText('✕',bx+18,by+22);ctx.textAlign='left';btns.push({x:bx-6,y:by-6,w:48,h:44,cb:()=>{DU.treeOpen=DU.cardOpen=0;DU.jobPick=0;SFX.get()}});ctx.restore();return {px,py,pw,ph}}
+function wrapTxt(t,x,y,mw,lh){let line='',n=0;for(const w of t.split(' ')){const z=line?line+' '+w:w;if(ctx.measureText(z).width>mw&&line){ctx.fillText(line,x,y+n*lh);n++;line=w}else line=z}if(line){ctx.fillText(line,x,y+n*lh);n++}return n}
+function drawJobs(){const D=DU,Hh=D.H[1],M=modalBase('🌳 직업 고르기',HEROES[heroKey()].n+' · 직업마다 스킬 트리가 달라요'),px=M.px,py=M.py,pw=M.pw,ph=M.ph,ks=Object.keys(TRJ),gap=10,cw=(pw-36-gap*4)/5,ch=ph-140,y=py+52,rec=TRREC[heroKey()]||'war';ctx.save();
+ ks.forEach((j,i)=>{const J=TRJ[j],x=px+18+i*(cw+gap),sel=D.jobSel===j;ctx.fillStyle='rgba(40,25,10,.28)';roundRect(x+2,y+4,cw,ch,12);ctx.fill();const g=ctx.createLinearGradient(0,y,0,y+ch);g.addColorStop(0,J.col);g.addColorStop(.42,J.lt);g.addColorStop(1,'#fffaf0');ctx.fillStyle=g;roundRect(x,y,cw,ch,12);ctx.fill();ctx.strokeStyle=sel?'#3a2616':'rgba(60,40,20,.45)';ctx.lineWidth=sel?3.5:1.6;roundRect(x,y,cw,ch,12);ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,.9)';ctx.beginPath();ctx.arc(x+cw/2,y+54,36,0,7);ctx.fill();ctx.strokeStyle=J.col;ctx.lineWidth=3;ctx.stroke();ctx.textAlign='center';ctx.font='40px system-ui';ctx.fillStyle='#000';ctx.fillText(J.i,x+cw/2,y+68);
+  ctx.font='900 19px system-ui';ctx.fillStyle='#3a2616';ctx.fillText(J.n,x+cw/2,y+120);ctx.font='bold 11.5px system-ui';ctx.fillStyle='#5a4028';wrapTxt(J.p,x+cw/2,y+142,cw-18,15);
+  {const L=J.t.filter(q=>q[0]!=='t_ult').slice(0,5),y0=y+186,lh=Math.min(27,(ch-200)/5);ctx.textAlign='left';L.forEach((q,m)=>{const n=TRN[q[0]],yy=y0+m*lh;ctx.fillStyle='rgba(255,255,255,.9)';roundRect(x+9,yy-10,cw-18,lh-4,8);ctx.fill();ctx.font='13px system-ui';ctx.fillStyle='#000';ctx.fillText(n.i,x+15,yy+6);ctx.font='bold 11px system-ui';ctx.fillStyle='#3a2616';ctx.fillText(n.n,x+36,yy+5.5,cw-48)});ctx.textAlign='center'}
+  if(j===rec){ctx.fillStyle='#e8432e';roundRect(x+cw-50,y-7,56,22,11);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 11.5px system-ui';ctx.fillText('추천',x+cw-22,y+8.5)}
+  if(Hh.cls===j){ctx.fillStyle='#2f9e44';roundRect(x-6,y-7,62,22,11);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 11px system-ui';ctx.fillText('지금 직업',x+25,y+8.5)}
+  btns.push({x,y,w:cw,h:ch,cb:()=>{DU.jobSel=j;SFX.get()}})});
+ {const j=D.jobSel,bw=280,bh=48,bx=W/2-bw/2,by=y+ch+18;ctx.fillStyle=j?TRJ[j].col:'#b9ad98';roundRect(bx,by,bw,bh,13);ctx.fill();ctx.strokeStyle='rgba(40,25,10,.5)';ctx.lineWidth=1.5;roundRect(bx,by,bw,bh,13);ctx.stroke();ctx.fillStyle='#fff';ctx.font='900 16px system-ui';ctx.textAlign='center';ctx.fillText(j?TRJ[j].i+' '+TRJ[j].n+(j==='rog'?'으로':'로')+' 시작하기':'직업 카드를 눌러 고르세요',W/2,by+30);if(j)btns.push({x:bx,y:by,w:bw,h:bh,cb:()=>{DU.jobPick=0;trPick(j)}});
+  ctx.font='bold 11px system-ui';ctx.fillStyle='#7a5a3a';ctx.fillText('직업은 언제든 바꿀 수 있어요 · 바꾸면 포인트를 모두 돌려받아요',W/2,by+bh+17)}
+ ctx.restore();ctx.textAlign='left'}
+function drawTree(){const D=DU,Hh=D.H[1];if(!trJ()||D.jobPick){drawJobs();return}const J=trJ(),M=modalBase(J.i+' '+J.n+' 스킬 트리',HEROES[heroKey()].n+' Lv.'+Hh.lv),px=M.px,py=M.py,pw=M.pw,ph=M.ph,pts=trPts(),now=performance.now();ctx.save();
+ const tw=Math.min(pw*.56,440),tx=px+18,ty=py+48,th=ph-60,rows=Math.max(...J.t.map(q=>q[1]))+1,rh=(th-22)/rows,R=Math.min(25,rh*.29),colW=tw/3;
+ {const g=ctx.createLinearGradient(0,ty,0,ty+th);g.addColorStop(0,'#2c2233');g.addColorStop(1,'#1c2a2a');ctx.fillStyle=g;roundRect(tx,ty,tw,th,12);ctx.fill();ctx.strokeStyle=J.col;ctx.lineWidth=2;roundRect(tx,ty,tw,th,12);ctx.stroke();ctx.save();ctx.beginPath();roundRect(tx,ty,tw,th,12);ctx.clip();for(let i=0;i<26;i++){const sx=tx+((i*97)%tw),sy=ty+((i*61+13)%th),a=.25+.25*Math.sin(now/900+i);ctx.globalAlpha=a;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(sx,sy,i%3?1:1.6,0,7);ctx.fill()}ctx.restore()}
+ const P={};J.t.forEach(q=>{P[q[0]]={x:tx+tw/2+q[2]*colW*.92,y:ty+16+rh*q[1]+R+4}});
+ J.t.forEach(q=>{(q[3]||[]).forEach(r=>{const a=P[r],b=P[q[0]],on=TR(r)>0&&!(q[4]&&TR(q[4])>0),lit=on&&TR(q[0])>0;ctx.lineCap='round';ctx.strokeStyle='rgba(255,255,255,.14)';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();if(on){ctx.strokeStyle=J.col;ctx.globalAlpha=lit?1:.45+.2*Math.sin(now/420);ctx.lineWidth=lit?4:3;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.globalAlpha=1}})});
+ J.t.forEach(q=>{if(q[4]&&q[0]<q[4]){const a=P[q[0]],b=P[q[4]];ctx.font='900 10px system-ui';ctx.textAlign='center';ctx.fillStyle='#ffe07a';ctx.fillText('또는',(a.x+b.x)/2,a.y+4)}});
+ J.t.forEach(q=>{const k=q[0],n=TRN[k],p=P[k],r=TR(k),why=trWhy(k),mx=r>=n.mx,can=!why,exc=q[4]&&TR(q[4])>0,sel=D.trSel===k,pop=D.trPop&&D.trPop.k===k?D.trPop.t/.5:0,rr=R*(1+.18*pop);
+  ctx.globalAlpha=exc?.3:1;if(can){ctx.save();ctx.globalAlpha=.3+.25*Math.sin(now/380);ctx.fillStyle=J.col;ctx.beginPath();ctx.arc(p.x,p.y,rr+7,0,7);ctx.fill();ctx.restore()}
+  ctx.fillStyle=mx?'#f0b030':r?J.col:can?'#f4ead2':'#5a5560';ctx.beginPath();ctx.arc(p.x,p.y,rr+3,0,7);ctx.fill();const g=ctx.createRadialGradient(p.x-rr*.3,p.y-rr*.4,2,p.x,p.y,rr);if(r){g.addColorStop(0,'#fffdf2');g.addColorStop(1,J.lt)}else if(can){g.addColorStop(0,'#fff');g.addColorStop(1,'#e2d8c2')}else{g.addColorStop(0,'#8c8794');g.addColorStop(1,'#5c5866')}ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,rr,0,7);ctx.fill();
+  if(sel){ctx.strokeStyle='#fff';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(p.x,p.y,rr+6,0,7);ctx.stroke()}
+  ctx.textAlign='center';ctx.font=Math.round(rr*.95)+'px system-ui';ctx.fillStyle='#000';ctx.globalAlpha=(exc?.3:1)*(r||can?1:.55);ctx.fillText(n.i,p.x,p.y+rr*.33);ctx.globalAlpha=exc?.3:1;
+  const pw2=n.mx*7-2;for(let m=0;m<n.mx;m++){ctx.fillStyle=m<r?(mx?'#f0b030':'#fff'):'rgba(255,255,255,.22)';ctx.beginPath();ctx.arc(p.x-pw2/2+2.5+m*7,p.y+rr+8,2.5,0,7);ctx.fill()}
+  ctx.font='900 10.5px system-ui';ctx.fillStyle=r?'#fff':can?'#f4ead2':'#9a94a4';ctx.fillText(n.n,p.x,p.y+rr+22,colW-6);ctx.globalAlpha=1;
+  btns.push({x:p.x-rr-10,y:p.y-rr-8,w:rr*2+20,h:rr*2+36,cb:()=>{DU.trSel=k;SFX.get()}})});
+ if(D.trPop){D.trPop.t-=1/60;if(D.trPop.t<=0)D.trPop=null}
+ {const x=tx+tw+12,w=px+pw-18-x,y=ty,h=th;ctx.fillStyle='rgba(60,40,20,.09)';roundRect(x,y,w,h,12);ctx.fill();
+  {const bw=w-24,bx=x+12,by=y+10;ctx.fillStyle=pts?'#2f9e44':'#8a7c6c';roundRect(bx,by,bw,30,15);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 13.5px system-ui';ctx.textAlign='center';ctx.fillText(pts?'⭐ 남은 포인트 '+pts:'남은 포인트 0 · 레벨을 올려요',bx+bw/2,by+20)}
+  const k=D.trSel&&trNode(D.trSel)?D.trSel:J.t[0][0],n=TRN[k],r=TR(k),why=trWhy(k),cy=y+92;
+  ctx.fillStyle=J.col;ctx.beginPath();ctx.arc(x+w/2,cy,35,0,7);ctx.fill();ctx.fillStyle='#fffdf2';ctx.beginPath();ctx.arc(x+w/2,cy,31,0,7);ctx.fill();ctx.font='34px system-ui';ctx.textAlign='center';ctx.fillStyle='#000';ctx.fillText(n.i,x+w/2,cy+12);
+  ctx.font='900 17px system-ui';ctx.fillStyle='#3a2616';ctx.fillText(n.n,x+w/2,cy+62);ctx.font='900 12px system-ui';ctx.fillStyle=r>=n.mx?'#b8860b':'#7a5a3a';ctx.fillText(r>=n.mx?'★ 완성 '+r+' / '+n.mx:r+' / '+n.mx+' 단계',x+w/2,cy+81);
+  ctx.textAlign='left';let ly=cy+106;const lx=x+16,lw=w-32;
+  if(r){ctx.font='900 11px system-ui';ctx.fillStyle='#7a5a3a';ctx.fillText('지금',lx,ly);ctx.font='bold 13px system-ui';ctx.fillStyle='#3a2616';ly+=17;ly+=wrapTxt(n.d(r),lx,ly,lw,17)*17+6}
+  if(r<n.mx){ctx.font='900 11px system-ui';ctx.fillStyle='#2f9e44';ctx.fillText('다음 단계',lx,ly);ctx.font='bold 13px system-ui';ctx.fillStyle='#3a2616';ly+=17;ly+=wrapTxt(n.d(r+1),lx,ly,lw,17)*17+6}
+  if(why&&r<n.mx){ctx.font='bold 11.5px system-ui';ctx.fillStyle='#b0461a';ly+=4;wrapTxt(why,lx,ly,lw,15)}
+  {const bw=w-24,bh=46,bx=x+12,by=y+h-bh-44;ctx.fillStyle=why?'#b9ad98':'#2f9e44';roundRect(bx,by,bw,bh,12);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 16px system-ui';ctx.textAlign='center';ctx.fillText(r>=n.mx?'완성':'배우기',bx+bw/2,by+29);btns.push({x:bx,y:by,w:bw,h:bh,cb:()=>{if(!trLearn(k))SFX.get()}});
+   const sw=(bw-8)/2,sy=by+bh+10;[['↺ 다시 찍기',()=>trReset()],['직업 바꾸기',()=>{DU.jobPick=1;DU.jobSel=DU.H[1].cls;SFX.get()}]].forEach((b,i)=>{const sx=bx+i*(sw+8);ctx.fillStyle='rgba(60,40,20,.14)';roundRect(sx,sy,sw,26,13);ctx.fill();ctx.fillStyle='#5a4028';ctx.font='bold 11.5px system-ui';ctx.fillText(b[0],sx+sw/2,sy+17.5);btns.push({x:sx,y:sy-3,w:sw,h:32,cb:b[1]})})}}
  ctx.restore();ctx.textAlign='left'}
 function drawCards(){const D=DU,own=MCIDS.filter(c=>mcN(c)>0).length,M=modalBase('🃏 몬스터 카드','모은 카드 '+own+' / '+MCIDS.length+' · 길의 몬스터를 쓰러뜨리면 가끔 카드가 돼요'),px=M.px,py=M.py,pw=M.pw;ctx.save();
  const cols=5,gap=9,ch=Math.min(158,(M.ph-158)/2-gap),cw=ch*.72,gx=px+20,gy=py+48;SV.pals=SV.pals||[null,null];
  MCIDS.forEach((c,i)=>{const x=gx+(i%cols)*(cw+gap),y=gy+Math.floor(i/cols)*(ch+gap);drawMCard(c,x,y,cw,ch,{eq:SV.pals.indexOf(c)>=0,sel:D.mcSel===c});btns.push({x,y,w:cw,h:ch,cb:()=>{DU.mcSel=c;SFX.get()}})});
  {const x=gx+cols*(cw+gap)+6,y=gy,w=px+pw-20-x,h=ch*2+gap;ctx.fillStyle='rgba(60,40,20,.1)';roundRect(x,y,w,h,10);ctx.fill();ctx.textAlign='center';ctx.font='900 13px system-ui';ctx.fillStyle='#3a2616';ctx.fillText('🐾 지금 동료',x+w/2,y+22);
-  [0,1].forEach(i=>{const c=SV.pals[i]&&mcN(SV.pals[i])>0?SV.pals[i]:null,k=D.deck[i],sh=(h-40)/2-6,sy=y+34+i*(sh+6);ctx.fillStyle=c?RAR[mcRar(c)][2]:'rgba(255,250,240,.8)';roundRect(x+8,sy,w-16,sh,9);ctx.fill();ctx.strokeStyle='rgba(60,40,20,.35)';ctx.lineWidth=1.2;roundRect(x+8,sy,w-16,sh,9);ctx.stroke();
-   const im=c?eImg(cidK(c),null):(k&&FR[k]?(IMG[k+'_w1']&&IMG[k+'_w1'].naturalWidth?IMG[k+'_w1']:IMG[FR[k].img]):null);fitImg(im,x+w/2,sy+sh-22,w-40,sh-34);ctx.fillStyle='#3a2616';ctx.font='900 11px system-ui';ctx.fillText(c?mcName(c)+' ★'+mcStar(c):k&&FR[k]?FR[k].n:'비어 있음',x+w/2,sy+sh-7,w-22);if(c)btns.push({x:x+8,y:sy,w:w-16,h:sh,cb:()=>{DU.mcSel=c;SFX.get()}})})}
+  const NS=D.mode==='rpg'?palSlots():2;for(let i=0;i<NS;i++){const c=SV.pals[i]&&mcN(SV.pals[i])>0?SV.pals[i]:null,k=D.deck[i],sh=(h-40)/NS-6,sy=y+34+i*(sh+6);ctx.fillStyle=c?RAR[mcRar(c)][2]:'rgba(255,250,240,.8)';roundRect(x+8,sy,w-16,sh,9);ctx.fill();ctx.strokeStyle='rgba(60,40,20,.35)';ctx.lineWidth=1.2;roundRect(x+8,sy,w-16,sh,9);ctx.stroke();
+   const im=c?eImg(cidK(c),null):(k&&FR[k]?(IMG[k+'_w1']&&IMG[k+'_w1'].naturalWidth?IMG[k+'_w1']:IMG[FR[k].img]):null);fitImg(im,x+w/2,sy+sh-22,w-40,sh-34);ctx.fillStyle='#3a2616';ctx.font='900 11px system-ui';ctx.fillText(c?mcName(c)+' ★'+mcStar(c):k&&FR[k]?FR[k].n:'비어 있음',x+w/2,sy+sh-7,w-22);if(c)btns.push({x:x+8,y:sy,w:w-16,h:sh,cb:()=>{DU.mcSel=c;SFX.get()}})}}
  {const y=gy+ch*2+gap+10,x=px+20,w=pw-40,h=M.py+M.ph-y-12,c=D.mcSel;ctx.fillStyle='rgba(60,40,20,.1)';roundRect(x,y,w,h,10);ctx.fill();ctx.textAlign='left';
   if(!c){ctx.font='bold 13px system-ui';ctx.fillStyle='#5a4028';ctx.fillText('카드를 눌러 보세요 · 같은 카드를 모으면 ★이 올라 강해져요 · 👑 정예 몬스터는 금빛 전설 카드!',x+14,y+h/2+5,w-28)}
   else if(!(mcN(c)>0)){ctx.font='900 15px system-ui';ctx.fillStyle='#3a2616';ctx.fillText(mcName(c)+' · 아직 못 얻은 카드',x+14,y+24);ctx.font='bold 12.5px system-ui';ctx.fillStyle='#5a4028';ctx.fillText((cidE(c)?'👑 왕관을 쓴 정예 몬스터를':'길에서 이 몬스터를')+' 쓰러뜨리면 지금 확률 '+Math.round(mcChance(c)*100)+'%로 카드가 돼요. 실패할수록 확률이 조금씩 올라요.',x+14,y+46,w-28)}
@@ -1604,7 +1643,7 @@ function drawCards(){const D=DU,own=MCIDS.filter(c=>mcN(c)>0).length,M=modalBase
   [['🌳 스킬',264,pts,()=>{DU.treeOpen=1;DU.cardOpen=0;SFX.get()}],['🃏 카드',346,D.cardNew?'N':0,()=>{DU.cardOpen=1;DU.treeOpen=0;DU.cardNew=0;SFX.get()}]].forEach(q=>{const x=q[1],y=46,w=74,h=26;card(x,y,w,h,13,.9);ctx.fillStyle='#5a3d22';ctx.font='900 12px system-ui';ctx.textAlign='left';ctx.fillText(q[0],x+10,y+18);if(q[2]){ctx.save();ctx.globalAlpha=.75+.25*Math.sin(D.t*5);ctx.fillStyle='#e8432e';ctx.beginPath();ctx.arc(x+w-5,y+4,8,0,7);ctx.fill();ctx.restore();ctx.fillStyle='#fff';ctx.font='900 10px system-ui';ctx.textAlign='center';ctx.fillText(q[2],x+w-5,y+7.5);ctx.textAlign='left'}btns.push({x,y:y-2,w,h:h+6,cb:q[3]})})}
  if(D.capShow&&!D.treeOpen&&!D.cardOpen){const S=D.capShow,a=Math.min(1,(2.6-S.t)*4),o=Math.min(1,S.t*3),h=150*(.8+.2*a),w=h*.72,x=W/2-w/2,y=84-12*a;if(D.banner&&D.banner.small)D.banner.t=0;ctx.save();ctx.globalAlpha=Math.min(a,o);const R=RAR[mcRar(S.c)];const gg=ctx.createRadialGradient(W/2,y+h/2,10,W/2,y+h/2,h);gg.addColorStop(0,R[1]);gg.addColorStop(1,'rgba(255,255,255,0)');ctx.globalAlpha=Math.min(a,o)*.45;ctx.fillStyle=gg;ctx.fillRect(W/2-h,y-h/2,h*2,h*2);ctx.globalAlpha=Math.min(a,o);drawMCard(S.c,x,y,w,h,{show:1});ctx.font='900 15px system-ui';ctx.textAlign='center';ctx.lineWidth=4;ctx.strokeStyle='rgba(40,25,10,.9)';const t=S.first?'새 카드! '+R[0]+(S.eq?' · 동료가 됐어요':''):S.up?'★ 강화! 더 강해졌어요':'카드 +1';ctx.strokeText(t,W/2,y+h+22);ctx.fillStyle='#ffe07a';ctx.fillText(t,W/2,y+h+22);ctx.restore();ctx.textAlign='left'}
  if(D.treeOpen)drawTree();else if(D.cardOpen)drawCards()}}
-window.__G6={TR,trLearn,trPts,trReset,palSet,mcGive,mcKill,mcChance,palRefresh,TRN,MCIDS};
+window.__G6={TR,trLearn,trPts,trReset,trPick,TRJ,palSet,mcGive,mcKill,mcChance,palRefresh,TRN,MCIDS};
 
 window.__G={tick:(n,ms)=>{ms=ms||1000/60;for(let i=0;i<n;i++){frame(last+ms)}},spawnE:spawn,startDuel,duelPlay:(k)=>duelPlay(k),duelPick:(i)=>duelPick(i),duelEco:()=>duelEco(),duelLane:(r)=>duelLane(r),duelMode:(m)=>duelMode(m),duelSummon:()=>duelSummon(),heroBuy:(k)=>heroBuy(1,k),rpg:(v)=>{SV.rpg=v},get W(){return W},get H(){return H},geo:()=>({FT,FB:FB(),FY0,WH:WH(),hx:homeX(),hy:homeY(),DZ:VZ(),camY:DU?DU.camY:0,FIW:FIW(),DW:DW(),LY:LANEY()}),cast:(k)=>{DU.castQ=k},duelSlot:(c,r)=>duelSlotTap(c,r),get DU(){return DU},get ST(){return ST},get scene(){return scene},SV,K,P,set scene(v){scene=v},newRun};
 </script>
