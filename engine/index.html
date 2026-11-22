@@ -107,7 +107,7 @@ button,input,select{font:inherit;color:inherit}
 </div>
 <div class="ov" id="ovPlay"><div class="ovb"><div class="ovt"><b>▶ 실행 중 — 지금 편집한 내용으로</b><span class="sp"></span><button class="ghost" id="bNew">새 창으로</button><button class="play" id="bStop">■ 멈추기</button></div><iframe id="fr" allow="autoplay"></iframe></div></div>
 <div class="ov" id="ovExp"><div class="ovb"><div class="ovt"><b>내보내기 — 이 글을 Claude에게 보내면 모든 사람의 게임에 반영해요</b><span class="sp"></span><button class="ghost" id="bCopy">복사</button><button class="play" id="bExpX">닫기</button></div><textarea id="ta" readonly></textarea></div></div>
-<script src="../sprout/data.js?v=80"></script>
+<script src="../sprout/data.js?v=81"></script>
 <script>
 "use strict";
 const IMGP='../sprout/img/',KEY='sprout_edit';
@@ -119,8 +119,8 @@ S.trn={};Object.keys(TRN).forEach(k=>{S.trn[k]={n:TRN[k].n,mx:TRN[k].mx,v:TRN[k]
 HKS.forEach(k=>{S.heroes[k]={};HF.forEach(f=>{if(HEROES[k][f]!=null)S.heroes[k][f]=HEROES[k][f]})});
 let tab='map',sel={t:'camp',i:0},saveT=0,mapId='world';
 /* 맵 여러 개: 첫 맵은 S.map, 나머지는 S.maps[id] */
-S.maps={};MAPS.slice(1).forEach(m=>{S.maps[m.id]=clone({home:m.home,npc:m.npc,camps:m.camps,wild:m.wild,gates:m.gates||[]})});S.map.gates=clone(MAPS[0].gates||[]);
-const MP=()=>mapId==='world'?S.map:S.maps[mapId],MINFO=()=>MAPS.find(m=>m.id===mapId)||MAPS[0];
+S.maps={};JOURNEY.slice(1).forEach(m=>{S.maps[m.id]=clone({home:m.home,npc:m.npc,camps:m.camps,wild:m.wild,gates:m.gates||[]})});S.map.gates=clone(JOURNEY[0].gates||[]);
+const MP=()=>mapId==='world'?S.map:S.maps[mapId],MINFO=()=>JOURNEY.find(m=>m.id===mapId)||JOURNEY[0];
 const $=s=>document.querySelector(s),el=(h)=>{const d=document.createElement('div');d.innerHTML=h;return d.firstElementChild};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function save(){clearTimeout(saveT);$('#saved').textContent='저장 중…';saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(S));$('#saved').textContent='자동 저장됨 ✓'}catch(e){$('#saved').textContent='저장 실패 (이 브라우저는 저장이 막혀 있어요)'}},250)}
@@ -135,7 +135,7 @@ $('#tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;tab=b.dat
 /* ---------- 목록 ---------- */
 function drawList(){const L=$('#list');$('#bAdd').hidden=tab!=='map';
  if(tab==='map'){$('#lh').textContent='맵 물체';const on=(t,i)=>sel.t===t&&sel.i===i?'on':'';
-  L.innerHTML=`<div class="grp">맵 고르기</div><div style="display:flex;gap:6px;flex-wrap:wrap;padding:4px 8px 8px">${MAPS.map(m=>`<button class="${m.id===mapId?'play':'ghost'}" data-map="${m.id}" style="padding:5px 10px;font-size:12px">${esc(m.n)}</button>`).join('')}</div><div class="grp">시작</div><div class="row ${on('home')}" data-t="home"><span class="ic">🏠</span><b>시작점 (마을)</b></div><div class="row ${on('npc')}" data-t="npc"><span class="ic">💬</span><b>마을 사람</b></div><div class="grp">관문 (다른 맵으로)</div>`+(MP().gates||[]).map((g,i)=>`<div class="row ${on('gate',i)}" data-t="gate" data-i="${i}"><span class="ic">🧳</span><b>→ ${esc((MAPS.find(m=>m.id===g.to)||{n:g.to}).n)}</b><small>Lv.${g.lv||1}</small></div>`).join('')+`<div class="grp">야영지 · 퀘스트 순서</div>`+
+  L.innerHTML=`<div class="grp">맵 고르기</div><div style="display:flex;gap:6px;flex-wrap:wrap;padding:4px 8px 8px">${JOURNEY.map(m=>`<button class="${m.id===mapId?'play':'ghost'}" data-map="${m.id}" style="padding:5px 10px;font-size:12px">${esc(m.n)}</button>`).join('')}</div><div class="grp">시작</div><div class="row ${on('home')}" data-t="home"><span class="ic">🏠</span><b>시작점 (마을)</b></div><div class="row ${on('npc')}" data-t="npc"><span class="ic">💬</span><b>마을 사람</b></div><div class="grp">관문 (다른 맵으로)</div>`+(MP().gates||[]).map((g,i)=>`<div class="row ${on('gate',i)}" data-t="gate" data-i="${i}"><span class="ic">🧳</span><b>→ ${esc((JOURNEY.find(m=>m.id===g.to)||{n:g.to}).n)}</b><small>Lv.${g.lv||1}</small></div>`).join('')+`<div class="grp">야영지 · 퀘스트 순서</div>`+
   MP().camps.map((c,i)=>`<div class="row ${on('camp',i)}" data-t="camp" data-i="${i}"><span class="ic">${c.boss?'❄':i+1}</span><b>${esc(c.n)}</b><small>${c.boss?'보스':'×'+c.m}</small></div>`).join('')+
   `<div class="grp">강한 야생 몬스터</div>`+MP().wild.map((w,i)=>`<div class="row ${on('wild',i)}" data-t="wild" data-i="${i}"><span class="ic"><img src="${monImg(w.k)}" alt=""></span><b>${esc(monName(w.k))}</b></div>`).join('')}
  else if(tab==='hero'){$('#lh').textContent='캐릭터';L.innerHTML=HKS.map(k=>`<div class="row ${sel.k===k?'on':''}" data-t="hero" data-k="${k}"><span class="ic"><img src="${IMGP+k}_h0.webp" alt=""></span><b>${esc(S.heroes[k].n)}</b><small>체력 ${S.heroes[k].hp}</small></div>`).join('')}
@@ -153,7 +153,7 @@ function drawScene(){const sc=$('#scene');
   const pts=[MP().home].concat(MP().camps.map(c=>[c.fx,c.row]));
   sc.innerHTML=`<div class="stage" id="stage" style="width:${w}px;height:${h}px"><img class="map" src="${IMGP}${MINFO().bg}.jpg" alt="모험 지도"><svg class="line" viewBox="0 0 1000 1000" preserveAspectRatio="none"><polyline points="${pts.map(p=>p[0]*1000+','+p[1]*1000).join(' ')}" fill="none" stroke="#ffd66b" stroke-width="3" stroke-dasharray="10 8" opacity=".75" vector-effect="non-scaling-stroke"/></svg>`+
    mk('home',undefined,'home','🏠','시작점')+mk('npc',undefined,'home','💬','마을 사람')+
-   (MP().gates||[]).map((g,i)=>mk('gate',i,'boss','🧳','→ '+(MAPS.find(m=>m.id===g.to)||{n:g.to}).n)).join('')+
+   (MP().gates||[]).map((g,i)=>mk('gate',i,'boss','🧳','→ '+(JOURNEY.find(m=>m.id===g.to)||{n:g.to}).n)).join('')+
    MP().camps.map((c,i)=>mk('camp',i,c.boss?'boss':'',c.boss?'❄':i+1,c.n)).join('')+
    MP().wild.map((w0,i)=>mk('wild',i,'wild',`<img src="${monImg(w0.k)}" alt="">`,monName(w0.k))).join('')+`</div><div class="hint">끌어서 옮겨요 · 노란 점선은 퀘스트 순서</div>`;
   bindDrag()}
@@ -179,7 +179,7 @@ const fld=(lab,html,val)=>`<div class="f"><label>${lab}${val!=null?`<b>${val}</b
 const rng=(id,v,mn,mx,st)=>`<input type="range" data-f="${id}" min="${mn}" max="${mx}" step="${st}" value="${v}">`;
 function drawInsp(){const I=$('#insp');
  if(tab==='map'){
-  if(sel.t==='gate'){const g=MP().gates[sel.i],p=posOf(sel);I.innerHTML=`<h2>🧳 관문</h2><p class="note">영웅이 가까이 오면 다른 맵으로 떠나는 버튼이 떠요. 레벨과 스킬 트리는 그대로 가져가요.</p>${fld('가는 맵',`<select data-f="gto">${MAPS.filter(m=>m.id!==mapId).map(m=>`<option value="${m.id}" ${m.id===g.to?'selected':''}>${esc(m.n)}</option>`).join('')}</select>`)}${fld('권장 레벨 <b>'+(g.lv||1)+'</b>',`<input type="range" min="1" max="30" value="${g.lv||1}" data-f="glv">`)}${fld('위치','<p class="note">가로 '+Math.round(p[0]*100)+'% · 세로 '+Math.round(p[1]*100)+'% — 지도에서 끌어서 옮겨요</p>')}`;return}
+  if(sel.t==='gate'){const g=MP().gates[sel.i],p=posOf(sel);I.innerHTML=`<h2>🧳 관문</h2><p class="note">영웅이 가까이 오면 다른 맵으로 떠나는 버튼이 떠요. 레벨과 스킬 트리는 그대로 가져가요.</p>${fld('가는 맵',`<select data-f="gto">${JOURNEY.filter(m=>m.id!==mapId).map(m=>`<option value="${m.id}" ${m.id===g.to?'selected':''}>${esc(m.n)}</option>`).join('')}</select>`)}${fld('권장 레벨 <b>'+(g.lv||1)+'</b>',`<input type="range" min="1" max="30" value="${g.lv||1}" data-f="glv">`)}${fld('위치','<p class="note">가로 '+Math.round(p[0]*100)+'% · 세로 '+Math.round(p[1]*100)+'% — 지도에서 끌어서 옮겨요</p>')}`;return}
   if(sel.t==='home'||sel.t==='npc'){const p=posOf(sel);I.innerHTML=`<h2>${sel.t==='home'?'🏠 시작점 (마을)':'💬 마을 사람'}</h2><p class="note">${sel.t==='home'?'영웅이 처음 서 있는 곳이에요. 여기 가까이 있으면 체력이 회복돼요.':'퀘스트를 알려 주는 마을 사람이에요.'}</p>${fld('위치','<p class="note">가로 '+Math.round(p[0]*100)+'% · 세로 '+Math.round(p[1]*100)+'% — 지도에서 끌어서 옮겨요</p>')}`}
   else if(sel.t==='camp'){const c=MP().camps[sel.i],opt=(v)=>Object.keys(MONINFO).map(k=>`<option value="${k}" ${k===v?'selected':''}>${MONINFO[k][0]}</option>`).join('');
    I.innerHTML=`<h2>${c.boss?'❄':'⛺'} 야영지 ${sel.i+1}</h2>${fld('이름',`<input type="text" data-f="n" value="${esc(c.n)}">`)}`+(c.boss?`<p class="note">마지막 보스(서리)가 있는 곳이에요. 위치만 옮길 수 있어요.</p>`:

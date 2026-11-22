@@ -71,7 +71,7 @@ const RPGMAP={home:[.105,.86],npc:[.145,.8],
  wild:[{k:'wb0',fx:.348,row:.335,ci:1},{k:'wb1',fx:.493,row:.87,ci:2},{k:'wb2',fx:.55,row:.43,ci:3},{k:'wb3',fx:.65,row:.53,ci:4},{k:'wb4',fx:.795,row:.52,ci:5},{k:'wb5',fx:.755,row:.65,ci:6}]};
 /* 맵 목록 (새 엔진용) — 첫 맵은 위의 RPGMAP 그대로. 새 맵은 여기에 한 덩어리씩 추가 (bg 배경 그림 이름) */
 /* gates 관문: 다른 맵으로 가는 길 (to 가는 맵, lv 권장 레벨). 여정 = 큰 맵 여러 개가 관문으로 이어진 것 */
-const MAPS=[Object.assign(RPGMAP,{id:'world',n:'새싹 마을 들판',bg:'bg_world',gates:[{fx:.955,row:.62,to:'coast',n:'별빛 해안',lv:6}]}),
+const JOURNEY=[Object.assign(RPGMAP,{id:'world',n:'새싹 마을 들판',bg:'bg_world',gates:[{fx:.955,row:.62,to:'coast',n:'별빛 해안',lv:6}]}),
  {id:'coast',n:'별빛 해안',bg:'bg_coast',home:[.17,.66],npc:[.2,.7],gates:[{fx:.085,row:.66,to:'world',n:'새싹 마을 들판',lv:1},{fx:.3,row:.33,to:'highland',n:'구름 고원',lv:12}],
   camps:[{n:'조개 모래밭',fx:.29,row:.76,ks:['e0','e1','e1'],m:1},{n:'산호 웅덩이',fx:.43,row:.655,ks:['e1','e3','e3'],m:1.3},{n:'야자수 숲',fx:.565,row:.69,ks:['e3','m1'],el:'e2',m:1.6},{n:'난파선 만',fx:.67,row:.72,ks:['m1','m1','m3'],m:2},{n:'분홍 꽃 들판',fx:.58,row:.49,ks:['m3','m3'],el:'m0',m:2.4},{n:'폭포 아래',fx:.455,row:.47,ks:['m2','m3','m3'],m:2.8},{n:'빛나는 버섯 동굴',fx:.61,row:.345,ks:['m2','m2','m1'],el:'m0',m:3.2},{n:'수정 등대 섬',fx:.82,row:.26,boss:1,ks:[],m:1}],
   wild:[{k:'wb1',fx:.36,row:.62,ci:1},{k:'wb3',fx:.52,row:.56,ci:4},{k:'wb5',fx:.7,row:.42,ci:6}]},
@@ -96,7 +96,7 @@ const GROW={cap:40,a:4,b:3,grow:1.15,early:[0,2.6,1.9,1.4],ultLv:10};
 /* 편집기(새싹 엔진)에서 고친 내용 덮어쓰기 — 이 기기에 저장된 편집 내용이 있으면 표에 반영 */
 (function(){let E=null;try{E=JSON.parse(localStorage.getItem('sprout_edit')||'null')}catch(e){}if(!E||E.v!==1)return;window.__EDIT=E;
  if(E.map){for(const k of ['home','npc','camps','wild','gates'])if(E.map[k])RPGMAP[k]=E.map[k]}
- if(E.maps){for(const M of MAPS){const o=E.maps[M.id];if(o)for(const k of ['home','npc','camps','wild','gates'])if(o[k])M[k]=o[k]}}
+ if(E.maps){for(const M of JOURNEY){const o=E.maps[M.id];if(o)for(const k of ['home','npc','camps','wild','gates'])if(o[k])M[k]=o[k]}}
  if(E.heroes)for(const k in E.heroes)if(HEROES[k])Object.assign(HEROES[k],E.heroes[k]);
  if(E.trn)for(const k in E.trn)if(TRN[k])Object.assign(TRN[k],E.trn[k]);
  if(E.hus)for(const k in E.hus)if(HUS[k])HUS[k]=E.hus[k];

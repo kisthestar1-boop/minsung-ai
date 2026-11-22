@@ -3,12 +3,12 @@
 <title>새싹 엔진 1.0 시험 장면</title>
 <style>html,body{margin:0;height:100%;background:#141a17;overflow:hidden}canvas{display:block;width:100vw;height:100dvh;touch-action:none}</style></head>
 <body><canvas id="cv"></canvas>
-<script src="../sprout/data.js?v=80"></script>
+<script src="../sprout/data.js?v=81"></script>
 <script type="module">
 import { Game, VERSION } from './src/game.js';
 import { Adventure } from './game/adventure.js';
 import { Journey } from './game/journey.js';
-const game = new Game(document.getElementById('cv'), { assetBase: '../sprout/img/', assetVer: '80', data: { HEROES, HUS, RPGMAP, MAPS, MONINFO, MONSTAT, WB, TRN, TRJ, TRREC, SKILLDEF, GROW, CAMPRULE } });
+const game = new Game(document.getElementById('cv'), { assetBase: '../sprout/img/', assetVer: '81', data: { HEROES, HUS, RPGMAP, MAPS: JOURNEY, MONINFO, MONSTAT, WB, TRN, TRJ, TRREC, SKILLDEF, GROW, CAMPRULE } });
 game.scenes.add('adventure', Adventure); game.scenes.add('journey', Journey);
 const q = new URLSearchParams(location.search), hero = q.get('hero') || 'c_sum';
 game.start('adventure', { hero, map: q.get('map') || 'world' });
