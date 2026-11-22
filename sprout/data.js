@@ -72,9 +72,12 @@ const RPGMAP={home:[.105,.86],npc:[.145,.8],
 /* 맵 목록 (새 엔진용) — 첫 맵은 위의 RPGMAP 그대로. 새 맵은 여기에 한 덩어리씩 추가 (bg 배경 그림 이름) */
 /* gates 관문: 다른 맵으로 가는 길 (to 가는 맵, lv 권장 레벨). 여정 = 큰 맵 여러 개가 관문으로 이어진 것 */
 const MAPS=[Object.assign(RPGMAP,{id:'world',n:'새싹 마을 들판',bg:'bg_world',gates:[{fx:.955,row:.62,to:'coast',n:'별빛 해안',lv:6}]}),
- {id:'coast',n:'별빛 해안',bg:'bg_coast',home:[.17,.66],npc:[.2,.7],gates:[{fx:.085,row:.66,to:'world',n:'새싹 마을 들판',lv:1}],
+ {id:'coast',n:'별빛 해안',bg:'bg_coast',home:[.17,.66],npc:[.2,.7],gates:[{fx:.085,row:.66,to:'world',n:'새싹 마을 들판',lv:1},{fx:.3,row:.33,to:'highland',n:'구름 고원',lv:12}],
   camps:[{n:'조개 모래밭',fx:.29,row:.76,ks:['e0','e1','e1'],m:1},{n:'산호 웅덩이',fx:.43,row:.655,ks:['e1','e3','e3'],m:1.3},{n:'야자수 숲',fx:.565,row:.69,ks:['e3','m1'],el:'e2',m:1.6},{n:'난파선 만',fx:.67,row:.72,ks:['m1','m1','m3'],m:2},{n:'분홍 꽃 들판',fx:.58,row:.49,ks:['m3','m3'],el:'m0',m:2.4},{n:'폭포 아래',fx:.455,row:.47,ks:['m2','m3','m3'],m:2.8},{n:'빛나는 버섯 동굴',fx:.61,row:.345,ks:['m2','m2','m1'],el:'m0',m:3.2},{n:'수정 등대 섬',fx:.82,row:.26,boss:1,ks:[],m:1}],
-  wild:[{k:'wb1',fx:.36,row:.62,ci:1},{k:'wb3',fx:.52,row:.56,ci:4},{k:'wb5',fx:.7,row:.42,ci:6}]}];
+  wild:[{k:'wb1',fx:.36,row:.62,ci:1},{k:'wb3',fx:.52,row:.56,ci:4},{k:'wb5',fx:.7,row:.42,ci:6}]},
+ {id:'highland',n:'구름 고원',bg:'bg_highland',home:[.13,.78],npc:[.17,.83],gates:[{fx:.05,row:.87,to:'coast',n:'별빛 해안',lv:6}],
+  camps:[{n:'계단식 차밭',fx:.305,row:.69,ks:['e1','e1','e3'],m:1.6},{n:'흔들다리 앞',fx:.4,row:.66,ks:['e3','m1','m1'],m:2},{n:'민들레 언덕',fx:.46,row:.42,ks:['m1','m3'],el:'e2',m:2.4},{n:'떠 있는 돌 유적',fx:.65,row:.56,ks:['m3','m3','m2'],m:2.9},{n:'김 나는 온천',fx:.705,row:.44,ks:['m2','m2'],el:'m0',m:3.4},{n:'바람 솔숲',fx:.668,row:.25,ks:['m2','m3','m3'],m:3.9},{n:'눈길',fx:.8,row:.24,ks:['m3','m3','m1'],el:'m0',m:4.4},{n:'하늘 신전',fx:.86,row:.16,boss:1,ks:[],m:1}],
+  wild:[{k:'wb2',fx:.53,row:.55,ci:3},{k:'wb4',fx:.6,row:.36,ci:5}]}];
 /* 일반 몬스터 이름과 그림 (편집기용) */
 const MONINFO={e0:['시든 새싹','sprite_e0'],e1:['가시 덤불','sprite_e1'],e2:['졸린 독버섯','sprite_e2'],e3:['그림자 도깨비불','sprite_e3'],m0:['투덜 진흙이','m_e0'],m1:['따끔 잠자리','m_e1'],m2:['삐죽 부들이','m_e2'],m3:['등불 유령','m_e3']};
 /* 일반 몬스터 능력치 (새 엔진용) — hp 체력, dmg 공격, range 사거리, spd 속도, rate 공격 간격(초), shot 쏘는 공격 */

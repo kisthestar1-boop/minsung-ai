@@ -5,6 +5,7 @@ import { installCombat, heal } from '../src/combat.js';
 import { installAI } from '../src/ai.js';
 import { installSkills, cast } from '../src/skills.js';
 import { Progress } from '../src/progress.js';
+import { visited } from './journey.js';
 const COL = { c_sum: '#9fe8ff', c_arc: '#ffe98a', c_mag: '#d6a8ff' };
 export class Adventure {
   constructor(game) { this.game = game; }
@@ -26,7 +27,7 @@ export class Adventure {
     if (hk === 'c_sum') w.spawn(hx - 30, hy - 60).tag('spirit').add('sprite', { h: 26, frames: { idle: ['spirit'], walk: ['spirit'] }, bob: 3.5 }).add('follow', { target: this.hero, ox: -34, oy: -64, lag: 5 });
     this.progress = new Progress(w, this.hero, hk, D, p.saved);
     const back = p.from && this.gates.find(q => q.q.to === p.from); if (back) { this.hero.x = back.x + (back.x < w.w / 2 ? 80 : -80); this.hero.y = back.y; }
-    this.say('🧭 ' + (M.n || '모험'));
+    this.say('🧭 ' + (M.n || '모험')); visited.add(M.id || 'world');
     // 몬스터 한 마리 만들기 (표의 능력치 × 세기)
     const R = D.CAMPRULE, mon = (x, y, img, st, hh, hpM, dmgM, group, extra = {}) => w.spawn(x, y).tag('monster').add('team', { side: -1 }).add('shadow', { rx: hh * .28, ry: hh * .1 })
       .add('sprite', { h: hh, frames: { idle: [img] }, face: -1 }).add('mover', { speed: st.spd * 1.6 }).add('status')
@@ -62,7 +63,7 @@ export class Adventure {
     c.view = { x: 0, y: 0, w: g.r.W, h: g.r.H }; c.follow(h.x, h.y - 30, dt, this.snap); this.snap = false;
   }
   draw(r) {
-    const x = r.ctx, w = this.world, c = this.game.camera, hp = this.hero.get('health');
+    const x = r.ctx, w = this.world, c = this.game.camera, hp = this.hero.get('health'), top = this.game.scenes.top === this, btn = (a, b, cw, ch, f) => { if (top) this.game.input.button(a, b, cw, ch, f); };
     x.save(); c.apply(x); if (this.bg.naturalWidth) x.drawImage(this.bg, 0, 0, w.w, w.h); else { x.fillStyle = '#9fc98a'; x.fillRect(0, 0, w.w, w.h); } for (const q of this.gates) { const t = performance.now() / 1000, k = .5 + .5 * Math.sin(t * 1.6); x.save(); x.globalAlpha = .35 + k * .2; x.fillStyle = '#fff3b0'; x.beginPath(); x.ellipse(q.x, q.y, 46, 22, 0, 0, 7); x.fill(); x.globalAlpha = .9; x.strokeStyle = '#ffd84d'; x.lineWidth = 3; x.stroke(); x.restore(); r.text('🧳 ' + q.q.n, q.x, q.y - 34, { s: 13, a: 'center', c: '#fff', stroke: 'rgba(40,26,12,.85)' }); }
     w.draw(r); x.restore();
     // 임시 표시(화면 부품 모듈이 생기면 옮긴다): 체력 · 처치 수 · 알림
@@ -71,13 +72,15 @@ export class Adventure {
     x.fillStyle = 'rgba(0,0,0,.45)'; r.rr(22, 34, 150, 10, 5); x.fill(); x.fillStyle = '#6fd35a'; r.rr(22, 34, 150 * Math.max(.02, hp.hp / hp.max), 10, 5); x.fill(); r.text('⚔ ' + this.stats.kills + '  🏕 ' + this.stats.camps, 180, 44, { s: 11, c: '#fff' });
     if (this.msg) { const a = Math.min(1, this.msg.t * 2); x.save(); x.globalAlpha = a; x.fillStyle = 'rgba(40,26,12,.8)'; const tw = 260; r.rr(r.W / 2 - tw / 2, 64, tw, 32, 16); x.fill(); r.text(this.msg.text, r.W / 2, 85, { s: 14, a: 'center', c: '#ffe9a8' }); x.restore(); }
     if (this.gateNear) { const q = this.gateNear.q, bw = 250, bh = 40, gx = r.W / 2 - bw / 2, gy = r.H - 64, low = this.progress.lv < (q.lv || 1); x.fillStyle = 'rgba(255,246,216,.95)'; r.rr(gx, gy, bw, bh, 20); x.fill(); x.strokeStyle = '#e2a93c'; x.lineWidth = 3; x.stroke();
-      r.text('🧳 ' + q.n + '(으)로 떠나기' + (low ? ' · 권장 Lv.' + q.lv : ''), r.W / 2, gy + 26, { s: 14, a: 'center', c: '#5a3d16' }); this.game.input.button(gx, gy, bw, bh, () => this.travel(q)); }
+      r.text('🧳 ' + q.n + '(으)로 떠나기' + (low ? ' · 권장 Lv.' + q.lv : ''), r.W / 2, gy + 26, { s: 14, a: 'center', c: '#5a3d16' }); btn(gx, gy, bw, bh, () => this.travel(q)); }
+    // 여정 지도 버튼 (오른쪽 위)
+    { const jx = r.W - 118, jy = 12; x.fillStyle = 'rgba(40,26,12,.72)'; r.rr(jx, jy, 106, 32, 16); x.fill(); r.text('🧭 여정 지도', jx + 53, jy + 21, { s: 12, a: 'center', c: '#ffe9a8' }); btn(jx, jy, 106, 32, () => this.game.scenes.push('journey', { hero: this.hk, cur: this.map.id || 'world', saved: this.progress.toJSON() })); }
     if (this.fadeT > 0) { x.fillStyle = 'rgba(16,22,18,' + Math.min(1, this.fadeT / .7) + ')'; x.fillRect(0, 0, r.W, r.H); }
     // 임시 기술 버튼 (화면 부품 모듈이 생기면 옮긴다)
     const L = this.hero.get('caster').list, bx = r.W - 56, by = r.H - 60; L.forEach((k, i) => { const big = !i, rad = big ? 34 : 24, cx = big ? bx : bx - 26 - i * 54, cy = big ? by : by + 14, cd = k.t / k.cd;
       x.fillStyle = cd > 0 ? 'rgba(40,30,20,.6)' : 'rgba(255,246,216,.92)'; x.beginPath(); x.arc(cx, cy, rad, 0, 7); x.fill(); x.lineWidth = 3; x.strokeStyle = cd > 0 ? 'rgba(255,255,255,.35)' : '#e2a93c'; x.stroke();
       if (cd > 0) { x.strokeStyle = '#ffd84d'; x.beginPath(); x.arc(cx, cy, rad, -1.5708, -1.5708 + 6.283 * (1 - cd)); x.stroke(); }
-      r.text(k.icon, cx, cy + rad * .3, { s: rad * .85, a: 'center' }); this.game.input.button(cx - rad, cy - rad, rad * 2, rad * 2, () => this.cast(k.id)); });
+      r.text(k.icon, cx, cy + rad * .3, { s: rad * .85, a: 'center' }); btn(cx - rad, cy - rad, rad * 2, rad * 2, () => this.cast(k.id)); });
     const s = this.game.input.stick; if (s) { x.save(); x.globalAlpha = .5; x.strokeStyle = '#fff'; x.lineWidth = 2; x.beginPath(); x.arc(s.ox, s.oy, 40, 0, 7); x.stroke(); x.fillStyle = '#fff6d8'; x.beginPath(); x.arc(s.ox + s.dx * 34, s.oy + s.dy * 34, 15, 0, 7); x.fill(); x.restore(); }
   }
 }
