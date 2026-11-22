@@ -71,8 +71,16 @@ const RPGMAP={home:[.105,.86],npc:[.145,.8],
  wild:[{k:'wb0',fx:.348,row:.335,ci:1},{k:'wb1',fx:.493,row:.87,ci:2},{k:'wb2',fx:.55,row:.43,ci:3},{k:'wb3',fx:.65,row:.53,ci:4},{k:'wb4',fx:.795,row:.52,ci:5},{k:'wb5',fx:.755,row:.65,ci:6}]};
 /* 일반 몬스터 이름과 그림 (편집기용) */
 const MONINFO={e0:['시든 새싹','sprite_e0'],e1:['가시 덤불','sprite_e1'],e2:['졸린 독버섯','sprite_e2'],e3:['그림자 도깨비불','sprite_e3'],m0:['투덜 진흙이','m_e0'],m1:['따끔 잠자리','m_e1'],m2:['삐죽 부들이','m_e2'],m3:['등불 유령','m_e3']};
-/* 일반 몬스터 능력치 (새 엔진용) — hp 체력, dmg 공격, range 사거리, spd 속도, rate 공격 간격(초), shot 쏘는 공격, xp 경험치 */
-const MONSTAT={e0:{hp:50,dmg:6,range:36,spd:50,rate:1,xp:6},e1:{hp:40,dmg:8,range:30,spd:95,rate:.9,xp:7},e2:{hp:150,dmg:7,range:40,spd:35,rate:1.2,xp:14},e3:{hp:45,dmg:8,range:205,spd:45,rate:1.3,shot:1,xp:8},m0:{hp:110,dmg:10,range:38,spd:45,rate:1.1,xp:12},m1:{hp:60,dmg:11,range:34,spd:100,rate:.8,xp:10},m2:{hp:70,dmg:11,range:210,spd:40,rate:1.4,shot:1,xp:11},m3:{hp:70,dmg:12,range:205,spd:50,rate:1.3,shot:1,xp:11}};
+/* 일반 몬스터 능력치 (새 엔진용) — hp 체력, dmg 공격, range 사거리, spd 속도, rate 공격 간격(초), shot 쏘는 공격 */
+const MONSTAT={e0:{hp:50,dmg:6,range:36,spd:50,rate:1},e1:{hp:40,dmg:8,range:30,spd:95,rate:.9},e2:{hp:150,dmg:7,range:40,spd:35,rate:1.2},e3:{hp:45,dmg:8,range:205,spd:45,rate:1.3,shot:1},m0:{hp:110,dmg:10,range:38,spd:45,rate:1.1},m1:{hp:60,dmg:11,range:34,spd:100,rate:.8},m2:{hp:70,dmg:11,range:210,spd:40,rate:1.4,shot:1},m3:{hp:70,dmg:12,range:205,spd:50,rate:1.3,shot:1}};
+/* 기술 동작 표 (새 엔진용) — k 동작 종류, 나머지는 그 동작의 숫자. mul 은 공격력의 몇 배, r 범위, cd 대기(초)
+   동작 종류: summon 소환 · bash 주변 밀치기 · volley 여러 발 · nova 먼 곳 폭발 · dash 순간 베기 · burst 내 주변 폭발 · mend 주변 치유 */
+const SKILLDEF={c_sum:{k:'summon',n:2,life:13,hp:.3,dmg:.7,heal:.08,img:'spirit'},c_war:{k:'bash',r:84,mul:1.5,knock:150,stun:.6,heal:.12},c_arc:{k:'volley',n:3,r:250,mul:2},c_mag:{k:'nova',range:270,r:118,mul:2.6,magic:1},c_rog:{k:'dash',range:250,mul:3.4,heal:.1},
+ water:{k:'burst',r:115,mul:.9,per:.35,cd:6,magic:1},rain:{k:'mend',r:160,heal:.06,per:.03,cd:9},storm:{k:'burst',r:170,mul:3.2,cd:20,magic:1,ult:1}};
+/* 야영지 세기 규칙 (새 엔진용) — 표의 능력치에 곱하는 값. m 은 야영지마다의 세기. elFrom 번째 야영지부터 정예가 더 세다 */
+const CAMPRULE={hp:1.8,dmg:1.2,elHp:[1.9,3.2],elDmg:[1.25,1.5],elFrom:4,xp:1,elXp:4,wildHp:2.1,wildDmg:1.2,wildXp:4};
+/* 성장 규칙 (새 엔진용) — cap 최고 레벨, need 다음 레벨까지 경험치 = a + 레벨×b, grow 레벨마다 공격·체력 배수, early 처음 레벨의 경험치 배수 */
+const GROW={cap:40,a:4,b:3,grow:1.15,early:[0,2.6,1.9,1.4],ultLv:10};
 /* 편집기(새싹 엔진)에서 고친 내용 덮어쓰기 — 이 기기에 저장된 편집 내용이 있으면 표에 반영 */
 (function(){let E=null;try{E=JSON.parse(localStorage.getItem('sprout_edit')||'null')}catch(e){}if(!E||E.v!==1)return;window.__EDIT=E;
  if(E.map){for(const k of ['home','npc','camps','wild'])if(E.map[k])RPGMAP[k]=E.map[k]}

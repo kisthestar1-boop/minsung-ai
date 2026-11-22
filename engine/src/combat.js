@@ -6,8 +6,8 @@ export function nearestEnemy(w, e, r) { let best = null, bd = r; for (const o of
 
 export function hit(world, src, tgt, amount, o = {}) {
   const h = tgt && tgt.get('health'); if (!h || tgt.dead || h.down) return 0;
-  const ev = { src, tgt, amount, kind: o.kind || 'hit', crit: false, cancel: false };
-  world.game.signals.emit('combat:before', ev); if (ev.cancel) return 0;
+  const ev = { src, tgt, amount, kind: o.kind || 'hit', magic: !!o.magic, crit: false, cancel: false, note: '' };
+  world.game.signals.emit('combat:before', ev); if (ev.cancel) { if (ev.note) world.spawn(tgt.x, tgt.y).add('floater', { text: ev.note, up: (h.h || 50) + 6, col: '#d9c8ff' }); return 0; }
   const n = Math.max(1, Math.round(ev.amount)); h.hp = Math.max(0, h.hp - n); h.hitT = .18; h.lastHit = src;
   const sp = tgt.get('sprite'); if (sp) sp.flash = .12;
   if (!o.quiet) world.spawn(tgt.x + (Math.random() - .5) * 10, tgt.y).add('floater', { text: String(n), up: (h.h || 50) + 6, col: ev.crit ? '#ffd84d' : ((tgt.get('team') || {}).side > 0 ? '#ff8f8f' : '#fff') });
@@ -36,20 +36,20 @@ export function installCombat(world) {
   });
   // 발사체: 목표를 향해 날아가 닿으면 피해. 목표가 사라지면 마지막 자리까지 날아가고 사라진다
   world.define('projectile', {
-    defaults: { src: null, target: null, dmg: 10, speed: 420, splash: 0, col: '#ffe98a', z: 28, tx: 0, ty: 0, life: 3 },
+    defaults: { src: null, target: null, dmg: 10, speed: 420, splash: 0, col: '#ffe98a', z: 28, tx: 0, ty: 0, life: 3, o: null },
     init(e, c) { if (c.target) { c.tx = c.target.x; c.ty = c.target.y; } },
     update(e, c, dt, w) {
       const t = c.target, alive = t && !t.dead && t.has('health') && !t.get('health').down; if (alive) { c.tx = t.x; c.ty = t.y; }
       const dx = c.tx - e.x, dy = c.ty - e.y, d = Math.hypot(dx, dy), v = c.speed * dt; c.life -= dt;
-      if (d <= v + 6 || c.life <= 0) { if (alive) hit(w, c.src, t, c.dmg); if (c.splash && c.src && !c.src.dead) for (const o of enemies(w, c.src)) if (o !== t && Math.hypot(o.x - c.tx, (o.y - c.ty) * 1.4) <= c.splash) hit(w, c.src, o, c.dmg * .6); S.emit('combat:land', { x: c.tx, y: c.ty, splash: c.splash, col: c.col }); e.dead = true; return; }
+      if (d <= v + 6 || c.life <= 0) { if (alive) hit(w, c.src, t, c.dmg, c.o || {}); if (c.splash && c.src && !c.src.dead) for (const o of enemies(w, c.src)) if (o !== t && Math.hypot(o.x - c.tx, (o.y - c.ty) * 1.4) <= c.splash) hit(w, c.src, o, c.dmg * .6); S.emit('combat:land', { x: c.tx, y: c.ty, splash: c.splash, col: c.col }); e.dead = true; return; }
       e.x += dx / d * v; e.y += dy / d * v;
     },
     draw(e, c, r) { const x = r.ctx, y = e.y - c.z; x.save(); const g = x.createRadialGradient(e.x, y, 0, e.x, y, 9); g.addColorStop(0, '#fff'); g.addColorStop(.35, c.col); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.beginPath(); x.arc(e.x, y, 9, 0, 7); x.fill(); x.restore(); }
   });
   // 상태: 느려짐(slow 0~1, slowT) · 기절(stun 초)
   world.define('status', {
-    defaults: { slow: 0, slowT: 0, stun: 0 },
-    update(e, c, dt) { if (c.slowT > 0) { c.slowT -= dt; if (c.slowT <= 0) c.slow = 0; } if (c.stun > 0) c.stun -= dt; }
+    defaults: { slow: 0, slowT: 0, stun: 0, kx: 0 },
+    update(e, c, dt, w) { if (c.slowT > 0) { c.slowT -= dt; if (c.slowT <= 0) c.slow = 0; } if (c.stun > 0) c.stun -= dt; if (Math.abs(c.kx) > 4) { e.x = Math.max(20, Math.min(w.w - 20, e.x + c.kx * dt)); c.kx *= Math.pow(.02, dt); } else c.kx = 0; }
   });
   // 떠오르는 숫자 (차분하게 살짝만 오르고 사라진다)
   world.define('floater', {
@@ -57,6 +57,14 @@ export function installCombat(world) {
     update(e, c, dt) { c.t += dt; if (c.t >= c.life) e.dead = true; },
     draw(e, c, r) { const k = c.t / c.life; r.ctx.save(); r.ctx.globalAlpha = 1 - k * k; r.text(c.text, e.x, e.y - c.up - k * 12, { s: 12, a: 'center', c: c.col, stroke: 'rgba(30,20,10,.75)' }); r.ctx.restore(); }
   });
+  // 퍼지는 고리 (기술 효과) — 천천히 퍼지고 사라진다
+  world.define('ring', {
+    defaults: { r: 60, t: 0, life: .45, col: '#fff', z: 12 },
+    update(e, c, dt) { c.t += dt; if (c.t >= c.life) e.dead = true; },
+    draw(e, c, r) { const k = c.t / c.life, x = r.ctx; x.save(); x.globalAlpha = (1 - k) * .7; x.strokeStyle = c.col; x.lineWidth = 3; x.beginPath(); x.ellipse(e.x, e.y - c.z, c.r * (.35 + .65 * k), c.r * (.35 + .65 * k) * .6, 0, 0, 7); x.stroke(); x.globalAlpha = (1 - k) * .16; x.fillStyle = c.col; x.fill(); x.restore(); }
+  });
+  // 수명: 시간이 다 되면 사라진다 (소환된 정령 등)
+  world.define('life', { defaults: { t: 10 }, update(e, c, dt) { c.t -= dt; if (c.t <= 0 && !e.has('fade')) { const h = e.get('health'); if (h) h.down = true; e.add('fade', { t: .4 }); } } });
   // 쓰러진 물체가 서서히 사라진다
   world.define('fade', {
     defaults: { t: .35, t0: 0 },

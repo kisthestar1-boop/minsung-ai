@@ -2,6 +2,17 @@
 import { dist, nearestEnemy } from './combat.js';
 export function installAI(world) {
   const S = world.game.signals;
+  // 동료 머리(pal): 주인 곁을 따라다니다가, 주인 근처에 적이 오면 다가가 싸운다. 정령·카드 동료가 함께 쓴다
+  world.define('pal', {
+    defaults: { owner: null, ox: -30, oy: 0, guard: 210 },
+    update(e, c, dt, w) {
+      const m = e.get('mover'), f = e.get('fighter'), o = c.owner, h = e.get('health'); if (!m || !f || !o) return; if (h && h.down) { m.vx = m.vy = 0; f.hold = true; return; }
+      let t = null, bd = c.guard; for (const q of w.with('team')) { if (q.get('team').side === e.get('team').side || !q.has('health') || q.get('health').down) continue; const d = dist(o, q); if (d < bd) { bd = d; t = q; } }
+      if (t) { f.hold = false; const d = dist(e, t); if (d > f.range * .85) { const dx = t.x - e.x, dy = t.y - e.y, q = Math.hypot(dx, dy) || 1; m.vx = dx / q; m.vy = dy / q; } else m.vx = m.vy = 0; return; }
+      const s = o.get('sprite'), dir = s && s.flip ? -1 : 1, tx = o.x + c.ox * dir, ty = o.y + c.oy, dx = tx - e.x, dy = ty - e.y, d = Math.hypot(dx, dy);
+      if (d > 300) { e.x = tx; e.y = ty; m.vx = m.vy = 0; } else if (d > 14) { const k = Math.min(1, d / 60); m.vx = dx / d * k; m.vy = dy / d * k; } else m.vx = m.vy = 0;
+    }
+  });
   world.define('brain', {
     // aggro 알아채는 거리 · leash 집에서 이만큼 멀어지면 포기 · group 같은 무리는 함께 깨어난다
     defaults: { state: 'idle', hx: null, hy: null, aggro: 150, leash: 330, group: null, target: null, t: 0, wander: 0 },
