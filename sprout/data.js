@@ -59,3 +59,16 @@ const TRJ={
  sum:{i:'🐾',n:'소환사',col:'#d99a20',lt:'#fbeecb',p:'몬스터 동료와 함께 싸워요',t:[['t_pal',0,0],['t_catch',1,-1,['t_pal']],['rain',1,1,['t_pal']],['t_slot',2,-1,['t_catch']],['cheer',2,1,['rain']],['t_hp',3,-1,['t_slot'],'t_regen'],['t_regen',3,0,['t_slot'],'t_hp'],['t_revive',3,1,['cheer']],['t_ult',4,0,['t_hp','t_regen','t_revive']]]}
 };
 const TRREC={c_sum:'sum',c_war:'war',c_arc:'arc',c_mag:'mag',c_rog:'rog',sprout:'sum',frost:'mag',thief:'rog',baker:'sum',fox:'arc',sheep:'war',hedgehog:'war',owl:'mag',bunny:'sum',frog:'sum',knight:'war',assassin:'rog',lancer:'war',bear:'war',elf:'arc',raccoon:'arc',mage:'mag',deer:'sum',monk:'war',wolf:'war',turtle:'war',gunner:'arc',alch:'mag',penguin:'mag',crow:'mag',bard:'sum'};
+
+/* 모험 지도 — home 시작점, npc 마을 사람, camps 야영지(퀘스트 순서대로), wild 강한 야생 몬스터
+   위치는 지도 그림 기준 비율(0~1). fx 가로, row 세로. ks 몬스터 구성, el 정예, m 세기, boss 마지막 보스 */
+const RPGMAP={home:[.105,.86],npc:[.145,.8],
+ camps:[{n:'밀밭 허수아비',fx:.155,row:.54,ks:['e0','e0','e1'],m:.7},{n:'버섯 숲 빈터',fx:.31,row:.27,ks:['e1','e1','e3'],m:.95},{n:'호숫가 선착장',fx:.385,row:.66,ks:['e0','e3'],el:'e2',m:1.2},{n:'오아시스 유적',fx:.6,row:.82,ks:['e3','e3','m1','m1'],m:1.5},{n:'협곡 붉은 다리',fx:.5,row:.3,ks:['m1','m1'],el:'m0',m:1.8},{n:'유령 늪',skin:'gh_',fx:.8,row:.5,ks:['m2','m3','m3'],m:2.15},{n:'화산 기슭',skin:'lv_',fx:.79,row:.8,ks:['m2','m2','m1'],el:'m0',m:2.5},{n:'눈 덮인 소나무 숲',fx:.72,row:.24,ks:['m3','m3'],el:'e2',m:2.9},{n:'서리의 얼음 성',fx:.855,row:.16,boss:1,ks:[],m:1}],
+ wild:[{k:'wb0',fx:.348,row:.335,ci:1},{k:'wb1',fx:.493,row:.87,ci:2},{k:'wb2',fx:.55,row:.43,ci:3},{k:'wb3',fx:.65,row:.53,ci:4},{k:'wb4',fx:.795,row:.52,ci:5},{k:'wb5',fx:.755,row:.65,ci:6}]};
+/* 일반 몬스터 이름과 그림 (편집기용) */
+const MONINFO={e0:['시든 새싹','sprite_e0'],e1:['가시 덤불','sprite_e1'],e2:['졸린 독버섯','sprite_e2'],e3:['그림자 도깨비불','sprite_e3'],m0:['투덜 진흙이','m_e0'],m1:['따끔 잠자리','m_e1'],m2:['삐죽 부들이','m_e2'],m3:['등불 유령','m_e3']};
+/* 편집기(새싹 엔진)에서 고친 내용 덮어쓰기 — 이 기기에 저장된 편집 내용이 있으면 표에 반영 */
+(function(){let E=null;try{E=JSON.parse(localStorage.getItem('sprout_edit')||'null')}catch(e){}if(!E||E.v!==1)return;window.__EDIT=E;
+ if(E.map){for(const k of ['home','npc','camps','wild'])if(E.map[k])RPGMAP[k]=E.map[k]}
+ if(E.heroes)for(const k in E.heroes)if(HEROES[k])Object.assign(HEROES[k],E.heroes[k]);
+ if(E.wb)E.wb.forEach((w,i)=>{if(WB[i]&&w)for(let j=0;j<7;j++)if(w[j]!=null)WB[i][j]=w[j]})})();

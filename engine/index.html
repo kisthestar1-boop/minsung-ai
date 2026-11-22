@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>새싹 엔진</title>
+<style>
+/* 새싹 엔진 편집기 — 왼쪽 목록 · 가운데 장면 · 오른쪽 속성 · 위 실행 (유니티 편집기 배치) */
+:root{--bg:#141a17;--pn:#1c2521;--pn2:#232e29;--ln:#33423b;--ink:#e6efe9;--mu:#93a69b;--acc:#58d19b;--acc2:#ffd66b;--bad:#f0877b;--sel:#2c5a48}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:14px}
+button,input,select{font:inherit;color:inherit}
+.app{display:grid;grid-template-rows:auto 1fr;height:100dvh}
+.top{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--pn);border-bottom:1px solid var(--ln);flex-wrap:wrap}
+.top h1{font-size:15px;margin:0 6px 0 0;white-space:nowrap}
+.top h1 small{color:var(--mu);font-weight:500;margin-left:6px}
+.tabs{display:flex;gap:4px}
+.tabs button{background:var(--pn2);border:1px solid var(--ln);border-radius:8px;padding:6px 11px;cursor:pointer;font-weight:700;white-space:nowrap}
+.tabs button.on{background:var(--sel);border-color:var(--acc);color:#fff}
+.sp{flex:1}
+.play{background:#e2453c;border:0;border-radius:9px;padding:8px 18px;font-weight:800;color:#fff;cursor:pointer;white-space:nowrap}
+.ghost{background:transparent;border:1px solid var(--ln);border-radius:8px;padding:6px 10px;cursor:pointer;color:var(--mu);white-space:nowrap}
+.saved{color:var(--acc);font-size:12px;white-space:nowrap}
+.main{display:grid;grid-template-columns:230px 1fr 290px;min-height:0}
+.pane{background:var(--pn);min-height:0;overflow:auto}
+.pane.l{border-right:1px solid var(--ln)}.pane.r{border-left:1px solid var(--ln)}
+.ph{position:sticky;top:0;background:var(--pn);padding:9px 12px 7px;font-size:12px;font-weight:800;color:var(--mu);letter-spacing:.06em;border-bottom:1px solid var(--ln);z-index:2;display:flex;align-items:center;gap:6px}
+.ph button{margin-left:auto;background:var(--pn2);border:1px solid var(--ln);border-radius:7px;padding:3px 8px;cursor:pointer;font-weight:700;color:var(--ink)}
+.row{display:flex;align-items:center;gap:8px;padding:7px 12px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04)}
+.row:hover{background:rgba(255,255,255,.04)}.row.on{background:var(--sel)}
+.row .ic{width:26px;height:26px;border-radius:7px;background:var(--pn2);display:grid;place-items:center;flex:none;overflow:hidden;font-size:14px}
+.row .ic img{width:100%;height:100%;object-fit:contain}
+.row b{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row small{color:var(--mu);margin-left:auto;white-space:nowrap}
+.grp{padding:8px 12px 4px;font-size:11px;color:var(--mu);font-weight:800}
+.scene{position:relative;overflow:hidden;background:#0e1311;min-height:0;display:grid;place-items:center}
+.stage{position:relative;touch-action:none;user-select:none}
+.stage img.map{display:block;width:100%;height:100%;border-radius:6px;pointer-events:none}
+.mk{position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;cursor:grab;touch-action:none}
+.mk .pin{min-width:30px;height:30px;padding:0 6px;border-radius:15px;background:#fffaf0;color:#3a2616;border:2px solid #6b4a2c;display:grid;place-items:center;font-weight:800;font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,.45)}
+.mk .pin img{height:34px;margin:-8px -4px -2px}
+.mk.wild .pin{background:#ffe6a8;border-color:#b8760a;height:34px}
+.mk.home .pin{background:#cfe9ff;border-color:#2f6a9a}
+.mk.boss .pin{background:#dfe8ff;border-color:#4a5fb0}
+.mk .tip{width:2px;height:8px;background:#6b4a2c}
+.mk .nm{position:absolute;top:100%;margin-top:2px;background:rgba(20,26,23,.85);color:#fff;font-size:11px;font-weight:700;padding:1px 6px;border-radius:6px;white-space:nowrap}
+.mk.on .pin{outline:3px solid var(--acc2);outline-offset:2px}
+.mk.on{z-index:5}
+.line{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:hidden}
+.hint{position:absolute;left:10px;bottom:10px;background:rgba(20,26,23,.8);border:1px solid var(--ln);border-radius:8px;padding:5px 10px;color:var(--mu);font-size:12px}
+.insp{padding:12px;display:flex;flex-direction:column;gap:12px}
+.insp h2{font-size:15px;margin:0;display:flex;align-items:center;gap:8px}
+.f{display:flex;flex-direction:column;gap:5px}
+.f label{font-size:12px;color:var(--mu);font-weight:700;display:flex;justify-content:space-between}
+.f label b{color:var(--acc2)}
+.f input[type=text],.f select{background:var(--pn2);border:1px solid var(--ln);border-radius:8px;padding:7px 9px;width:100%}
+.f input[type=range]{width:100%;accent-color:var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:flex;align-items:center;gap:4px;background:var(--pn2);border:1px solid var(--ln);border-radius:9px;padding:3px 6px 3px 3px}
+.chip img{width:26px;height:26px;object-fit:contain}
+.chip button{background:none;border:0;color:var(--bad);cursor:pointer;font-weight:800;padding:0 2px}
+.add{background:var(--pn2);border:1px dashed var(--ln);border-radius:9px;padding:6px 9px;cursor:pointer;color:var(--acc)}
+.btnrow{display:flex;gap:6px;flex-wrap:wrap}
+.btnrow button{background:var(--pn2);border:1px solid var(--ln);border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:700}
+.btnrow button.del{color:var(--bad)}
+.note{color:var(--mu);font-size:12px;line-height:1.5}
+.hero{display:grid;place-items:center;gap:10px;padding:16px}
+.hero .card{width:min(360px,90%);background:linear-gradient(#fffaf0,#efe2c8);border-radius:16px;border:2px solid #6b4a2c;color:#3a2616;padding:14px;display:grid;justify-items:center;gap:8px}
+.hero .card img{height:min(34vh,240px)}
+.hero .card h3{margin:0;font-size:20px}.hero .card p{margin:0;font-weight:700;color:#7a5a3a}
+.bars{width:100%;display:grid;gap:5px}
+.bar{display:grid;grid-template-columns:54px 1fr 44px;align-items:center;gap:6px;font-size:12px;font-weight:700}
+.bar i{display:block;height:8px;border-radius:4px;background:rgba(60,40,20,.18);overflow:hidden}.bar i em{display:block;height:100%;background:#2f9e44;border-radius:4px}
+.ov{position:fixed;inset:0;background:rgba(6,10,8,.86);display:none;z-index:50;place-items:center;padding:12px}
+.ov.on{display:grid}
+.ovb{width:min(1100px,100%);display:grid;gap:8px}
+.ovt{display:flex;gap:8px;align-items:center}
+.ovt b{font-size:15px}
+.ov iframe{width:100%;aspect-ratio:16/9;max-height:78dvh;border:2px solid var(--ln);border-radius:12px;background:#000}
+.ov textarea{width:100%;height:50dvh;background:var(--pn2);color:var(--ink);border:1px solid var(--ln);border-radius:10px;padding:10px;font:12px/1.5 ui-monospace,monospace}
+@media (max-width:880px){
+ .main{grid-template-columns:1fr;grid-template-rows:auto minmax(220px,42dvh) 1fr}
+ .pane.l{border-right:0;border-bottom:1px solid var(--ln);max-height:112px}
+ .pane.l .list{display:flex;overflow-x:auto}
+ .pane.l .row{flex:none;border-bottom:0;border-right:1px solid rgba(255,255,255,.05)}.pane.l .row small,.grp{display:none}
+ .pane.r{border-left:0;border-top:1px solid var(--ln)}
+ .top h1 small{display:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+ <div class="top">
+  <h1>⚙ 새싹 엔진<small>새싹 원정대 편집기 v0.1</small></h1>
+  <div class="tabs" id="tabs"></div>
+  <span class="sp"></span>
+  <span class="saved" id="saved">자동 저장됨</span>
+  <button class="ghost" id="bExp">내보내기</button>
+  <button class="ghost" id="bReset">기본값으로</button>
+  <button class="play" id="bPlay">▶ 실행</button>
+ </div>
+ <div class="main">
+  <div class="pane l"><div class="ph"><span id="lh">목록</span><button id="bAdd" hidden>＋ 추가</button></div><div class="list" id="list"></div></div>
+  <div class="scene" id="scene"></div>
+  <div class="pane r"><div class="ph">속성</div><div class="insp" id="insp"></div></div>
+ </div>
+</div>
+<div class="ov" id="ovPlay"><div class="ovb"><div class="ovt"><b>▶ 실행 중 — 지금 편집한 내용으로</b><span class="sp"></span><button class="ghost" id="bNew">새 창으로</button><button class="play" id="bStop">■ 멈추기</button></div><iframe id="fr" allow="autoplay"></iframe></div></div>
+<div class="ov" id="ovExp"><div class="ovb"><div class="ovt"><b>내보내기 — 이 글을 Claude에게 보내면 모든 사람의 게임에 반영해요</b><span class="sp"></span><button class="ghost" id="bCopy">복사</button><button class="play" id="bExpX">닫기</button></div><textarea id="ta" readonly></textarea></div></div>
+<script src="../sprout/data.js?v=69"></script>
+<script>
+"use strict";
+const IMGP='../sprout/img/',KEY='sprout_edit';
+const clone=o=>JSON.parse(JSON.stringify(o));
+/* 기본값: data.js 가 이미 저장된 편집 내용을 덮어썼으므로, 그 상태가 곧 현재 값 */
+const HKS=['c_sum','c_war','c_arc','c_mag','c_rog'],HF=['n','role','hp','dmg','range','spd','rate','heal'];
+let S={v:1,map:clone({home:RPGMAP.home,npc:RPGMAP.npc,camps:RPGMAP.camps,wild:RPGMAP.wild}),heroes:{},wb:clone(WB.map(w=>w.slice(0,7)))};
+HKS.forEach(k=>{S.heroes[k]={};HF.forEach(f=>{if(HEROES[k][f]!=null)S.heroes[k][f]=HEROES[k][f]})});
+let tab='map',sel={t:'camp',i:0},saveT=0;
+const $=s=>document.querySelector(s),el=(h)=>{const d=document.createElement('div');d.innerHTML=h;return d.firstElementChild};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function save(){clearTimeout(saveT);$('#saved').textContent='저장 중…';saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(S));$('#saved').textContent='자동 저장됨 ✓'}catch(e){$('#saved').textContent='저장 실패 (이 브라우저는 저장이 막혀 있어요)'}},250)}
+const monImg=k=>IMGP+(MONINFO[k]?MONINFO[k][1]:'wb_'+k.slice(2))+'.webp',monName=k=>MONINFO[k]?MONINFO[k][0]:(S.wb[+k.slice(2)]||[])[0]||k;
+/* ---------- 탭 ---------- */
+const TABS=[['map','🗺 맵'],['hero','🧙 캐릭터'],['mon','👑 강한 몬스터']];
+function drawTabs(){$('#tabs').innerHTML=TABS.map(t=>`<button data-t="${t[0]}" class="${tab===t[0]?'on':''}">${t[1]}</button>`).join('')}
+$('#tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;tab=b.dataset.t;sel=tab==='map'?{t:'camp',i:0}:tab==='hero'?{t:'hero',k:HKS[0]}:{t:'wb',i:0};draw()};
+/* ---------- 목록 ---------- */
+function drawList(){const L=$('#list');$('#bAdd').hidden=tab!=='map';
+ if(tab==='map'){$('#lh').textContent='맵 물체';const on=(t,i)=>sel.t===t&&sel.i===i?'on':'';
+  L.innerHTML=`<div class="grp">시작</div><div class="row ${on('home')}" data-t="home"><span class="ic">🏠</span><b>시작점 (마을)</b></div><div class="row ${on('npc')}" data-t="npc"><span class="ic">💬</span><b>마을 사람</b></div><div class="grp">야영지 · 퀘스트 순서</div>`+
+  S.map.camps.map((c,i)=>`<div class="row ${on('camp',i)}" data-t="camp" data-i="${i}"><span class="ic">${c.boss?'❄':i+1}</span><b>${esc(c.n)}</b><small>${c.boss?'보스':'×'+c.m}</small></div>`).join('')+
+  `<div class="grp">강한 야생 몬스터</div>`+S.map.wild.map((w,i)=>`<div class="row ${on('wild',i)}" data-t="wild" data-i="${i}"><span class="ic"><img src="${monImg(w.k)}" alt=""></span><b>${esc(monName(w.k))}</b></div>`).join('')}
+ else if(tab==='hero'){$('#lh').textContent='캐릭터';L.innerHTML=HKS.map(k=>`<div class="row ${sel.k===k?'on':''}" data-t="hero" data-k="${k}"><span class="ic"><img src="${IMGP+k}_h0.webp" alt=""></span><b>${esc(S.heroes[k].n)}</b><small>체력 ${S.heroes[k].hp}</small></div>`).join('')}
+ else{$('#lh').textContent='강한 몬스터';L.innerHTML=S.wb.map((w,i)=>`<div class="row ${sel.i===i?'on':''}" data-t="wb" data-i="${i}"><span class="ic"><img src="${IMGP}wb_${i}.webp" alt=""></span><b>${esc(w[0])}</b><small>체력 ${w[1]}</small></div>`).join('')}}
+$('#list').onclick=e=>{const r=e.target.closest('.row');if(!r)return;sel={t:r.dataset.t,i:r.dataset.i!=null?+r.dataset.i:undefined,k:r.dataset.k};draw()};
+$('#bAdd').onclick=()=>{const cs=S.map.camps,bi=cs.findIndex(c=>c.boss),at=bi<0?cs.length:bi;cs.splice(at,0,{n:'새 야영지',fx:.5,row:.5,ks:['e0','e0'],m:1});S.map.wild.forEach(w=>{if(w.ci>=at)w.ci++});sel={t:'camp',i:at};save();draw()};
+/* ---------- 장면 ---------- */
+function posOf(s){if(s.t==='home')return S.map.home;if(s.t==='npc')return S.map.npc;if(s.t==='camp'){const c=S.map.camps[s.i];return [c.fx,c.row]}const w=S.map.wild[s.i];return [w.fx,w.row]}
+function setPos(s,x,y){x=Math.round(Math.max(.02,Math.min(.98,x))*1000)/1000;y=Math.round(Math.max(.04,Math.min(.97,y))*1000)/1000;if(s.t==='home')S.map.home=[x,y];else if(s.t==='npc')S.map.npc=[x,y];else if(s.t==='camp'){S.map.camps[s.i].fx=x;S.map.camps[s.i].row=y}else{S.map.wild[s.i].fx=x;S.map.wild[s.i].row=y}}
+function drawScene(){const sc=$('#scene');
+ if(tab==='map'){const R=2752/1536,bw=sc.clientWidth-16,bh=sc.clientHeight-16,w=Math.max(200,Math.min(bw,bh*R)),h=w/R;
+  const mk=(t,i,cls,inner,nm)=>{const p=posOf({t,i}),on=sel.t===t&&sel.i===i;return `<div class="mk ${cls} ${on?'on':''}" data-t="${t}" ${i!=null?`data-i="${i}"`:''} style="left:${p[0]*100}%;top:${p[1]*100}%"><span class="pin">${inner}</span><span class="tip"></span>${on||w>620?`<span class="nm">${esc(nm)}</span>`:''}</div>`};
+  const pts=[S.map.home].concat(S.map.camps.map(c=>[c.fx,c.row]));
+  sc.innerHTML=`<div class="stage" id="stage" style="width:${w}px;height:${h}px"><img class="map" src="${IMGP}bg_world.jpg" alt="모험 지도"><svg class="line" viewBox="0 0 1000 1000" preserveAspectRatio="none"><polyline points="${pts.map(p=>p[0]*1000+','+p[1]*1000).join(' ')}" fill="none" stroke="#ffd66b" stroke-width="3" stroke-dasharray="10 8" opacity=".75" vector-effect="non-scaling-stroke"/></svg>`+
+   mk('home',undefined,'home','🏠','시작점')+mk('npc',undefined,'home','💬','마을 사람')+
+   S.map.camps.map((c,i)=>mk('camp',i,c.boss?'boss':'',c.boss?'❄':i+1,c.n)).join('')+
+   S.map.wild.map((w0,i)=>mk('wild',i,'wild',`<img src="${monImg(w0.k)}" alt="">`,monName(w0.k))).join('')+`</div><div class="hint">끌어서 옮겨요 · 노란 점선은 퀘스트 순서</div>`;
+  bindDrag()}
+ else if(tab==='hero'){const k=sel.k||HKS[0],h=S.heroes[k],bar=(n,v,mx)=>`<div class="bar"><span>${n}</span><i><em style="width:${Math.min(100,v/mx*100)}%"></em></i><span>${v}</span></div>`;
+  sc.innerHTML=`<div class="hero"><div class="card"><img src="${IMGP+k}_h0.webp" alt=""><h3>${esc(h.n)}</h3><p>${esc(h.role)}</p><div class="bars">${bar('체력',h.hp,800)}${bar('공격',h.dmg,40)}${bar('사거리',h.range,260)}${bar('속도',h.spd,110)}${bar('공격 빠르기',Math.round(100/h.rate)/100,3)}</div><p>고유 기술: ${HUS[k]?HUS[k][0]+' '+HUS[k][1]:'-'}</p></div></div>`}
+ else{const i=sel.i||0,w=S.wb[i],bar=(n,v,mx)=>`<div class="bar"><span>${n}</span><i><em style="width:${Math.min(100,v/mx*100)}%"></em></i><span>${v}</span></div>`;
+  sc.innerHTML=`<div class="hero"><div class="card"><img src="${IMGP}wb_${i}.webp" alt=""><h3>👑 ${esc(w[0])}</h3><p>전설 카드 · 잡으면 동료</p><div class="bars">${bar('체력',w[1],600)}${bar('공격',w[2],40)}${bar('사거리',w[3],260)}${bar('속도',w[4],110)}</div></div></div>`}}
+function bindDrag(){const st=$('#stage');if(!st)return;let d=null;
+ st.onpointerdown=e=>{const m=e.target.closest('.mk');if(!m)return;const s={t:m.dataset.t,i:m.dataset.i!=null?+m.dataset.i:undefined};sel=s;d={s,m,moved:0};m.setPointerCapture(e.pointerId);st.querySelectorAll('.mk').forEach(x=>x.classList.toggle('on',x===m));drawList();drawInsp()};
+ st.onpointermove=e=>{if(!d)return;const r=st.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;setPos(d.s,x,y);const p=posOf(d.s);d.m.style.left=p[0]*100+'%';d.m.style.top=p[1]*100+'%';d.moved=1};
+ st.onpointerup=st.onpointercancel=()=>{if(d&&d.moved){save();drawScene();drawInsp()}d=null}}
+/* ---------- 속성 ---------- */
+const fld=(lab,html,val)=>`<div class="f"><label>${lab}${val!=null?`<b>${val}</b>`:''}</label>${html}</div>`;
+const rng=(id,v,mn,mx,st)=>`<input type="range" data-f="${id}" min="${mn}" max="${mx}" step="${st}" value="${v}">`;
+function drawInsp(){const I=$('#insp');
+ if(tab==='map'){
+  if(sel.t==='home'||sel.t==='npc'){const p=posOf(sel);I.innerHTML=`<h2>${sel.t==='home'?'🏠 시작점 (마을)':'💬 마을 사람'}</h2><p class="note">${sel.t==='home'?'영웅이 처음 서 있는 곳이에요. 여기 가까이 있으면 체력이 회복돼요.':'퀘스트를 알려 주는 마을 사람이에요.'}</p>${fld('위치','<p class="note">가로 '+Math.round(p[0]*100)+'% · 세로 '+Math.round(p[1]*100)+'% — 지도에서 끌어서 옮겨요</p>')}`}
+  else if(sel.t==='camp'){const c=S.map.camps[sel.i],opt=(v)=>Object.keys(MONINFO).map(k=>`<option value="${k}" ${k===v?'selected':''}>${MONINFO[k][0]}</option>`).join('');
+   I.innerHTML=`<h2>${c.boss?'❄':'⛺'} 야영지 ${sel.i+1}</h2>${fld('이름',`<input type="text" data-f="n" value="${esc(c.n)}">`)}`+(c.boss?`<p class="note">마지막 보스(서리)가 있는 곳이에요. 위치만 옮길 수 있어요.</p>`:
+    fld('몬스터 구성',`<div class="chips">${c.ks.map((k,j)=>`<span class="chip"><img src="${monImg(k)}" alt=""><select data-ks="${j}">${opt(k)}</select><button data-rm="${j}" title="빼기">✕</button></span>`).join('')}${c.ks.length<6?'<button class="add" data-addm="1">＋ 몬스터</button>':''}</div>`)+
+    fld('정예 몬스터 (👑 금빛 카드)',`<select data-f="el"><option value="">없음</option>${Object.keys(MONINFO).map(k=>`<option value="${k}" ${c.el===k?'selected':''}>${MONINFO[k][0]}</option>`).join('')}</select>`)+
+    fld('세기',rng('m',c.m,.5,4,.05),'×'+c.m)+`<p class="note">세기는 몬스터 체력·공격에 곱해져요. 첫 야영지는 0.7, 마지막 쪽은 2.9예요.</p>`)+
+   `<div class="btnrow"><button data-mv="-1">▲ 순서 앞으로</button><button data-mv="1">▼ 순서 뒤로</button>${c.boss?'':'<button class="del" data-del="1">보관(빼기)</button>'}</div>`}
+  else{const w=S.map.wild[sel.i];I.innerHTML=`<h2>👑 강한 야생 몬스터</h2>${fld('종류',`<select data-f="k">${S.wb.map((x,i)=>`<option value="wb${i}" ${w.k==='wb'+i?'selected':''}>${esc(x[0])}</option>`).join('')}</select>`)}${fld('세기 기준 야영지',`<select data-f="ci">${S.map.camps.map((c,i)=>`<option value="${i}" ${w.ci===i?'selected':''}>${i+1}. ${esc(c.n)}</option>`).join('')}</select>`)}<p class="note">기준 야영지의 세기를 따라가요. 뒤쪽 야영지일수록 강하고 권장 레벨이 올라가요.</p>`}}
+ else if(tab==='hero'){const k=sel.k||HKS[0],h=S.heroes[k];
+  I.innerHTML=`<h2>🧙 ${esc(h.n)}</h2>${fld('이름',`<input type="text" data-f="n" value="${esc(h.n)}">`)}${fld('설명',`<input type="text" data-f="role" value="${esc(h.role)}">`)}${fld('체력',rng('hp',h.hp,150,900,10),h.hp)}${fld('공격력',rng('dmg',h.dmg,8,45,1),h.dmg)}${fld('사거리',rng('range',h.range,30,260,5),h.range)}${fld('이동 속도',rng('spd',h.spd,40,110,1),h.spd)}${fld('공격 간격 (작을수록 빠름)',rng('rate',h.rate,.3,1.6,.02),h.rate+'초')}${h.heal!=null?fld('치유량',rng('heal',h.heal,0,50,1),h.heal):''}<p class="note">사거리 100 이상은 멀리서 쏘는 캐릭터예요. 숫자를 바꾸고 ▶ 실행으로 바로 해 보세요.</p>`}
+ else{const w=S.wb[sel.i||0];I.innerHTML=`<h2>👑 ${esc(w[0])}</h2>${fld('이름',`<input type="text" data-w="0" value="${esc(w[0])}">`)}${fld('체력',`<input type="range" data-w="1" min="100" max="700" step="10" value="${w[1]}">`,w[1])}${fld('공격력',`<input type="range" data-w="2" min="8" max="45" step="1" value="${w[2]}">`,w[2])}${fld('사거리',`<input type="range" data-w="3" min="30" max="260" step="5" value="${w[3]}">`,w[3])}${fld('이동 속도',`<input type="range" data-w="4" min="25" max="110" step="1" value="${w[4]}">`,w[4])}<p class="note">잡으면 동료가 되는 전설 몬스터예요. 동료가 됐을 때의 힘도 이 숫자를 따라가요.</p>`}}
+$('#insp').addEventListener('input',e=>{const t=e.target;
+ if(tab==='map'&&sel.t==='camp'){const c=S.map.camps[sel.i];if(t.dataset.f==='n')c.n=t.value;if(t.dataset.f==='m')c.m=+t.value;if(t.dataset.f==='el'){if(t.value)c.el=t.value;else delete c.el}if(t.dataset.ks!=null)c.ks[+t.dataset.ks]=t.value}
+ else if(tab==='map'&&sel.t==='wild'){const w=S.map.wild[sel.i];if(t.dataset.f==='k')w.k=t.value;if(t.dataset.f==='ci')w.ci=+t.value}
+ else if(tab==='hero'){const h=S.heroes[sel.k||HKS[0]],f=t.dataset.f;if(f)h[f]=t.type==='range'?+t.value:t.value}
+ else if(tab==='mon'&&t.dataset.w!=null){const w=S.wb[sel.i||0],j=+t.dataset.w;w[j]=j?+t.value:t.value}
+ save();if(t.type==='range'){const lb=t.closest('.f').querySelector('label b');if(lb)lb.textContent=(t.dataset.f==='m'?'×':'')+t.value+(t.dataset.f==='rate'?'초':'')}drawList();if(t.type!=='text')drawScene();if(t.tagName==='SELECT')drawInsp()});
+$('#insp').addEventListener('click',e=>{const t=e.target.closest('button');if(!t||tab!=='map'||sel.t!=='camp')return;const cs=S.map.camps,c=cs[sel.i];
+ if(t.dataset.rm!=null){if(c.ks.length>1)c.ks.splice(+t.dataset.rm,1)}else if(t.dataset.addm){c.ks.push(c.ks[c.ks.length-1]||'e0')}
+ else if(t.dataset.mv){const j=sel.i+(+t.dataset.mv);if(j<0||j>=cs.length)return;[cs[sel.i],cs[j]]=[cs[j],cs[sel.i]];S.map.wild.forEach(w=>{if(w.ci===sel.i)w.ci=j;else if(w.ci===j)w.ci=sel.i});sel.i=j}
+ else if(t.dataset.del){if(cs.filter(x=>!x.boss).length<=1)return;S.arch=S.arch||[];S.arch.push(cs.splice(sel.i,1)[0]);S.map.wild.forEach(w=>{if(w.ci>=sel.i&&w.ci>0)w.ci--});sel.i=Math.max(0,sel.i-1)}
+ else return;save();draw()});
+/* ---------- 실행 · 내보내기 · 되돌리기 ---------- */
+function playUrl(){return '../sprout/?play=rpg&t='+Date.now()}
+$('#bPlay').onclick=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}$('#fr').src=playUrl();$('#ovPlay').classList.add('on')};
+$('#bStop').onclick=()=>{$('#fr').src='about:blank';$('#ovPlay').classList.remove('on')};
+$('#bNew').onclick=()=>{window.open(playUrl(),'_blank')};
+$('#bExp').onclick=()=>{$('#ta').value='[새싹 엔진 편집 내용]\n'+JSON.stringify(S);$('#ovExp').classList.add('on')};
+$('#bExpX').onclick=()=>$('#ovExp').classList.remove('on');
+$('#bCopy').onclick=async()=>{try{await navigator.clipboard.writeText($('#ta').value);$('#bCopy').textContent='복사됨 ✓'}catch(e){$('#ta').select()}};
+$('#bReset').onclick=()=>{if($('#bReset').dataset.sure!=='1'){$('#bReset').dataset.sure='1';$('#bReset').textContent='한 번 더 누르면 기본값';setTimeout(()=>{$('#bReset').dataset.sure='';$('#bReset').textContent='기본값으로'},2500);return}try{localStorage.setItem(KEY+'_backup',JSON.stringify(S));localStorage.removeItem(KEY)}catch(e){}location.reload()};
+function draw(){drawTabs();drawList();drawScene();drawInsp()}
+addEventListener('resize',()=>drawScene());draw();
+</script>
+</body>
+</html>
