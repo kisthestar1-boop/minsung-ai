@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>새싹 원정대 v6.4</title>
+<title>새싹 원정대 v6.5</title>
 <meta name="theme-color" content="#2f4a2c">
 <style>
 :root{--ink:#3a2f22;--cream:#fbf5e6}
@@ -1333,7 +1333,7 @@ function drawTitle(dt){
  button(W-232,H-58,104,40,'📖 도감',()=>{scene='book'},'#cfe7b8');
  button(W-120,H-58,104,40,SV.mute?'🔇 음악':'🎵 음악',()=>{SV.mute=!SV.mute;save();if(SV.mute)bgmStop();else bgmStart()},'#e7e0f6');
  btns.unshift({x:0,y:0,w:W,h:H,cb:startGame});
- ctx.fillStyle='rgba(58,41,30,.7)';ctx.font='bold 12px system-ui';ctx.fillText('v6.4 · 새 첫 화면·큰 캐릭터·원거리 자동 조준 · 효과음 Kenney (CC0)',14,H-14);
+ ctx.fillStyle='rgba(58,41,30,.7)';ctx.font='bold 12px system-ui';ctx.fillText('v6.5 · 카드 던지기로 직접 포획 · 효과음 Kenney (CC0)',14,H-14);
  if(loaded<NAMES.length){ctx.fillStyle='#fff';ctx.font='bold 13px system-ui';ctx.fillText('그림 불러오는 중… '+loaded+'/'+NAMES.length,14,24)}
  // 꽃잎 (천천히)
  for(let i=0;i<22;i++){const sp=18+(i%5)*6,x=((i*137+titleT*sp*1.4)%(W+80))-40,y=((i*89+titleT*(sp+10))%(H+60))-30;ctx.save();ctx.translate(x,y);ctx.rotate(titleT*.8+i);ctx.fillStyle=i%3?'rgba(255,214,228,.75)':'rgba(255,240,200,.7)';ctx.beginPath();ctx.ellipse(0,0,6,3,0,0,7);ctx.fill();ctx.restore()}
@@ -1500,7 +1500,7 @@ function mcGive(c,x,y){SV.mc=SV.mc||{};const s0=mcStar(c);SV.mc[c]=(SV.mc[c]||0)
  SV.pals=SV.pals||[null,null];let eq=0;if(first&&(SV.pals[0]==null||SV.pals[1]==null)&&SV.pals.indexOf(c)<0){SV.pals[SV.pals[1]==null?1:0]=c;eq=1}save();
  if(D){D.capShow={c,t:2.6,up:s1>s0&&!first,first};D.cardNew=1;D.flash=Math.max(D.flash||0,.18);if(x!=null)for(let i=0;i<16;i++){const a=i/16*6.283;D.fx.push({x,y:y-18,vx:Math.cos(a)*150,vy:Math.sin(a)*100-40,life:.6,col:RAR[mcRar(c)][1],r:3,nog:1})}
   D.capShow.eq=eq;if(eq)palRefresh();else if(s1>s0&&SV.pals.indexOf(c)>=0)palRefresh()}SFX.lv()}
-function mcKill(u){const D=DU;if(u.hero||u.tw||u.boss||u.spr||MCR[u.k]==null)return;
+function mcKill(u){const D=DU;if(u.caught||u.hero||u.tw||u.boss||u.spr||MCR[u.k]==null)return;
  const lr=TR('t_leech'),h=D.H[1].u;if(lr&&h&&h.hp>0)h.hp=Math.min(h.hpMax,h.hp+h.hpMax*.03*lr);const gr=TR('t_gold');if(gr)D.en=Math.min(99,D.en+gr);
  if(!(u.camp||u.neu))return;const c=u.k+(u.elite&&MCIDS.indexOf(u.k+'*')>=0?'*':'');if(Math.random()<mcChance(c))mcGive(c,u.x,u.y);else{SV.cpity=SV.cpity||{};SV.cpity[c]=(SV.cpity[c]||0)+(cidE(c)?.15:MCR[c]===3?.08:.02)}}
 /* --- 스킬 트리 (직업별) --- */
@@ -1553,6 +1553,10 @@ function trPick(job){const D=DU;trReset(job);D.trSel=TRJ[job].t[0][0];D.banner={
 {const _rs=rpgSetup;rpgSetup=function(){const D=DU,r=(SV.rl||{})[heroKey()];D.H[1].tr=Object.assign({},(r&&r.cls&&r.tr)||{});const jc=TRREC[heroKey()]||'war';if(!(r&&r.cls===jc))D.H[1].tr={};D.H[1].cls=jc;_rs();if(!(r&&r.cls===jc)){D.H[1].sk={};}wildSetup();if(palSlots()>2)palSpawn(D.deck[2],2)}}
 {const _sv=rlSave;rlSave=function(){const D=DU;if(!D||D.mode!=='rpg')return;_sv();SV.rl[heroKey()].tr=Object.assign({},D.H[1].tr||{});SV.rl[heroKey()].cls=D.H[1].cls||null;save()}}
 {const _hx=heroXP;heroXP=function(side,n){const D=DU,l0=D.H[side]?D.H[side].lv:0;_hx(side,n);if(side>0&&D.mode==='rpg'&&D.H[1].tr&&D.H[1].lv>l0){D.pick=null;if(!(D.banner&&D.banner.t>1.5&&!D.banner.small))D.banner={t:2.2,txt:'⭐ 스킬 포인트 +'+(D.H[1].lv-l0)+' · 위의 🌳 스킬을 눌러요',small:1}}}}
+function capCid(o){if(o.side>=0||o.hp<=0||o.hero||o.tw||o.boss)return null;if(o.wild!=null)return o.k;if(o.elite&&MCIDS.indexOf(o.k+'*')>=0)return o.k+'*';return null}
+function capChance(c){return Math.min(.9,mcChance(c)*2.2+.12)}
+function capTarget(){const D=DU,h=D.H[1].u;if(!h||D.throw)return null;let b=null,bd=240;for(const o of D.units){const c=capCid(o);if(!c||o.tried||o.hp>o.hpMax*.3||o.spawnT>0)continue;const d=Math.hypot(o.x-h.x,o.y-h.y);if(d<bd){bd=d;b=o}}return b}
+function throwCard(o){const D=DU,c=capCid(o);if(!c||D.throw)return;o.tried=1;D.throw={o,cid:c,t:.55,T:.55,ok:Math.random()<capChance(c)};SFX.skill()}
 function wildSpawn(j){const D=DU,W0=D.wild[j],c=CAMPS[W0.ci],lm=Math.pow(1.13,(D.rl0||1)-1);duelSpawn(-1,W0.k,{x:W0.x+26,y:W0.y,r:1});const u=D.units[D.units.length-1];u.y=W0.y;u.camp={x:W0.x,y:W0.y,i:-1};u.wild=j;u.elite=1;u.rec=Math.round(2+W0.ci*1.5);u.hp=u.hpMax=u.hpMax*c.m*2.1*lm;u.dmg*=c.m*1.25*lm;u.rad*=1.4;W0.t=0}
 function wildSetup(){const D=DU;D.wild=[];const ci=CAMPS.map((c,i)=>i).filter(i=>!CAMPS[i].boss&&i>0),n=Math.min(6,ci.length);for(let j=0;j<n;j++){const i=ci[Math.floor(j*ci.length/n)],c=CAMPS[i],nx=CAMPS[i+1]||c,x=DW()*(c.fx+nx.fx)/2,y=FY0+WH()*((c.row+nx.row)/2+(j%2?.13:-.13));D.wild.push({k:'wb'+j,ci:i,x,y:Math.max(FY0+WH()*.12,Math.min(FY0+WH()*.9,y)),t:0});wildSpawn(j)}}
 function w2s(x,y){const D=DU,Z=VZ();return [(x-(D.cam||0))*Z,FY0+(y-FY0-(D.camY||0))*Z]}
@@ -1570,6 +1574,7 @@ function spiritCall(u){const D=DU,n=2+(TR('t_slot')?1:0),pm=1+.15*TR('t_pal');u.
    const cr=TR('t_crit');if(cr&&Math.random()<.08*cr){dm*=2;D.fx.push({x:o.x,y:o.y-58,vx:0,vy:-40,life:.6,txt:'치명!',big:1,col:'#ff8a3a'})}}
   else if(o===D.H[1].u){const dg=TR('t_dodge');if(dg&&Math.random()<.08*dg){D.fx.push({x:o.x,y:o.y-58,vx:0,vy:-40,life:.6,txt:'피했다!',col:'#d9c8ff'});return}dm*=1-.07*TR('t_shell')}}_dh(o,dm,side,at)}}
 {const _ud=updDuel;updDuel=function(dt){const D=DU;if(D&&(D.treeOpen||D.cardOpen))return;if(!D||D.done||D.modeSel||!D.mode)return _ud(dt);
+ if(D.throw){const T=D.throw;T.t-=dt;if(T.t<=0){D.throw=null;const o=T.o;if(o.hp>0&&D.units.includes(o)){if(T.ok){o.caught=1;o.hp=0;mcGive(T.cid,o.x,o.y);D.flash=.3}else{o.hp=Math.min(o.hpMax,o.hp+o.hpMax*.15);SV.cpity=SV.cpity||{};SV.cpity[T.cid]=(SV.cpity[T.cid]||0)+.08;save();D.fx.push({x:o.x,y:o.y-70,vx:0,vy:-30,life:1.3,txt:'앗, 빠져나왔어요!',big:1,col:'#ffd0c0'});D.banner={t:1.6,txt:'💨 카드에서 빠져나왔어요 · 다음엔 확률이 올라요',small:1}}}}}
  const pre=D.units.filter(u=>u.side<0&&u.hp>0&&!u.dead),fz=D.units.filter(u=>u.frz>0&&u.hp>0);for(const u of fz){u._fx=u.x;u._fy=u.y}const hd0=D.H[1].dead>0;
  _ud(dt);if(DU!==D)return;
  for(const u of fz){u.x=u._fx;u.y=u._fy;u.frz-=dt;u.cd=Math.max(u.cd,.15)}
@@ -1655,9 +1660,11 @@ function drawCards(){const D=DU,own=MCIDS.filter(c=>mcN(c)>0).length,M=modalBase
  if(!D.done&&!D.pick&&D.mode==='rpg'&&!D.treeOpen&&!D.cardOpen&&!D.shop){const pts=D.H[1].tr?trPts():0;
   [['🌳 스킬',264,pts,()=>{DU.treeOpen=1;DU.cardOpen=0;SFX.get()}],['🃏 카드',346,D.cardNew?'N':0,()=>{DU.cardOpen=1;DU.treeOpen=0;DU.cardNew=0;SFX.get()}]].forEach(q=>{const x=q[1],y=46,w=74,h=26;card(x,y,w,h,13,.9);ctx.fillStyle='#5a3d22';ctx.font='900 12px system-ui';ctx.textAlign='left';ctx.fillText(q[0],x+10,y+18);if(q[2]){ctx.save();ctx.globalAlpha=.75+.25*Math.sin(D.t*5);ctx.fillStyle='#e8432e';ctx.beginPath();ctx.arc(x+w-5,y+4,8,0,7);ctx.fill();ctx.restore();ctx.fillStyle='#fff';ctx.font='900 10px system-ui';ctx.textAlign='center';ctx.fillText(q[2],x+w-5,y+7.5);ctx.textAlign='left'}btns.push({x,y:y-2,w,h:h+6,cb:q[3]})})}
  if(D.mode==='rpg'&&!D.done&&!D.treeOpen&&!D.cardOpen)for(const o of D.units)if(o.wild!=null&&o.hp>0&&!(o.spawnT>0)){const q=w2s(o.x,o.y-ENEMY[o.k].h*.61*1.28-16),weak=D.H[1].lv<(o.rec||1),t='👑 '+ENEMY[o.k].n+' · 카드 '+Math.round(mcChance(o.k)*100)+'%'+(weak?' · Lv.'+o.rec+' 권장':'');if(q[0]>-60&&q[0]<W+60&&q[1]>FT&&q[1]<FB()){ctx.save();ctx.font='900 11px system-ui';ctx.textAlign='center';const tw=ctx.measureText(t).width+14;ctx.fillStyle=weak?'rgba(120,30,20,.82)':'rgba(50,32,10,.78)';roundRect(q[0]-tw/2,q[1]-13,tw,18,9);ctx.fill();ctx.fillStyle=weak?'#ffd0c0':'#ffe07a';ctx.fillText(t,q[0],q[1]);ctx.restore();ctx.textAlign='left'}}
+ if(D.mode==='rpg'&&!D.done&&!D.treeOpen&&!D.cardOpen&&!D.pick){const o=capTarget();if(o){if(!SV.hintThrow){SV.hintThrow=1;save();D.banner={t:3,txt:'🃏 약해진 강한 몬스터에게 카드를 던져 잡아 보세요!'}}const c=capCid(o),pc=Math.round(capChance(c)*100),bw=236,bh=46,bx=W/2-bw/2,by=FB()-62,pu=1+.03*Math.sin(D.t*6);ctx.save();ctx.translate(W/2,by+bh/2);ctx.scale(pu,pu);ctx.translate(-W/2,-by-bh/2);ctx.fillStyle='rgba(40,25,10,.4)';roundRect(bx+2,by+4,bw,bh,23);ctx.fill();const g=ctx.createLinearGradient(0,by,0,by+bh);g.addColorStop(0,'#ffe9a0');g.addColorStop(1,'#f0a830');ctx.fillStyle=g;roundRect(bx,by,bw,bh,23);ctx.fill();ctx.strokeStyle='#6b4210';ctx.lineWidth=2.5;roundRect(bx,by,bw,bh,23);ctx.stroke();ctx.fillStyle='#3a2208';ctx.font='900 16px system-ui';ctx.textAlign='center';ctx.fillText('🃏 카드 던지기 · '+pc+'%',W/2,by+29);ctx.restore();ctx.textAlign='left';btns.push({x:bx-6,y:by-6,w:bw+12,h:bh+12,cb:()=>throwCard(o)});const q=w2s(o.x,o.y-20);ctx.save();ctx.globalAlpha=.55+.35*Math.sin(D.t*7);ctx.strokeStyle='#ffe07a';ctx.lineWidth=3;ctx.setLineDash([7,6]);ctx.beginPath();ctx.ellipse(q[0],q[1],34*VZ(),20*VZ(),0,0,7);ctx.stroke();ctx.restore()}
+  if(D.throw){const T=D.throw,h=D.H[1].u,k=1-T.t/T.T;if(h){const a=w2s(h.x,h.y-40),b=w2s(T.o.x,T.o.y-30),x=a[0]+(b[0]-a[0])*k,y=a[1]+(b[1]-a[1])*k-Math.sin(k*3.14)*60;ctx.save();ctx.translate(x,y);ctx.rotate(k*9);ctx.fillStyle='#fff6d8';roundRect(-11,-15,22,30,4);ctx.fill();ctx.strokeStyle='#b8760a';ctx.lineWidth=2.5;roundRect(-11,-15,22,30,4);ctx.stroke();ctx.fillStyle='#e89a20';ctx.beginPath();ctx.arc(0,0,5,0,7);ctx.fill();ctx.restore()}}}
  if(D.capShow&&!D.treeOpen&&!D.cardOpen){const S=D.capShow,a=Math.min(1,(2.6-S.t)*4),o=Math.min(1,S.t*3),h=150*(.8+.2*a),w=h*.72,x=W/2-w/2,y=84-12*a;if(D.banner&&D.banner.small)D.banner.t=0;ctx.save();ctx.globalAlpha=Math.min(a,o);const R=RAR[mcRar(S.c)];const gg=ctx.createRadialGradient(W/2,y+h/2,10,W/2,y+h/2,h);gg.addColorStop(0,R[1]);gg.addColorStop(1,'rgba(255,255,255,0)');ctx.globalAlpha=Math.min(a,o)*.45;ctx.fillStyle=gg;ctx.fillRect(W/2-h,y-h/2,h*2,h*2);ctx.globalAlpha=Math.min(a,o);drawMCard(S.c,x,y,w,h,{show:1});ctx.font='900 15px system-ui';ctx.textAlign='center';ctx.lineWidth=4;ctx.strokeStyle='rgba(40,25,10,.9)';const t=S.first?'새 카드! '+R[0]+(S.eq?' · 동료가 됐어요':''):S.up?'★ 강화! 더 강해졌어요':'카드 +1';ctx.strokeText(t,W/2,y+h+22);ctx.fillStyle='#ffe07a';ctx.fillText(t,W/2,y+h+22);ctx.restore();ctx.textAlign='left'}
  if(D.treeOpen)drawTree();else if(D.cardOpen)drawCards()}}
-window.__G6={TR,trLearn,trPts,trReset,trPick,TRJ,palSet,mcGive,mcKill,mcChance,palRefresh,TRN,MCIDS};
+window.__G6={throwCard,capTarget,capChance,TR,trLearn,trPts,trReset,trPick,TRJ,palSet,mcGive,mcKill,mcChance,palRefresh,TRN,MCIDS};
 
 window.__G={tick:(n,ms)=>{ms=ms||1000/60;for(let i=0;i<n;i++){frame(last+ms)}},spawnE:spawn,startDuel,duelPlay:(k)=>duelPlay(k),duelPick:(i)=>duelPick(i),duelEco:()=>duelEco(),duelLane:(r)=>duelLane(r),duelMode:(m)=>duelMode(m),duelSummon:()=>duelSummon(),heroBuy:(k)=>heroBuy(1,k),rpg:(v)=>{SV.rpg=v},get W(){return W},get H(){return H},geo:()=>({FT,FB:FB(),FY0,WH:WH(),hx:homeX(),hy:homeY(),DZ:VZ(),camY:DU?DU.camY:0,FIW:FIW(),DW:DW(),LY:LANEY()}),cast:(k)=>{DU.castQ=k},duelSlot:(c,r)=>duelSlotTap(c,r),get DU(){return DU},get ST(){return ST},get scene(){return scene},SV,K,P,set scene(v){scene=v},newRun};
 </script>
