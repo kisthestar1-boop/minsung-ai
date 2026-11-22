@@ -3,7 +3,7 @@ import { Signals, Loop, Scenes } from './core.js';
 import { Assets } from './assets.js';
 import { Input } from './input.js';
 import { Renderer, Camera } from './render.js';
-export const VERSION = '1.0.0-숲3';
+export const VERSION = '1.0.0-숲3+여정';
 export class Game {
   constructor(canvas, opt = {}) {
     this.signals = new Signals(); this.assets = new Assets(opt.assetBase || '', opt.assetVer || '');

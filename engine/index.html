@@ -91,7 +91,7 @@ button,input,select{font:inherit;color:inherit}
 <body>
 <div class="app">
  <div class="top">
-  <h1>⚙ 새싹 엔진<small>새싹 원정대 편집기 v0.2</small></h1>
+  <h1>⚙ 새싹 엔진<small>새싹 원정대 편집기 v0.3</small></h1>
   <div class="tabs" id="tabs"></div>
   <span class="sp"></span>
   <span class="saved" id="saved">자동 저장됨</span>
@@ -107,7 +107,7 @@ button,input,select{font:inherit;color:inherit}
 </div>
 <div class="ov" id="ovPlay"><div class="ovb"><div class="ovt"><b>▶ 실행 중 — 지금 편집한 내용으로</b><span class="sp"></span><button class="ghost" id="bNew">새 창으로</button><button class="play" id="bStop">■ 멈추기</button></div><iframe id="fr" allow="autoplay"></iframe></div></div>
 <div class="ov" id="ovExp"><div class="ovb"><div class="ovt"><b>내보내기 — 이 글을 Claude에게 보내면 모든 사람의 게임에 반영해요</b><span class="sp"></span><button class="ghost" id="bCopy">복사</button><button class="play" id="bExpX">닫기</button></div><textarea id="ta" readonly></textarea></div></div>
-<script src="../sprout/data.js?v=70"></script>
+<script src="../sprout/data.js?v=75"></script>
 <script>
 "use strict";
 const IMGP='../sprout/img/',KEY='sprout_edit';
@@ -117,7 +117,10 @@ const HKS=['c_sum','c_war','c_arc','c_mag','c_rog'],HF=['n','role','hp','dmg','r
 let S={v:1,map:clone({home:RPGMAP.home,npc:RPGMAP.npc,camps:RPGMAP.camps,wild:RPGMAP.wild}),heroes:{},wb:clone(WB.map(w=>w.slice(0,7)))};
 S.trn={};Object.keys(TRN).forEach(k=>{S.trn[k]={n:TRN[k].n,mx:TRN[k].mx,v:TRN[k].v,t:TRN[k].t}});S.hus={};HKS.forEach(k=>{S.hus[k]=HUS[k].slice()});S.trj={};Object.keys(TRJ).forEach(j=>{S.trj[j]={t:clone(TRJ[j].t)}});
 HKS.forEach(k=>{S.heroes[k]={};HF.forEach(f=>{if(HEROES[k][f]!=null)S.heroes[k][f]=HEROES[k][f]})});
-let tab='map',sel={t:'camp',i:0},saveT=0;
+let tab='map',sel={t:'camp',i:0},saveT=0,mapId='world';
+/* 맵 여러 개: 첫 맵은 S.map, 나머지는 S.maps[id] */
+S.maps={};MAPS.slice(1).forEach(m=>{S.maps[m.id]=clone({home:m.home,npc:m.npc,camps:m.camps,wild:m.wild})});
+const MP=()=>mapId==='world'?S.map:S.maps[mapId],MINFO=()=>MAPS.find(m=>m.id===mapId)||MAPS[0];
 const $=s=>document.querySelector(s),el=(h)=>{const d=document.createElement('div');d.innerHTML=h;return d.firstElementChild};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function save(){clearTimeout(saveT);$('#saved').textContent='저장 중…';saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(S));$('#saved').textContent='자동 저장됨 ✓'}catch(e){$('#saved').textContent='저장 실패 (이 브라우저는 저장이 막혀 있어요)'}},250)}
@@ -132,26 +135,26 @@ $('#tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;tab=b.dat
 /* ---------- 목록 ---------- */
 function drawList(){const L=$('#list');$('#bAdd').hidden=tab!=='map';
  if(tab==='map'){$('#lh').textContent='맵 물체';const on=(t,i)=>sel.t===t&&sel.i===i?'on':'';
-  L.innerHTML=`<div class="grp">시작</div><div class="row ${on('home')}" data-t="home"><span class="ic">🏠</span><b>시작점 (마을)</b></div><div class="row ${on('npc')}" data-t="npc"><span class="ic">💬</span><b>마을 사람</b></div><div class="grp">야영지 · 퀘스트 순서</div>`+
-  S.map.camps.map((c,i)=>`<div class="row ${on('camp',i)}" data-t="camp" data-i="${i}"><span class="ic">${c.boss?'❄':i+1}</span><b>${esc(c.n)}</b><small>${c.boss?'보스':'×'+c.m}</small></div>`).join('')+
-  `<div class="grp">강한 야생 몬스터</div>`+S.map.wild.map((w,i)=>`<div class="row ${on('wild',i)}" data-t="wild" data-i="${i}"><span class="ic"><img src="${monImg(w.k)}" alt=""></span><b>${esc(monName(w.k))}</b></div>`).join('')}
+  L.innerHTML=`<div class="grp">맵 고르기</div><div style="display:flex;gap:6px;flex-wrap:wrap;padding:4px 8px 8px">${MAPS.map(m=>`<button class="${m.id===mapId?'play':'ghost'}" data-map="${m.id}" style="padding:5px 10px;font-size:12px">${esc(m.n)}</button>`).join('')}</div><div class="grp">시작</div><div class="row ${on('home')}" data-t="home"><span class="ic">🏠</span><b>시작점 (마을)</b></div><div class="row ${on('npc')}" data-t="npc"><span class="ic">💬</span><b>마을 사람</b></div><div class="grp">야영지 · 퀘스트 순서</div>`+
+  MP().camps.map((c,i)=>`<div class="row ${on('camp',i)}" data-t="camp" data-i="${i}"><span class="ic">${c.boss?'❄':i+1}</span><b>${esc(c.n)}</b><small>${c.boss?'보스':'×'+c.m}</small></div>`).join('')+
+  `<div class="grp">강한 야생 몬스터</div>`+MP().wild.map((w,i)=>`<div class="row ${on('wild',i)}" data-t="wild" data-i="${i}"><span class="ic"><img src="${monImg(w.k)}" alt=""></span><b>${esc(monName(w.k))}</b></div>`).join('')}
  else if(tab==='hero'){$('#lh').textContent='캐릭터';L.innerHTML=HKS.map(k=>`<div class="row ${sel.k===k?'on':''}" data-t="hero" data-k="${k}"><span class="ic"><img src="${IMGP+k}_h0.webp" alt=""></span><b>${esc(S.heroes[k].n)}</b><small>체력 ${S.heroes[k].hp}</small></div>`).join('')}
  else if(tab==='skill'){$('#lh').textContent='기술';L.innerHTML=SK.map(k=>`<div class="row ${sel.k===k?'on':''}" data-t="sk" data-k="${k}"><span class="ic" style="background:none">${ico(k,26)}</span><b>${esc(S.trn[k].n)}</b><small>${S.trn[k].mx}단계</small></div>`).join('')}
  else if(tab==='tree'){$('#lh').textContent='직업';L.innerHTML=JK.map(j=>`<div class="row ${sel.k===j?'on':''}" data-t="tr" data-k="${j}" data-i="0"><span class="ic">${TRJ[j].i}</span><b>${TRJ[j].n}</b><small>기술 ${S.trj[j].t.length}개</small></div>`).join('')}
  else{$('#lh').textContent='강한 몬스터';L.innerHTML=S.wb.map((w,i)=>`<div class="row ${sel.i===i?'on':''}" data-t="wb" data-i="${i}"><span class="ic"><img src="${IMGP}wb_${i}.webp" alt=""></span><b>${esc(w[0])}</b><small>체력 ${w[1]}</small></div>`).join('')}}
 $('#list').onclick=e=>{const r=e.target.closest('.row');if(!r)return;sel={t:r.dataset.t,i:r.dataset.i!=null?+r.dataset.i:undefined,k:r.dataset.k};draw()};
-$('#bAdd').onclick=()=>{const cs=S.map.camps,bi=cs.findIndex(c=>c.boss),at=bi<0?cs.length:bi;cs.splice(at,0,{n:'새 야영지',fx:.5,row:.5,ks:['e0','e0'],m:1});S.map.wild.forEach(w=>{if(w.ci>=at)w.ci++});sel={t:'camp',i:at};save();draw()};
+$('#bAdd').onclick=()=>{const cs=MP().camps,bi=cs.findIndex(c=>c.boss),at=bi<0?cs.length:bi;cs.splice(at,0,{n:'새 야영지',fx:.5,row:.5,ks:['e0','e0'],m:1});MP().wild.forEach(w=>{if(w.ci>=at)w.ci++});sel={t:'camp',i:at};save();draw()};
 /* ---------- 장면 ---------- */
-function posOf(s){if(s.t==='home')return S.map.home;if(s.t==='npc')return S.map.npc;if(s.t==='camp'){const c=S.map.camps[s.i];return [c.fx,c.row]}const w=S.map.wild[s.i];return [w.fx,w.row]}
-function setPos(s,x,y){x=Math.round(Math.max(.02,Math.min(.98,x))*1000)/1000;y=Math.round(Math.max(.04,Math.min(.97,y))*1000)/1000;if(s.t==='home')S.map.home=[x,y];else if(s.t==='npc')S.map.npc=[x,y];else if(s.t==='camp'){S.map.camps[s.i].fx=x;S.map.camps[s.i].row=y}else{S.map.wild[s.i].fx=x;S.map.wild[s.i].row=y}}
+function posOf(s){if(s.t==='home')return MP().home;if(s.t==='npc')return MP().npc;if(s.t==='camp'){const c=MP().camps[s.i];return [c.fx,c.row]}const w=MP().wild[s.i];return [w.fx,w.row]}
+function setPos(s,x,y){x=Math.round(Math.max(.02,Math.min(.98,x))*1000)/1000;y=Math.round(Math.max(.04,Math.min(.97,y))*1000)/1000;if(s.t==='home')MP().home=[x,y];else if(s.t==='npc')MP().npc=[x,y];else if(s.t==='camp'){MP().camps[s.i].fx=x;MP().camps[s.i].row=y}else{MP().wild[s.i].fx=x;MP().wild[s.i].row=y}}
 function drawScene(){const sc=$('#scene');
  if(tab==='map'){const R=2752/1536,bw=sc.clientWidth-16,bh=sc.clientHeight-16,w=Math.max(200,Math.min(bw,bh*R)),h=w/R;
   const mk=(t,i,cls,inner,nm)=>{const p=posOf({t,i}),on=sel.t===t&&sel.i===i;return `<div class="mk ${cls} ${on?'on':''}" data-t="${t}" ${i!=null?`data-i="${i}"`:''} style="left:${p[0]*100}%;top:${p[1]*100}%"><span class="pin">${inner}</span><span class="tip"></span>${on||w>620?`<span class="nm">${esc(nm)}</span>`:''}</div>`};
-  const pts=[S.map.home].concat(S.map.camps.map(c=>[c.fx,c.row]));
-  sc.innerHTML=`<div class="stage" id="stage" style="width:${w}px;height:${h}px"><img class="map" src="${IMGP}bg_world.jpg" alt="모험 지도"><svg class="line" viewBox="0 0 1000 1000" preserveAspectRatio="none"><polyline points="${pts.map(p=>p[0]*1000+','+p[1]*1000).join(' ')}" fill="none" stroke="#ffd66b" stroke-width="3" stroke-dasharray="10 8" opacity=".75" vector-effect="non-scaling-stroke"/></svg>`+
+  const pts=[MP().home].concat(MP().camps.map(c=>[c.fx,c.row]));
+  sc.innerHTML=`<div class="stage" id="stage" style="width:${w}px;height:${h}px"><img class="map" src="${IMGP}${MINFO().bg}.jpg" alt="모험 지도"><svg class="line" viewBox="0 0 1000 1000" preserveAspectRatio="none"><polyline points="${pts.map(p=>p[0]*1000+','+p[1]*1000).join(' ')}" fill="none" stroke="#ffd66b" stroke-width="3" stroke-dasharray="10 8" opacity=".75" vector-effect="non-scaling-stroke"/></svg>`+
    mk('home',undefined,'home','🏠','시작점')+mk('npc',undefined,'home','💬','마을 사람')+
-   S.map.camps.map((c,i)=>mk('camp',i,c.boss?'boss':'',c.boss?'❄':i+1,c.n)).join('')+
-   S.map.wild.map((w0,i)=>mk('wild',i,'wild',`<img src="${monImg(w0.k)}" alt="">`,monName(w0.k))).join('')+`</div><div class="hint">끌어서 옮겨요 · 노란 점선은 퀘스트 순서</div>`;
+   MP().camps.map((c,i)=>mk('camp',i,c.boss?'boss':'',c.boss?'❄':i+1,c.n)).join('')+
+   MP().wild.map((w0,i)=>mk('wild',i,'wild',`<img src="${monImg(w0.k)}" alt="">`,monName(w0.k))).join('')+`</div><div class="hint">끌어서 옮겨요 · 노란 점선은 퀘스트 순서</div>`;
   bindDrag()}
  else if(tab==='hero'){const k=sel.k||HKS[0],h=S.heroes[k],bar=(n,v,mx)=>`<div class="bar"><span>${n}</span><i><em style="width:${Math.min(100,v/mx*100)}%"></em></i><span>${v}</span></div>`;
   sc.innerHTML=`<div class="hero"><div class="card"><img src="${IMGP+k}_h0.webp" alt=""><h3>${esc(h.n)}</h3><p>${esc(h.role)}</p><div class="bars">${bar('체력',h.hp,800)}${bar('공격',h.dmg,40)}${bar('사거리',h.range,260)}${bar('속도',h.spd,110)}${bar('공격 빠르기',Math.round(100/h.rate)/100,3)}</div><p>고유 기술: ${HUS[k]?HUS[k][0]+' '+HUS[k][1]:'-'}</p></div></div>`}
@@ -176,13 +179,13 @@ const rng=(id,v,mn,mx,st)=>`<input type="range" data-f="${id}" min="${mn}" max="
 function drawInsp(){const I=$('#insp');
  if(tab==='map'){
   if(sel.t==='home'||sel.t==='npc'){const p=posOf(sel);I.innerHTML=`<h2>${sel.t==='home'?'🏠 시작점 (마을)':'💬 마을 사람'}</h2><p class="note">${sel.t==='home'?'영웅이 처음 서 있는 곳이에요. 여기 가까이 있으면 체력이 회복돼요.':'퀘스트를 알려 주는 마을 사람이에요.'}</p>${fld('위치','<p class="note">가로 '+Math.round(p[0]*100)+'% · 세로 '+Math.round(p[1]*100)+'% — 지도에서 끌어서 옮겨요</p>')}`}
-  else if(sel.t==='camp'){const c=S.map.camps[sel.i],opt=(v)=>Object.keys(MONINFO).map(k=>`<option value="${k}" ${k===v?'selected':''}>${MONINFO[k][0]}</option>`).join('');
+  else if(sel.t==='camp'){const c=MP().camps[sel.i],opt=(v)=>Object.keys(MONINFO).map(k=>`<option value="${k}" ${k===v?'selected':''}>${MONINFO[k][0]}</option>`).join('');
    I.innerHTML=`<h2>${c.boss?'❄':'⛺'} 야영지 ${sel.i+1}</h2>${fld('이름',`<input type="text" data-f="n" value="${esc(c.n)}">`)}`+(c.boss?`<p class="note">마지막 보스(서리)가 있는 곳이에요. 위치만 옮길 수 있어요.</p>`:
     fld('몬스터 구성',`<div class="chips">${c.ks.map((k,j)=>`<span class="chip"><img src="${monImg(k)}" alt=""><select data-ks="${j}">${opt(k)}</select><button data-rm="${j}" title="빼기">✕</button></span>`).join('')}${c.ks.length<6?'<button class="add" data-addm="1">＋ 몬스터</button>':''}</div>`)+
     fld('정예 몬스터 (👑 금빛 카드)',`<select data-f="el"><option value="">없음</option>${Object.keys(MONINFO).map(k=>`<option value="${k}" ${c.el===k?'selected':''}>${MONINFO[k][0]}</option>`).join('')}</select>`)+
     fld('세기',rng('m',c.m,.5,4,.05),'×'+c.m)+`<p class="note">세기는 몬스터 체력·공격에 곱해져요. 첫 야영지는 0.7, 마지막 쪽은 2.9예요.</p>`)+
    `<div class="btnrow"><button data-mv="-1">▲ 순서 앞으로</button><button data-mv="1">▼ 순서 뒤로</button>${c.boss?'':'<button class="del" data-del="1">보관(빼기)</button>'}</div>`}
-  else{const w=S.map.wild[sel.i];I.innerHTML=`<h2>👑 강한 야생 몬스터</h2>${fld('종류',`<select data-f="k">${S.wb.map((x,i)=>`<option value="wb${i}" ${w.k==='wb'+i?'selected':''}>${esc(x[0])}</option>`).join('')}</select>`)}${fld('세기 기준 야영지',`<select data-f="ci">${S.map.camps.map((c,i)=>`<option value="${i}" ${w.ci===i?'selected':''}>${i+1}. ${esc(c.n)}</option>`).join('')}</select>`)}<p class="note">기준 야영지의 세기를 따라가요. 뒤쪽 야영지일수록 강하고 권장 레벨이 올라가요.</p>`}}
+  else{const w=MP().wild[sel.i];I.innerHTML=`<h2>👑 강한 야생 몬스터</h2>${fld('종류',`<select data-f="k">${S.wb.map((x,i)=>`<option value="wb${i}" ${w.k==='wb'+i?'selected':''}>${esc(x[0])}</option>`).join('')}</select>`)}${fld('세기 기준 야영지',`<select data-f="ci">${MP().camps.map((c,i)=>`<option value="${i}" ${w.ci===i?'selected':''}>${i+1}. ${esc(c.n)}</option>`).join('')}</select>`)}<p class="note">기준 야영지의 세기를 따라가요. 뒤쪽 야영지일수록 강하고 권장 레벨이 올라가요.</p>`}}
  else if(tab==='hero'){const k=sel.k||HKS[0],h=S.heroes[k];
   I.innerHTML=`<h2>🧙 ${esc(h.n)}</h2>${fld('이름',`<input type="text" data-f="n" value="${esc(h.n)}">`)}${fld('설명',`<input type="text" data-f="role" value="${esc(h.role)}">`)}${fld('체력',rng('hp',h.hp,150,900,10),h.hp)}${fld('공격력',rng('dmg',h.dmg,8,45,1),h.dmg)}${fld('사거리',rng('range',h.range,30,260,5),h.range)}${fld('이동 속도',rng('spd',h.spd,40,110,1),h.spd)}${fld('공격 간격 (작을수록 빠름)',rng('rate',h.rate,.3,1.6,.02),h.rate+'초')}${h.heal!=null?fld('치유량',rng('heal',h.heal,0,50,1),h.heal):''}${fld('고유 기술 이름',`<input type="text" data-hu="1" value="${esc(S.hus[k][1])}">`)}${fld('고유 기술 다시 쓰기',`<input type="range" data-hu="2" min="2" max="20" step="1" value="${S.hus[k][2]}">`,S.hus[k][2]+'초')}<p class="note">사거리 100 이상은 멀리서 쏘는 캐릭터예요. 숫자를 바꾸고 ▶ 실행으로 바로 해 보세요.</p>`}
  else if(tab==='skill'){const k=sel.k||SK[0],n=S.trn[k],big=n.v>=5,one=(k==='t_revive'||k==='t_echo'||k==='t_slot'||k==='water'||k==='rain');
@@ -191,8 +194,8 @@ function drawInsp(){const I=$('#insp');
   I.innerHTML=`<h2>${TRJ[j].i} ${TRJ[j].n} 트리</h2>${fld('기술',`<select data-tq="0">${SK.map(k=>`<option value="${k}" ${k===q[0]?'selected':''} ${k!==q[0]&&T.some(x=>x[0]===k)?'disabled':''}>${esc(S.trn[k].n)}</option>`).join('')}</select>`)}${fld('줄 (위에서부터)',`<input type="range" data-tq="1" min="0" max="5" step="1" value="${q[1]}">`,q[1]+1)}${fld('칸',`<select data-tq="2">${[[-1,'왼쪽'],[-.5,'왼쪽과 가운데 사이'],[0,'가운데'],[.5,'가운데와 오른쪽 사이'],[1,'오른쪽']].map(o=>`<option value="${o[0]}" ${q[2]===o[0]?'selected':''}>${o[1]}</option>`).join('')}</select>`)}${fld('먼저 배울 기술 (하나만 배우면 열려요)',`<div class="chips">${others.map(x=>`<label class="chip" style="cursor:pointer"><input type="checkbox" data-req="${x[0]}" ${(q[3]||[]).includes(x[0])?'checked':''}>${ico(x[0],22)} ${esc(S.trn[x[0]].n)}</label>`).join('')}</div>`)}${fld('둘 중 하나만 (갈림길)',`<select data-tq="4"><option value="">없음</option>${others.map(x=>`<option value="${x[0]}" ${q[4]===x[0]?'selected':''}>${esc(S.trn[x[0]].n)}</option>`).join('')}</select>`)}<div class="btnrow"><button data-tadd="1">＋ 기술 추가</button><button class="del" data-tdel="1">이 기술 빼기</button></div><p class="note">갈림길은 두 기술이 서로를 가리켜요. 한쪽을 정하면 다른 쪽도 같이 맞춰져요.</p>`}
  else{const w=S.wb[sel.i||0];I.innerHTML=`<h2>👑 ${esc(w[0])}</h2>${fld('이름',`<input type="text" data-w="0" value="${esc(w[0])}">`)}${fld('체력',`<input type="range" data-w="1" min="100" max="700" step="10" value="${w[1]}">`,w[1])}${fld('공격력',`<input type="range" data-w="2" min="8" max="45" step="1" value="${w[2]}">`,w[2])}${fld('사거리',`<input type="range" data-w="3" min="30" max="260" step="5" value="${w[3]}">`,w[3])}${fld('이동 속도',`<input type="range" data-w="4" min="25" max="110" step="1" value="${w[4]}">`,w[4])}<p class="note">잡으면 동료가 되는 전설 몬스터예요. 동료가 됐을 때의 힘도 이 숫자를 따라가요.</p>`}}
 $('#insp').addEventListener('input',e=>{const t=e.target;
- if(tab==='map'&&sel.t==='camp'){const c=S.map.camps[sel.i];if(t.dataset.f==='n')c.n=t.value;if(t.dataset.f==='m')c.m=+t.value;if(t.dataset.f==='el'){if(t.value)c.el=t.value;else delete c.el}if(t.dataset.ks!=null)c.ks[+t.dataset.ks]=t.value}
- else if(tab==='map'&&sel.t==='wild'){const w=S.map.wild[sel.i];if(t.dataset.f==='k')w.k=t.value;if(t.dataset.f==='ci')w.ci=+t.value}
+ if(tab==='map'&&sel.t==='camp'){const c=MP().camps[sel.i];if(t.dataset.f==='n')c.n=t.value;if(t.dataset.f==='m')c.m=+t.value;if(t.dataset.f==='el'){if(t.value)c.el=t.value;else delete c.el}if(t.dataset.ks!=null)c.ks[+t.dataset.ks]=t.value}
+ else if(tab==='map'&&sel.t==='wild'){const w=MP().wild[sel.i];if(t.dataset.f==='k')w.k=t.value;if(t.dataset.f==='ci')w.ci=+t.value}
  else if(tab==='hero'){const hk=sel.k||HKS[0],h=S.heroes[hk],f=t.dataset.f;if(f)h[f]=t.type==='range'?+t.value:t.value;if(t.dataset.hu)S.hus[hk][+t.dataset.hu]=t.dataset.hu==='2'?+t.value:t.value}
  else if(tab==='skill'&&t.dataset.s){const n=S.trn[sel.k||SK[0]],f=t.dataset.s;n[f]=t.type==='range'?+t.value:t.value}
  else if(tab==='tree'){const T=S.trj[sel.k||'sum'].t,q=T[sel.i||0];if(!q)return;
@@ -203,13 +206,14 @@ $('#insp').addEventListener('input',e=>{const t=e.target;
  else if(tab==='mon'&&t.dataset.w!=null){const w=S.wb[sel.i||0],j=+t.dataset.w;w[j]=j?+t.value:t.value}
  save();if(t.type==='range'){const lb=t.closest('.f').querySelector('label b');if(lb)lb.textContent=(t.dataset.f==='m'?'×':'')+(t.dataset.tq==='1'?+t.value+1:t.value)+(t.dataset.f==='rate'||t.dataset.hu==='2'?'초':'')}drawList();if(t.type!=='text'||tab==='skill')drawScene();if(t.tagName==='SELECT'||t.type==='checkbox')drawInsp()});
 $('#insp').addEventListener('click',e=>{const t=e.target.closest('button');if(t&&tab==='tree'){const T=S.trj[sel.k||'sum'].t;if(t.dataset.tadd){const free=SK.find(k=>!T.some(x=>x[0]===k));if(!free)return;const r=Math.min(5,Math.max(...T.map(x=>x[1]))+1);T.push([free,r,0,[T[T.length-1][0]]]);sel.i=T.length-1}else if(t.dataset.tdel){if(T.length<=2)return;const k=T[sel.i][0];T.splice(sel.i,1);T.forEach(x=>{if(x[3])x[3]=x[3].filter(r=>r!==k);if(x[4]===k)x.length=Math.min(x.length,4)});sel.i=0}else return;save();draw();return}
- if(!t||tab!=='map'||sel.t!=='camp')return;const cs=S.map.camps,c=cs[sel.i];
+ if(!t||tab!=='map'||sel.t!=='camp')return;const cs=MP().camps,c=cs[sel.i];
  if(t.dataset.rm!=null){if(c.ks.length>1)c.ks.splice(+t.dataset.rm,1)}else if(t.dataset.addm){c.ks.push(c.ks[c.ks.length-1]||'e0')}
- else if(t.dataset.mv){const j=sel.i+(+t.dataset.mv);if(j<0||j>=cs.length)return;[cs[sel.i],cs[j]]=[cs[j],cs[sel.i]];S.map.wild.forEach(w=>{if(w.ci===sel.i)w.ci=j;else if(w.ci===j)w.ci=sel.i});sel.i=j}
- else if(t.dataset.del){if(cs.filter(x=>!x.boss).length<=1)return;S.arch=S.arch||[];S.arch.push(cs.splice(sel.i,1)[0]);S.map.wild.forEach(w=>{if(w.ci>=sel.i&&w.ci>0)w.ci--});sel.i=Math.max(0,sel.i-1)}
+ else if(t.dataset.mv){const j=sel.i+(+t.dataset.mv);if(j<0||j>=cs.length)return;[cs[sel.i],cs[j]]=[cs[j],cs[sel.i]];MP().wild.forEach(w=>{if(w.ci===sel.i)w.ci=j;else if(w.ci===j)w.ci=sel.i});sel.i=j}
+ else if(t.dataset.del){if(cs.filter(x=>!x.boss).length<=1)return;S.arch=S.arch||[];S.arch.push(cs.splice(sel.i,1)[0]);MP().wild.forEach(w=>{if(w.ci>=sel.i&&w.ci>0)w.ci--});sel.i=Math.max(0,sel.i-1)}
  else return;save();draw()});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-map]');if(!b)return;mapId=b.dataset.map;sel={t:'camp',i:0};draw()});
 /* ---------- 실행 · 내보내기 · 되돌리기 ---------- */
-function playUrl(){return '../sprout/?play=rpg&t='+Date.now()}
+function playUrl(){return mapId==='world'?'../sprout/?play=rpg&t='+Date.now():'play.html?map='+mapId+'&t='+Date.now()}
 $('#bPlay').onclick=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}$('#fr').src=playUrl();$('#ovPlay').classList.add('on')};
 $('#bStop').onclick=()=>{$('#fr').src='about:blank';$('#ovPlay').classList.remove('on')};
 $('#bNew').onclick=()=>{window.open(playUrl(),'_blank')};
