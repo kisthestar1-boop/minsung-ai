@@ -1,0 +1,9 @@
+const {chromium}=require('playwright');
+(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:920,height:400},isMobile:true,hasTouch:true,deviceScaleFactor:2});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.goto('http://localhost:8765/sprout/?'+Date.now());await p.evaluate(()=>localStorage.clear());await p.reload();await p.waitForTimeout(4500);
+let n=0;const shot=async(t)=>{await p.screenshot({path:'/tmp/sprout_test_g'+(n++)+'.jpg',type:'jpeg',quality:75});console.log(n-1,t,await p.evaluate(()=>JSON.stringify({scene:__G.scene,mode:__G.DU&&__G.DU.mode,modeSel:__G.DU&&__G.DU.modeSel,g:__G.SV.g,t:__G.DU&&Math.round(__G.DU.t),lv:__G.DU&&__G.DU.H[1].lv,kills:__G.DU&&__G.DU.kills,cards:Object.keys(__G.SV.mc||{}).length})))};
+await p.touchscreen.tap(460,200);await p.waitForTimeout(3500);await shot('after title tap (3.5s)');
+// 사람처럼: 실제 시간으로 2분 플레이 (자동 조작)
+const play=(sec)=>p.evaluate((sec)=>{let k=0;const n=sec*30;while(k++<n){const D=__G.DU,u=D.H[1].u;if(u&&!D.treeOpen){if(__G6.trPts()>0&&D.t>5){for(const q of __G6.TRJ[D.H[1].cls].t)if(__G6.trLearn(q[0]))break}const cap=__G6.capTarget();if(cap)__G6.throwCard(cap);const es=D.units.filter(o=>o.side<0&&o.hp>0&&!(o.wild!=null&&D.H[1].lv<(o.rec||1))&&!(o.elite&&D.H[1].lv<3));let t=null,bd=1e9;for(const o of es){const d=Math.hypot(o.x-u.x,(o.y-u.y)*1.6);if(d<bd){bd=d;t=o}}const R=u.d.range*.55;if(t&&bd>Math.max(40,R))D.stick={ox:1,oy:1,dx:(t.x-u.x)/bd,dy:(t.y-u.y)/bd};else{D.stick=null;if(t&&!(u.skT.smash>0))__G.cast('smash');else if(t)__G.cast(['water','rain','ult'][k%3])}}__G.tick(1,33)}},sec);
+await play(4);await shot('4s');await play(8);await shot('12s');await play(18);await shot('30s');await play(30);await shot('60s');await play(30);await shot('90s');await play(30);await shot('120s');
+console.log('ERR',errs.slice(0,4));await b.close()})();

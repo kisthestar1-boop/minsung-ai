@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>새싹 원정대 v6.7</title>
+<title>새싹 원정대 v6.8</title>
 <meta name="theme-color" content="#2f4a2c">
 <style>
 :root{--ink:#3a2f22;--cream:#fbf5e6}
@@ -45,6 +45,7 @@ canvas{display:block;background:#cfe3c0}
  <div id="tip"></div>
 </div>
 <script src="rig.js"></script>
+<script src="data.js?v=68"></script>
 <script>window.RIG_ON=!/rig=0/.test(location.search);
 "use strict";
 /* ============ 새싹 원정대 · 육성 시험판 v0.1 ============
@@ -67,7 +68,7 @@ addEventListener('resize',fit);fit();
 /* ---------- 이미지 ---------- */
 const IMG={};const NAMES=['sprout','hedgehog','fox','bunny','owl','frog','sheep','baker','sprite_e0','sprite_e1','sprite_e2','sprite_e3','boss','bg_forest','p_idle','p_run','p_swing','p_jump','p_cast','fx_leaf','fox_idle','fox_shoot','bunny_idle','bunny_heal','hedgehog_idle','hedgehog_atk','sheep_idle','sheep_atk','ground','plat','bg_village','bg_marsh','m_e0','m_e1','m_e2','m_e3','boss2','it_bread','it_clover','it_mush','it_star','it_twig','it_seed','it_chest','it_jar','owl_idle','owl_cast','frog_idle','frog_play','baker','rival','thief','castle_me','castle_foe','fg1','fg2','fg3','vfx_slash','vfx_heal','vfx_hit','vfx_lvup','vfx_star','vfx_leaf','fox_w1','fox_w2','fox_w3','fox_a','sheep_w1','sheep_w2','sheep_w3','sheep_a','bunny_w1','bunny_w2','bunny_w3','bunny_a','owl_w1','owl_w2','owl_w3','owl_a','dmg_n','dmg_c','board','chest','trophy','bg_duel','bg_wide','bg_desert','bg_blossom','bg_world','b_fox','b_sheep','b_bunny','b_hedgehog','b_owl','b_frog','b_ice','b_spire','tw_me','tw_foe','hb0','hb1','hb2','hb3','frost_h0','frost_h1','frost_h2','frost_h3','thief_h0','thief_h1','thief_h2','thief_h3','skill_icons','spirit','fxs','c_sum_h4','c_sum_h5','wb_0','wb_1','wb_2','wb_3','wb_4','wb_5','c_sum_h0','c_sum_h1','c_sum_h2','c_sum_h3','c_war_h0','c_war_h1','c_war_h2','c_war_h3','c_arc_h0','c_arc_h1','c_arc_h2','c_arc_h3','c_mag_h0','c_mag_h1','c_mag_h2','c_mag_h3','c_rog_h0','c_rog_h1','c_rog_h2','c_rog_h3','baker_h0','baker_h1','baker_h2','baker_h3','p_run2','p_k1','p_k2','p_k3','p_k4','p_k5','p_rc0','p_rc1','p_rc2','p_rc3','p_rc4','p_rc5','p_rc6','p_rc7','p_rt0','p_rt1','p_rt2','p_rt3','p_rt4','p_rt5','p_rt6','p_rt7','p_jc','p_jr','p_jf','p_jl','bg_canyon','castle_lava','castle_ghost','jg_dragon','jg_icedragon','bush','heal_fruit','lv_e0','lv_e1','lv_e2','lv_e3','lv_m0','lv_m1','lv_m2','lv_m3','gh_e0','gh_e1','gh_e2','gh_e3','gh_m0','gh_m1','gh_m2','gh_m3','hj_knight','hj_assassin','hj_lancer','hj_bear','hj_elf','hj_raccoon','hj_mage','hj_deer','hj_monk','hj_wolf','hj_turtle','hj_gunner','hj_alch','hj_penguin','hj_crow','hj_bard','tw_lv','b_lv1','b_lv2','sp_lv','tw_gh','b_gh1','b_gh2','sp_gh'];
 let loaded=0,loadedS=0;const NSM=[...new Set(NAMES.filter(n=>!n.startsWith('bg_')))],NBG=[...new Set(NAMES.filter(n=>n.startsWith('bg_')))];
-function ldImg(n){const i=IMG[n];if(i.getAttribute('src'))return;i.src='img/'+n+(n.startsWith('bg_')?'.jpg':'.webp')+'?v=67'}
+function ldImg(n){const i=IMG[n];if(i.getAttribute('src'))return;i.src='img/'+n+(n.startsWith('bg_')?'.jpg':'.webp')+'?v=68'}
 [...NSM,...NBG].forEach(n=>{const i=new Image(),sm=!n.startsWith('bg_');i.onload=i.onerror=()=>{loaded++;if(sm){loadedS++;if(loadedS>=NSM.length)NBG0().forEach(ldImg)}};IMG[n]=i;});
 const MAPBG=['bg_wide','bg_desert','bg_blossom','bg_world','bg_canyon'],NBG0=()=>NBG.filter(n=>!MAPBG.includes(n));
 NSM.forEach(ldImg);['bg_duel','bg_village'].forEach(ldImg);setTimeout(()=>NBG0().forEach(ldImg),6000);
@@ -642,8 +643,6 @@ function jgSpawn(j){const D=DU,q=JGL()[j],LY=LANEY(),cx=DW()*q[0],cy=MAPS[D.map]
 function lolSetup(){const D=DU;SV.rpg=true;D.tl=360;{const ci=MAPS.findIndex(m=>m.only==='lol');if(ci>=0&&mapOk(ci)&&!(SV.map>0)){D.map=ci;D.cam=0;D.camY=null;for(const sd of [1,-1]){const h=D.H[sd].u;if(h){D.units=D.units.filter(u=>u!==h);D.H[sd].u=null}heroSpawn(sd)}const m=MAPS[ci];D.fruits=(m.fruit||[]).map(f=>({x:DW()*f[0],y:FY0+WH()*f[1],t:0}))}}D.deck.slice(0,3).forEach((k,r)=>duelBuild(1,k,1,r));const pl=D.pool;for(let r=0;r<3;r++)duelBuild(-1,pl[r%pl.length],1,r);D.jg=JGL().map(()=>({t:0}));JGL().forEach((q,j)=>jgSpawn(j));D.en=10}
 DMODE.fps=['🎥','1인칭 대전','영웅 등 뒤에서 전장을 바라보며 진영 대전을 해요','뒤에서 보는 3D 시점'];DMODE.maze=['🌙','미로 탐험','수호신과 함께 밤의 미로에서 별을 모아 탈출해요','위에서 보는 수집 방식'];DMODE.story=['🌿','원정','마을에서 친구를 모으고 숲과 늪을 탐험해요','횡스크롤 액션 방식'];
 function RPm(D){return D.mode==='rpg'}
-const HEROES={c_sum:{n:'소환사',role:'🐾 소환사 · 등불과 정령',hp:350,dmg:18,range:185,spd:64,rate:.82,shot:1,heal:20,hu:1,sk:'bunny',nw:1,w4:1},c_war:{n:'전사',role:'🛡 전사 · 둥근 방패',hp:580,dmg:23,range:40,spd:62,rate:.8,hu:1,sk:'sheep',nw:1},c_arc:{n:'궁수',role:'🏹 궁수 · 먼 거리',hp:320,dmg:22,range:215,spd:70,rate:.66,shot:1,hu:1,sk:'fox',nw:1},c_mag:{n:'마법사',role:'🔮 마법사 · 범위 마법',hp:300,dmg:24,range:195,spd:62,rate:1.05,splash:64,shot:1,hu:1,sk:'owl',nw:1},c_rog:{n:'도적',role:'🗡 도적 · 날쌘 발',hp:360,dmg:23,range:38,spd:86,rate:.5,hu:1,sk:'thief',nw:1},sprout:{n:'새싹',role:'균형 · 지팡이',hp:380,dmg:20,range:38,spd:62,rate:.8},frost:{n:'서리',role:'얼음 마법 · 범위',hp:300,dmg:19,range:190,spd:62,rate:1.05,splash:52,shot:1,hu:1},thief:{n:'도둑 까망',role:'번개 같은 단검',hp:370,dmg:23,range:38,spd:82,rate:.5,hu:1},baker:{n:'제빵사 모모',role:'치유 · 든든한 빵',hp:430,dmg:15,range:40,spd:60,rate:.85,heal:26,hu:1},fox:{n:'여우 궁수',role:'멀리서 쏘기',hp:290,dmg:15,range:205,spd:66,rate:.8,shot:1},sheep:{n:'양 방패병',role:'단단한 방패',hp:600,dmg:15,range:40,spd:56,rate:.9},hedgehog:{n:'고슴도치 검사',role:'빠른 돌격',hp:410,dmg:25,range:38,spd:72,rate:.6},owl:{n:'부엉이 마법사',role:'범위 마법',hp:270,dmg:19,range:195,spd:60,rate:1.15,splash:60,shot:1},bunny:{n:'토끼 치유사',role:'치유 · 지원',hp:330,dmg:15,range:190,spd:64,rate:.85,shot:1,heal:22},frog:{n:'개구리 응원단',role:'아군 강화',hp:400,dmg:16,range:40,spd:60,rate:.85,buff:1},knight:{n:'잎새 기사',role:'⚔ 전사 · 방패',hp:540,dmg:19,range:40,spd:60,rate:.85,hu:1,sj:1,sk:'sheep'},assassin:{n:'그림자 자객',role:'⚔ 암살 · 쌍단검',hp:340,dmg:26,range:38,spd:86,rate:.48,hu:1,sj:1,sk:'thief'},lancer:{n:'토끼 창기사',role:'⚔ 창 · 긴 찌르기',hp:410,dmg:22,range:60,spd:76,rate:.7,hu:1,sj:1,sk:'hedgehog'},bear:{n:'곰 망치 전사',role:'⚔ 묵직한 한 방',hp:660,dmg:30,range:44,spd:52,rate:1.25,hu:1,sj:1,sk:'sheep'},elf:{n:'엘프 명궁',role:'🏹 궁수 · 먼 거리',hp:290,dmg:17,range:220,spd:68,rate:.7,shot:1,hu:1,sj:1,sk:'fox'},raccoon:{n:'너구리 석궁병',role:'🏹 궁수 · 강한 한 발',hp:320,dmg:24,range:195,spd:62,rate:1.05,shot:1,hu:1,sj:1,sk:'fox'},mage:{n:'별빛 마법사',role:'✨ 마법 · 범위',hp:270,dmg:20,range:195,spd:60,rate:1.1,splash:60,shot:1,hu:1,sj:1,sk:'owl'},deer:{n:'사슴 사제',role:'✨ 치유 · 축복',hp:330,dmg:13,range:185,spd:62,rate:.85,shot:1,heal:24,hu:1,sj:1,sk:'bunny'},monk:{n:'판다 무도가',role:'⚔ 격투 · 빠른 주먹',hp:480,dmg:18,range:38,spd:74,rate:.5,hu:1,sj:1,sk:'hedgehog'},wolf:{n:'늑대 광전사',role:'⚔ 쌍도끼 · 돌격',hp:460,dmg:28,range:40,spd:78,rate:.6,hu:1,sj:1,sk:'thief'},turtle:{n:'거북 성기사',role:'⚔ 방패 · 아주 튼튼',hp:720,dmg:17,range:40,spd:48,rate:.95,hu:1,sj:1,sk:'sheep'},gunner:{n:'수달 총잡이',role:'🏹 총 · 가장 먼 거리',hp:280,dmg:28,range:230,spd:64,rate:1.2,shot:1,hu:1,sj:1,sk:'fox'},alch:{n:'두더지 연금술사',role:'✨ 물약 · 범위',hp:310,dmg:18,range:170,spd:60,rate:1,splash:55,shot:1,hu:1,sj:1,sk:'owl'},penguin:{n:'펭귄 얼음 마법사',role:'✨ 얼음 · 범위',hp:280,dmg:19,range:190,spd:60,rate:1.05,splash:50,shot:1,hu:1,sj:1,sk:'frost'},crow:{n:'까마귀 흑마법사',role:'✨ 저주 · 강한 한 발',hp:260,dmg:26,range:205,spd:62,rate:1.25,shot:1,hu:1,sj:1,sk:'owl'},bard:{n:'고양이 음유시인',role:'🎵 응원 · 치유',hp:300,dmg:14,range:180,spd:66,rate:.8,shot:1,heal:18,hu:1,sj:1,sk:'bunny'}};
-const HUS={c_sum:['🏮','정령 부르기',9],c_war:['🛡','방패 밀치기',5],c_arc:['🏹','연속 사격',4],c_mag:['✨','별빛 마법',7],c_rog:['💨','그림자 베기',4],frost:['❄','얼음 폭풍',6],thief:['🗡','그림자 베기',4],baker:['🥖','빵 나눔',6],fox:['🏹','연속 사격',4],sheep:['🛡','방패 밀치기',5],hedgehog:['🌀','가시 회전',4],owl:['☄','별똥별',7],bunny:['🥕','당근 치유',7],frog:['📣','힘내라 응원',12],knight:['🛡','방패 강타',5],assassin:['🗡','그림자 베기',4],lancer:['🌀','회전 창',4],bear:['🔨','대지 강타',5],elf:['🏹','세 발 화살',4],raccoon:['🎯','연발 석궁',4],mage:['☄','별똥별',7],deer:['🔔','축복의 종',7],monk:['👊','회전 발차기',4],wolf:['🪓','쌍도끼 베기',4],turtle:['🛡','빛의 방패',5],gunner:['💥','연발 사격',4],alch:['🧪','폭발 물약',7],penguin:['❄','얼음 폭풍',6],crow:['🔮','보랏빛 불꽃',7],bard:['🎵','응원의 노래',7]};
 function heroSkill(u){const D=DU,k=HEROES[u.hk].sk||u.hk,S=HUS[u.hk],f=u.fx||1;u.skT.smash=S[2];u.lun=.2;u.cd=Math.max(u.cd,.3);
  const en=(x,y,r)=>D.units.filter(o=>o.side!==u.side&&o.hp>0&&!(o.spawnT>0)&&Math.hypot(o.x-x,(o.y-y)*1.3)<r),al=r=>D.units.filter(o=>o.side===u.side&&o.hp>0&&Math.hypot(o.x-u.x,(o.y-u.y)*1.3)<r);
  const near=r=>{if(D.lock&&D.lock.hp>0&&Math.hypot(D.lock.x-u.x,D.lock.y-u.y)<r)return D.lock;let b=null,bd=r;for(const o of en(u.x,u.y,r)){const d=Math.hypot(o.x-u.x,o.y-u.y);if(d<bd){bd=d;b=o}}return b};
@@ -1333,7 +1332,7 @@ function drawTitle(dt){
  button(W-232,H-58,104,40,'📖 도감',()=>{scene='book'},'#cfe7b8');
  button(W-120,H-58,104,40,SV.mute?'🔇 음악':'🎵 음악',()=>{SV.mute=!SV.mute;save();if(SV.mute)bgmStop();else bgmStart()},'#e7e0f6');
  btns.unshift({x:0,y:0,w:W,h:H,cb:startGame});
- ctx.fillStyle='rgba(58,41,30,.7)';ctx.font='bold 12px system-ui';ctx.fillText('v6.7 · 소환사 걷기·떠다니는 정령·첫 2분 안내 · 효과음 Kenney (CC0)',14,H-14);
+ ctx.fillStyle='rgba(58,41,30,.7)';ctx.font='bold 12px system-ui';ctx.fillText('v6.8 · 새싹 엔진 1단계(내용 표 분리) · 효과음 Kenney (CC0)',14,H-14);
  if(loaded<NAMES.length){ctx.fillStyle='#fff';ctx.font='bold 13px system-ui';ctx.fillText('그림 불러오는 중… '+loaded+'/'+NAMES.length,14,24)}
  // 꽃잎 (천천히)
  for(let i=0;i<22;i++){const sp=18+(i%5)*6,x=((i*137+titleT*sp*1.4)%(W+80))-40,y=((i*89+titleT*(sp+10))%(H+60))-30;ctx.save();ctx.translate(x,y);ctx.rotate(titleT*.8+i);ctx.fillStyle=i%3?'rgba(255,214,228,.75)':'rgba(255,240,200,.7)';ctx.beginPath();ctx.ellipse(0,0,6,3,0,0,7);ctx.fill();ctx.restore()}
@@ -1473,12 +1472,7 @@ function frame(now){
 }
 requestAnimationFrame(loop);
 /* ===== v6.0 몬스터 카드(포획) · 동료 · 스킬 트리 ===== */
-const RAR=[['일반','#8d949c','#dfe3e8'],['희귀','#3f86dc','#cfe3fb'],['영웅','#9a55dc','#e6d3fa'],['전설','#e89a20','#ffe6a8']];
-const WB=[['이끼 골렘',420,16,42,34,1.3,96,{}],['꿀단지 아기곰 왕',320,20,40,55,1,92,{}],['번개 구름양',220,18,200,45,1.3,84,{shot:1,splash:50}],['호박 기사',260,24,42,70,.8,84,{}],['수정 여우',200,22,210,80,1,90,{shot:1}],['아기 숲 용',380,26,150,50,1.2,98,{shot:1,splash:60}]];
 WB.forEach((w,i)=>{ENEMY['wb'+i]={n:w[0],img:'wb_'+i,hp:w[1],atk:w[2],spd:w[4],h:w[6],exp:40,col:'#e89a20'};ECARD['wb'+i]=Object.assign({cost:6,hp:w[1],dmg:w[2],range:w[3],spd:w[4],rate:w[5]},w[7])});
-const MCR={e0:0,e1:0,m1:0,e3:1,m0:1,m3:1,e2:2,m2:2,wb0:3,wb1:3,wb2:3,wb3:3,wb4:3,wb5:3};
-const MCIDS=['e0','e1','m1','e3','m0','m3','e2','m2','e2*','m0*','wb0','wb1','wb2','wb3','wb4','wb5'];
-const STARN=[1,3,7,15,30];
 function cidK(c){return c.replace('*','')}
 function cidE(c){return c.charAt(c.length-1)==='*'}
 function mcN(c){return (SV.mc||{})[c]||0}
@@ -1504,40 +1498,6 @@ function mcKill(u){const D=DU;if(u.caught||u.hero||u.tw||u.boss||u.spr||MCR[u.k]
  const lr=TR('t_leech'),h=D.H[1].u;if(lr&&h&&h.hp>0)h.hp=Math.min(h.hpMax,h.hp+h.hpMax*.03*lr);const gr=TR('t_gold');if(gr)D.en=Math.min(99,D.en+gr);
  if(!(u.camp||u.neu))return;const c=u.k+(u.elite&&MCIDS.indexOf(u.k+'*')>=0?'*':'');if(Math.random()<mcChance(c)||(!Object.keys(SV.mc||{}).length&&(D.kills||0)>=2&&!cidE(c)&&MCR[c]<3))mcGive(c,u.x,u.y);else{SV.cpity=SV.cpity||{};SV.cpity[c]=(SV.cpity[c]||0)+(cidE(c)?.15:MCR[c]===3?.08:.02)}}
 /* --- 스킬 트리 (직업별) --- */
-const TRN={
- t_atk:{i:'🗡',n:'날카로운 일격',mx:5,d:r=>'공격력 +'+8*r+'%'},
- t_hp:{i:'💚',n:'튼튼한 몸',mx:5,d:r=>'체력 +'+10*r+'%'},
- t_smash:{i:'💥',n:'필살 숙련',mx:5,d:r=>'고유 기술(큰 버튼) 피해 +'+20*r+'%'},
- t_crit:{i:'🎯',n:'치명타',mx:3,d:r=>'우리 편 공격이 '+8*r+'% 확률로 2배'},
- t_haste:{i:'⚡',n:'연속기',mx:3,d:r=>'모든 기술 대기 시간 -'+10*r+'%'},
- t_leech:{i:'💗',n:'승리의 기운',mx:3,d:r=>'적을 쓰러뜨릴 때마다 체력 '+3*r+'% 회복'},
- t_ult:{i:'🌟',n:'폭풍의 핵',mx:3,lv:10,d:r=>'폭풍(전직 기술) 피해 +'+30*r+'%'},
- water:{i:'💧',n:'물보라',mx:5,d:r=>'주변 적 모두에게 마법 피해 · '+r+'단계'},
- t_surge:{i:'🌊',n:'거센 물결',mx:3,d:r=>'마법·폭풍 피해 +'+15*r+'%'},
- t_ice:{i:'❄',n:'얼음 물결',mx:3,d:r=>'마법에 맞은 적이 '+(.5*r)+'초 얼어붙음'},
- t_echo:{i:'🔁',n:'메아리',mx:1,d:r=>'물보라가 한 번 더 터짐 (절반 피해)'},
- t_catch:{i:'🃏',n:'포획술',mx:3,d:r=>'몬스터 카드를 얻을 확률 +'+25*r+'%'},
- t_gold:{i:'🪙',n:'전리품',mx:3,d:r=>'적을 쓰러뜨릴 때마다 금화 +'+r},
- rain:{i:'🌿',n:'치유의 비',mx:5,d:r=>'주변 아군 체력 회복 · '+r+'단계'},
- cheer:{i:'📣',n:'응원의 깃발',mx:5,d:r=>'주변 아군 공격력 +'+12*r+'%'},
- t_shell:{i:'🛡',n:'단단한 껍질',mx:3,d:r=>'받는 피해 -'+7*r+'%'},
- t_regen:{i:'🌱',n:'새싹 재생',mx:3,d:r=>'1초마다 체력 '+(.6*r).toFixed(1)+'% 회복'},
- t_pal:{i:'🐾',n:'동료 지휘',mx:3,d:r=>'동료의 공격·체력 +'+15*r+'%'},
- t_revive:{i:'🌸',n:'다시 피는 꽃',mx:1,d:r=>'쓰러지면 60초에 한 번 바로 부활'},
- t_range:{i:'🏹',n:'매의 눈',mx:3,d:r=>'공격이 닿는 거리 +'+10*r+'%'},
- t_spd:{i:'👟',n:'바람 걸음',mx:3,d:r=>'이동 속도 +'+7*r+'%'},
- t_dodge:{i:'💨',n:'날쌘 몸',mx:3,d:r=>'적의 공격을 '+8*r+'% 확률로 피함'},
- t_slot:{i:'➕',n:'셋째 동료',mx:1,d:r=>'동료 칸이 3개로 늘어남'}
-};
-/* 직업: [기술, 줄, 칸(-1~1), 먼저 배울 것(하나만 있으면 됨), 둘 중 하나] */
-const TRJ={
- war:{i:'🛡',n:'전사',col:'#d9603a',lt:'#fde3d6',p:'앞에서 버티고 크게 때려요',t:[['t_atk',0,0],['t_hp',1,-1,['t_atk']],['t_smash',1,1,['t_atk']],['t_shell',2,-1,['t_hp'],'t_regen'],['t_regen',2,0,['t_hp'],'t_shell'],['t_leech',2,1,['t_smash']],['t_revive',3,-.5,['t_shell','t_regen']],['t_ult',3,1,['t_leech']],['cheer',4,0,['t_revive','t_ult']]]},
- arc:{i:'🏹',n:'궁수',col:'#3fa554',lt:'#dcf3df',p:'멀리서 빠르게 쏴요',t:[['t_atk',0,0],['t_range',1,-1,['t_atk']],['t_spd',1,1,['t_atk']],['t_crit',2,-1,['t_range'],'t_haste'],['t_haste',2,0,['t_range'],'t_crit'],['t_gold',2,1,['t_spd']],['t_smash',3,-.5,['t_crit','t_haste']],['t_leech',3,1,['t_gold']],['t_ult',4,0,['t_smash','t_leech']]]},
- mag:{i:'🔮',n:'마법사',col:'#3a8fd9',lt:'#d9ecfc',p:'넓게 터뜨리고 얼려요',t:[['water',0,0],['t_surge',1,-1,['water'],'t_ice'],['t_ice',1,1,['water'],'t_surge'],['t_echo',2,0,['t_surge','t_ice']],['t_haste',3,-1,['t_echo']],['rain',3,1,['t_echo']],['t_smash',4,-1,['t_haste']],['t_hp',4,1,['rain']],['t_ult',5,0,['t_smash','t_hp']]]},
- rog:{i:'🗡',n:'도적',col:'#7a55c9',lt:'#e7defa',p:'빠르게 찌르고 훔쳐요',t:[['t_spd',0,0],['t_crit',1,-1,['t_spd']],['t_gold',1,1,['t_spd']],['t_dodge',2,-1,['t_crit'],'t_leech'],['t_leech',2,0,['t_crit'],'t_dodge'],['t_catch',2,1,['t_gold']],['t_smash',3,-.5,['t_dodge','t_leech']],['t_haste',3,1,['t_catch']],['t_ult',4,0,['t_smash','t_haste']]]},
- sum:{i:'🐾',n:'소환사',col:'#d99a20',lt:'#fbeecb',p:'몬스터 동료와 함께 싸워요',t:[['t_pal',0,0],['t_catch',1,-1,['t_pal']],['rain',1,1,['t_pal']],['t_slot',2,-1,['t_catch']],['cheer',2,1,['rain']],['t_hp',3,-1,['t_slot'],'t_regen'],['t_regen',3,0,['t_slot'],'t_hp'],['t_revive',3,1,['cheer']],['t_ult',4,0,['t_hp','t_regen','t_revive']]]}
-};
-const TRREC={c_sum:'sum',c_war:'war',c_arc:'arc',c_mag:'mag',c_rog:'rog',sprout:'sum',frost:'mag',thief:'rog',baker:'sum',fox:'arc',sheep:'war',hedgehog:'war',owl:'mag',bunny:'sum',frog:'sum',knight:'war',assassin:'rog',lancer:'war',bear:'war',elf:'arc',raccoon:'arc',mage:'mag',deer:'sum',monk:'war',wolf:'war',turtle:'war',gunner:'arc',alch:'mag',penguin:'mag',crow:'mag',bard:'sum'};
 function trJ(){const c=DU.H[1].cls;return c&&TRJ[c]||null}
 function trNode(k){const J=trJ();return J?J.t.find(q=>q[0]===k):null}
 function trSpent(){const Hh=DU.H[1];let s=0;for(const k in TRN)s+=(k in HSK?Hh.sk[k]:(Hh.tr||{})[k])||0;return s}
