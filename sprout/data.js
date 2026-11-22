@@ -24,32 +24,36 @@ const MCIDS=['e0','e1','m1','e3','m0','m3','e2','m2','e2*','m0*','wb0','wb1','wb
 /* 카드 ★ 단계에 필요한 장수 */
 const STARN=[1,3,7,15,30];
 
-/* 기술 표 — i 아이콘, n 이름, mx 최고 단계, d 단계별 설명 */
+/* 기술 표 — i 아이콘, n 이름, mx 최고 단계, v 한 단계마다의 수치, t 설명({v} 자리에 수치), lv 필요 레벨 */
 const TRN={
- t_atk:{i:'🗡',n:'날카로운 일격',mx:5,d:r=>'공격력 +'+8*r+'%'},
- t_hp:{i:'💚',n:'튼튼한 몸',mx:5,d:r=>'체력 +'+10*r+'%'},
- t_smash:{i:'💥',n:'필살 숙련',mx:5,d:r=>'고유 기술(큰 버튼) 피해 +'+20*r+'%'},
- t_crit:{i:'🎯',n:'치명타',mx:3,d:r=>'우리 편 공격이 '+8*r+'% 확률로 2배'},
- t_haste:{i:'⚡',n:'연속기',mx:3,d:r=>'모든 기술 대기 시간 -'+10*r+'%'},
- t_leech:{i:'💗',n:'승리의 기운',mx:3,d:r=>'적을 쓰러뜨릴 때마다 체력 '+3*r+'% 회복'},
- t_ult:{i:'🌟',n:'폭풍의 핵',mx:3,lv:10,d:r=>'폭풍(전직 기술) 피해 +'+30*r+'%'},
- water:{i:'💧',n:'물보라',mx:5,d:r=>'주변 적 모두에게 마법 피해 · '+r+'단계'},
- t_surge:{i:'🌊',n:'거센 물결',mx:3,d:r=>'마법·폭풍 피해 +'+15*r+'%'},
- t_ice:{i:'❄',n:'얼음 물결',mx:3,d:r=>'마법에 맞은 적이 '+(.5*r)+'초 얼어붙음'},
- t_echo:{i:'🔁',n:'메아리',mx:1,d:r=>'물보라가 한 번 더 터짐 (절반 피해)'},
- t_catch:{i:'🃏',n:'포획술',mx:3,d:r=>'몬스터 카드를 얻을 확률 +'+25*r+'%'},
- t_gold:{i:'🪙',n:'전리품',mx:3,d:r=>'적을 쓰러뜨릴 때마다 금화 +'+r},
- rain:{i:'🌿',n:'치유의 비',mx:5,d:r=>'주변 아군 체력 회복 · '+r+'단계'},
- cheer:{i:'📣',n:'응원의 깃발',mx:5,d:r=>'주변 아군 공격력 +'+12*r+'%'},
- t_shell:{i:'🛡',n:'단단한 껍질',mx:3,d:r=>'받는 피해 -'+7*r+'%'},
- t_regen:{i:'🌱',n:'새싹 재생',mx:3,d:r=>'1초마다 체력 '+(.6*r).toFixed(1)+'% 회복'},
- t_pal:{i:'🐾',n:'동료 지휘',mx:3,d:r=>'동료의 공격·체력 +'+15*r+'%'},
- t_revive:{i:'🌸',n:'다시 피는 꽃',mx:1,d:r=>'쓰러지면 60초에 한 번 바로 부활'},
- t_range:{i:'🏹',n:'매의 눈',mx:3,d:r=>'공격이 닿는 거리 +'+10*r+'%'},
- t_spd:{i:'👟',n:'바람 걸음',mx:3,d:r=>'이동 속도 +'+7*r+'%'},
- t_dodge:{i:'💨',n:'날쌘 몸',mx:3,d:r=>'적의 공격을 '+8*r+'% 확률로 피함'},
- t_slot:{i:'➕',n:'셋째 동료',mx:1,d:r=>'동료 칸이 3개로 늘어남'}
+ t_atk:{i:'🗡',n:'날카로운 일격',mx:5,v:8,t:'공격력 +{v}%'},
+ t_hp:{i:'💚',n:'튼튼한 몸',mx:5,v:10,t:'체력 +{v}%'},
+ t_smash:{i:'💥',n:'필살 숙련',mx:5,v:20,t:'고유 기술(큰 버튼) 피해 +{v}%'},
+ t_crit:{i:'🎯',n:'치명타',mx:3,v:8,t:'우리 편 공격이 {v}% 확률로 2배'},
+ t_haste:{i:'⚡',n:'연속기',mx:3,v:10,t:'모든 기술 대기 시간 -{v}%'},
+ t_leech:{i:'💗',n:'승리의 기운',mx:3,v:3,t:'적을 쓰러뜨릴 때마다 체력 {v}% 회복'},
+ t_ult:{i:'🌟',n:'폭풍의 핵',mx:3,lv:10,v:30,t:'폭풍(전직 기술) 피해 +{v}%'},
+ water:{i:'💧',n:'물보라',mx:5,v:1,t:'주변 적 모두에게 마법 피해 · {v}단계'},
+ t_surge:{i:'🌊',n:'거센 물결',mx:3,v:15,t:'마법·폭풍 피해 +{v}%'},
+ t_ice:{i:'❄',n:'얼음 물결',mx:3,v:0.5,t:'마법에 맞은 적이 {v}초 얼어붙음'},
+ t_echo:{i:'🔁',n:'메아리',mx:1,v:50,t:'물보라가 한 번 더 터짐 ({v}% 피해)'},
+ t_catch:{i:'🃏',n:'포획술',mx:3,v:25,t:'몬스터 카드를 얻을 확률 +{v}%'},
+ t_gold:{i:'🪙',n:'전리품',mx:3,v:1,t:'적을 쓰러뜨릴 때마다 금화 +{v}'},
+ rain:{i:'🌿',n:'치유의 비',mx:5,v:1,t:'주변 아군 체력 회복 · {v}단계'},
+ cheer:{i:'📣',n:'응원의 깃발',mx:5,v:12,t:'주변 아군 공격력 +{v}%'},
+ t_shell:{i:'🛡',n:'단단한 껍질',mx:3,v:7,t:'받는 피해 -{v}%'},
+ t_regen:{i:'🌱',n:'새싹 재생',mx:3,v:0.6,t:'1초마다 체력 {v}% 회복'},
+ t_pal:{i:'🐾',n:'동료 지휘',mx:3,v:15,t:'동료의 공격·체력 +{v}%'},
+ t_revive:{i:'🌸',n:'다시 피는 꽃',mx:1,v:60,t:'쓰러지면 {v}초에 한 번 바로 부활'},
+ t_range:{i:'🏹',n:'매의 눈',mx:3,v:10,t:'공격이 닿는 거리 +{v}%'},
+ t_spd:{i:'👟',n:'바람 걸음',mx:3,v:7,t:'이동 속도 +{v}%'},
+ t_dodge:{i:'💨',n:'날쌘 몸',mx:3,v:8,t:'적의 공격을 {v}% 확률로 피함'},
+ t_slot:{i:'➕',n:'셋째 동료',mx:1,v:3,t:'동료 칸이 {v}개로 늘어남'}
 };
+/* 기술 아이콘 그림(skill_icons.webp, 가로 6칸) 순서 */
+const ICK=['t_atk','t_hp','t_smash','t_crit','t_haste','t_leech','t_ult','water','t_surge','t_ice','t_echo','t_catch','t_gold','rain','cheer','t_shell','t_regen','t_pal','t_revive','t_range','t_spd','t_dodge','t_slot','lantern'];
+/* 단계 r 일 때의 설명과 값 — v 는 한 단계마다 늘어나는 수치 */
+function trDesc(k,r){const n=TRN[k],one=(k==='t_revive'||k==='t_echo'||k==='t_slot'),x=one?n.v:Math.round(n.v*r*100)/100;return n.t.replace('{v}',x)}
 /* 직업: [기술, 줄, 칸(-1~1), 먼저 배울 것(하나만 있으면 됨), 둘 중 하나] */
 const TRJ={
  war:{i:'🛡',n:'전사',col:'#d9603a',lt:'#fde3d6',p:'앞에서 버티고 크게 때려요',t:[['t_atk',0,0],['t_hp',1,-1,['t_atk']],['t_smash',1,1,['t_atk']],['t_shell',2,-1,['t_hp'],'t_regen'],['t_regen',2,0,['t_hp'],'t_shell'],['t_leech',2,1,['t_smash']],['t_revive',3,-.5,['t_shell','t_regen']],['t_ult',3,1,['t_leech']],['cheer',4,0,['t_revive','t_ult']]]},
@@ -71,4 +75,7 @@ const MONINFO={e0:['시든 새싹','sprite_e0'],e1:['가시 덤불','sprite_e1']
 (function(){let E=null;try{E=JSON.parse(localStorage.getItem('sprout_edit')||'null')}catch(e){}if(!E||E.v!==1)return;window.__EDIT=E;
  if(E.map){for(const k of ['home','npc','camps','wild'])if(E.map[k])RPGMAP[k]=E.map[k]}
  if(E.heroes)for(const k in E.heroes)if(HEROES[k])Object.assign(HEROES[k],E.heroes[k]);
+ if(E.trn)for(const k in E.trn)if(TRN[k])Object.assign(TRN[k],E.trn[k]);
+ if(E.hus)for(const k in E.hus)if(HUS[k])HUS[k]=E.hus[k];
+ if(E.trj)for(const k in E.trj)if(TRJ[k]&&Array.isArray(E.trj[k].t))TRJ[k].t=E.trj[k].t;
  if(E.wb)E.wb.forEach((w,i)=>{if(WB[i]&&w)for(let j=0;j<7;j++)if(w[j]!=null)WB[i][j]=w[j]})})();
