@@ -1,0 +1,75 @@
+<!doctype html><html lang="ko"><head><meta name="robots" content="noindex"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>장유 학원 홈페이지 무료 시안 | 찰칵홈 학원</title>
+<meta name="description" content="장유·율하 학원·교습소 원장님께 홈페이지 시안을 먼저 무료로 보여 드려요. 시간표·교습비 표시, 상담 신청 알림, 구글·네이버 검색 노출까지.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--ink:#14182B;--mu:#5E6478;--bg:#F6F8FD;--ln:#E2E7F3;--b:#2F6BFF;--y:#FFE45C}
+*{box-sizing:border-box}body{margin:0;font-family:Pretendard,system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.65;word-break:keep-all}
+a{color:inherit}.w{max-width:1080px;margin:0 auto;padding:0 20px}
+header{background:#fff;border-bottom:1px solid var(--ln)}header .w{display:flex;align-items:center;height:64px;gap:10px}
+.logo{font-weight:900;font-size:22px;letter-spacing:-.02em;text-decoration:none}.logo b{color:var(--b)}.logo small{font-size:13px;color:var(--mu);font-weight:700;margin-left:6px}
+header a.go{margin-left:auto;background:var(--ink);color:#fff;text-decoration:none;font-weight:800;border-radius:99px;padding:9px 16px;font-size:14px}
+.hero{padding:44px 0 20px}.hi{font-size:15px;font-weight:800;color:var(--b)}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.28;margin:8px 0 12px;letter-spacing:-.02em}h1 em{font-style:normal;background:linear-gradient(transparent 58%,var(--y) 58%)}
+.lead{color:var(--mu);font-size:17px;margin:0}
+.demos{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin:26px 0 10px}@media(max-width:760px){.demos{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;margin:18px -20px 6px;padding:4px 20px 14px;-webkit-overflow-scrolling:touch}.demo{flex:0 0 58vw;scroll-snap-align:center}.ph{border-radius:26px;padding:7px}.ph div{border-radius:20px}.hero h1{font-size:25px!important}.lead{font-size:15px!important}.swipe{display:block!important}}
+.swipe{display:none;text-align:center;font-size:13px;color:var(--mu);font-weight:700}
+.demo{text-decoration:none;display:block;text-align:center}
+.ph{background:#14182B;border-radius:34px;padding:10px;box-shadow:0 20px 40px rgba(20,24,43,.18);transition:transform .25s ease}
+.demo:hover .ph{transform:translateY(-4px)}
+.ph div{border-radius:26px;overflow:hidden;aspect-ratio:9/17;background:#ddd}.ph img{width:100%;display:block}
+.demo b{display:block;margin-top:12px;font-size:17px}.demo small{color:var(--mu);font-size:14px}
+.demo span{display:inline-block;margin-top:6px;font-size:13px;font-weight:800;color:var(--b)}
+section{padding:56px 0}h2{font-size:clamp(24px,3.2vw,32px);margin:0 0 6px;letter-spacing:-.02em}
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}@media(max-width:760px){.feat{grid-template-columns:1fr}}
+.feat div{background:#fff;border:1px solid var(--ln);border-radius:20px;padding:22px}.feat b{font-size:18px}.feat p{margin:6px 0 0;color:var(--mu);font-size:15px}.feat i{font-style:normal;font-size:28px;display:block;margin-bottom:8px}
+.seo{background:#fff;border:1px solid var(--ln);border-radius:22px;padding:22px;display:grid;grid-template-columns:1fr 1.3fr;gap:20px;align-items:center;margin-top:22px}@media(max-width:760px){.seo{grid-template-columns:1fr}}
+.sb{border:1px solid #DADCE0;border-radius:99px;padding:12px 18px;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}.sb span{color:#4285F4;font-weight:900;margin-right:8px}
+.rs i{font-style:normal;color:#188038;font-size:13px}.rs b{display:block;color:#1A0DAB;font-size:18px;margin:2px 0}.rs small{color:var(--mu)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px;counter-reset:s}@media(max-width:760px){.steps{grid-template-columns:1fr}}
+.steps div{background:#fff;border:1px solid var(--ln);border-radius:20px;padding:22px}.steps div:before{counter-increment:s;content:counter(s);display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--b);color:#fff;font-weight:900;margin-bottom:10px}
+.steps b{display:block;font-size:17px}.steps p{margin:4px 0 0;color:var(--mu);font-size:15px}
+.ask{background:var(--ink);color:#fff;border-radius:28px;padding:34px;display:grid;grid-template-columns:1fr 1fr;gap:28px}@media(max-width:760px){.ask{grid-template-columns:1fr;padding:24px}}
+.ask h2{color:#fff}.ask p{color:#C9CFE6}
+form{display:grid;gap:10px}label{font-size:13px;font-weight:800;color:#C9CFE6}
+input,textarea{font:inherit;padding:12px 14px;border-radius:12px;border:0;width:100%;background:#fff;color:var(--ink)}
+button{font:inherit;font-weight:900;border:0;border-radius:99px;padding:14px;background:var(--y);color:var(--ink);cursor:pointer;font-size:16px}
+.ok{font-weight:800;color:var(--y)}.mail{margin-top:14px;font-size:15px}.mail b{color:#fff}
+footer{padding:28px 0 40px;color:var(--mu);font-size:13px;text-align:center}
+.tap{background:#FFE45C;color:#14202B;border-radius:16px;padding:14px 16px;margin:4px 0 18px;box-shadow:0 0 0 0 rgba(255,228,92,.7);animation:tapglow 2.4s ease-in-out infinite}.tap b{display:block;font-size:18px;line-height:1.35}.tap span{display:block;font-size:13.5px;margin-top:4px;opacity:.8}@keyframes tapglow{0%,100%{box-shadow:0 0 0 0 rgba(255,228,92,.55)}50%{box-shadow:0 0 0 8px rgba(255,228,92,0)}}.demo .ph{position:relative}.demo .ph::after{content:"👆 눌러서 보기";position:absolute;left:50%;bottom:10px;transform:translateX(-50%);background:rgba(20,32,43,.88);color:#fff;font-size:12.5px;font-weight:800;border-radius:99px;padding:6px 12px;white-space:nowrap}@media(prefers-reduced-motion:reduce){.tap{animation:none}}
+</style></head><body>
+<header><div class="w"><a class="logo" href="#">찰칵<b>홈</b><small>동네 학원 · 가게 홈페이지</small></a><a class="go" href="#ask">무료 시안 신청</a></div></header>
+<section class="hero" style="padding-bottom:10px"><div class="w">
+<div class="hi" id="hi">장유 · 율하 학원 원장님께</div>
+<h1><span id="who">원장님</span>, 학원 홈페이지<br><em>시안부터 먼저</em> 보여 드릴게요</h1>
+<div class="tap"><b>👇 아래 휴대폰 화면을 눌러서 확인해 보세요</b><span>찰칵홈이 만든 실제 홈페이지가 열려요 · 옆으로 넘기면 업종별 3개</span></div>
+<div class="demos">
+<a class="demo" href="https://kisthestar1-boop.github.io/saebom-academy/" target="_blank" rel="noopener"><div class="ph"><div><img src="../img/pf_ac_m.jpg" alt="영어·수학 학원 예시 화면"></div></div><b>영어 · 수학 학원</b><small>매주 리포트 · 교습비 공개 · 실사 영상</small><span>👆 눌러서 예시 열어 보기 ↗</span></a>
+<a class="demo" href="../ex/beatup/" target="_blank" rel="noopener"><div class="ph"><div><img src="../img/pf_bu_m.jpg" alt="다이어트댄스 예시 화면"></div></div><b>다이어트댄스</b><small>수업 영상 · 가격 공개 · 첫 수업 예약</small><span>👆 눌러서 예시 열어 보기 ↗</span></a>
+<a class="demo" href="https://kisthestar1-boop.github.io/ongyeol-pilates/" target="_blank" rel="noopener"><div class="ph"><div><img src="../img/pf_pl_m.jpg" alt="필라테스 예시 화면"></div></div><b>필라테스 스튜디오</b><small>실제 수업 사진 · 원장 직통 · 체험 예약</small><span>👆 눌러서 예시 열어 보기 ↗</span></a>
+</div><div class="swipe">← 옆으로 넘겨 보세요 →</div><p class="lead" style="margin-top:14px">원장님 가게도 사진 3장이면 이렇게 만들어 드려요. 시안은 무료예요.</p></div></section>
+
+<section style="padding-top:30px"><div class="w"><h2>학원 홈페이지에 꼭 필요한 것만</h2><p class="lead">학부모님이 상담 전화 전에 휴대폰으로 확인하는 것들이에요.</p>
+<div class="feat"><div><i>🗓</i><b>시간표 · 교습비 · 등록번호</b><p>학원법상 인터넷 광고에 필요한 표시까지 처음부터 넣어 드려요.</p></div><div><i>📲</i><b>상담 신청 → 원장님 알림</b><p>학부모님이 신청하면 원장님 휴대폰으로 바로 알림이 가요.</p></div><div><i>✏️</i><b>원장님이 직접 수정</b><p>방학 특강, 공지, 사진은 휴대폰으로 바로 바꿀 수 있어요.</p></div></div>
+<div class="seo"><div class="sb"><span>G</span>장유 영어 학원</div><div class="rs"><i>원장님학원.kr ›</i><b><span id="seoName">○○학원</span> | 장유 영어 학원</b><small>구글 · 네이버 검색 등록, 지도 연결, 동네+과목 검색에 잘 나오도록 제목·설명을 세팅해 드려요. (순위 보장은 하지 않아요)</small></div></div>
+</div></section>
+
+<section style="padding-top:20px"><div class="w"><h2>진행은 이렇게 간단해요</h2>
+<div class="steps"><div><b>사진 3장 보내기</b><p>학원 외관 · 교실 · 수업 모습. 학원 이름만 알려 주셔도 돼요.</p></div><div><b>3일 안에 무료 시안</b><p>원장님 학원 이름으로 만든 시안 링크를 보내 드려요.</p></div><div><b>마음에 드실 때만 제작</b><p>시안이 마음에 안 드시면 그걸로 끝이에요. 부담 없어요.</p></div></div></div></section>
+
+<section id="ask" style="padding-top:20px"><div class="w"><div class="ask">
+<div><h2>무료 시안 신청</h2><p>남겨 주시면 하루 안에 연락드리고, 3일 안에 시안을 보내 드려요.</p><p class="mail">메일로 보내셔도 돼요 · <b>kisthestar1@gmail.com</b><br>(학원 사진 3장 + 학원 이름)</p></div>
+<form id="f"><label>학원 이름<input id="co" required placeholder="예) 장유 ○○영어학원"></label><label>원장님 성함<input id="nm" required placeholder="홍길동"></label><label>연락처 (휴대폰 또는 메일)<input id="ct" required placeholder="010- 또는 메일"></label><label>바라는 점 (선택)<textarea id="ms" rows="2" placeholder="예) 시간표가 학년별로 보였으면 해요"></textarea></label><button id="bt">무료 시안 받기</button><div class="ok" id="ok" hidden></div></form>
+</div></div></section>
+<footer>찰칵홈 · 김해 장유 · 동네 학원 · 가게 홈페이지 · kisthestar1@gmail.com</footer>
+<script>
+const NAMES={"ybm-ingloo":"YBM잉글루영어수학학원","hansuwi":"한수위영어수학전문학원","gnb":"삼문GnB영어전문학원","gcamp":"지캠프클래스 김해장유학원","ilta":"일타수학학원","hansaem-math":"한선생수학학원","julies":"줄리스 잉글리쉬톡 영어교습소","ppuri":"뿌리깊은수학학원","dehan":"더한수학학원"};
+const q=new URLSearchParams(location.search),a=q.get("a"),src=q.get("src")||(a?"mail_"+a:"direct");
+if(src==="walk"||src==="flyer"){document.getElementById("hi").textContent="장유 · 율하 원장님 · 사장님께";document.querySelector("h1").innerHTML='원장님 가게 홈페이지,<br><em>시안부터 먼저</em> 보여 드릴게요'}
+if(a&&NAMES[a]){const n=NAMES[a];document.getElementById("who").textContent=n+" 원장님";document.getElementById("seoName").textContent=n;document.getElementById("co").value=n;document.title=n+" 원장님께 · 찰칵홈 학원 홈페이지 무료 시안"}
+const PROXY="https://script.google.com/macros/s/AKfycbz09Pualc3dVyOYhjRIBLY1lVpeZMpi8YMoUFlBcqWjJ30gKJagm0HAhio3rFaIf_E/exec";
+document.getElementById("f").onsubmit=async e=>{e.preventDefault();const $=id=>document.getElementById(id).value.trim();const ok=document.getElementById("ok"),b=document.getElementById("bt");
+ const f={kind:"학원 무료 시안 ("+src+")",company:$("co"),name:$("nm"),contact:$("ct"),url:"",msg:$("ms"),diag:null};b.disabled=true;ok.hidden=false;ok.textContent="보내는 중…";
+ try{const j=await (await fetch(PROXY,{method:"POST",body:JSON.stringify({op:"hpq",f})})).json();if(j.error)throw new Error(j.error);ok.textContent="✅ 접수됐어요. 하루 안에 연락드릴게요!";e.target.reset()}catch(err){ok.textContent="보내지 못했어요. kisthestar1@gmail.com 으로 보내 주세요."}b.disabled=false};
+</script></body></html>
