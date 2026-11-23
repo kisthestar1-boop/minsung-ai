@@ -357,6 +357,40 @@ body[data-pg=rep] .doc .lh .tb{display:none}
 .doc table.led td:focus-within{box-shadow:inset 0 0 0 2px var(--gr)}
 .stbar{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:10px;padding:10px 16px;background:#F7F9FD;border:1px solid var(--ln);border-radius:12px;font-size:.9rem}
 body[data-pg=rep] .doc .xbar,body[data-pg=rep] .doc .stbar{display:none}
+
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.trio .pastebox{padding:20px 20px;border-width:2px;border-radius:22px;gap:12px;border-color:var(--ln)}
+.trio #pasteBox{border-color:var(--yl)}
+.trio .pastebox .pt{gap:12px;align-items:flex-start}.trio .pastebox .pt img{width:46px;height:46px}
+.trio .pastebox h2{font-size:1.18rem;margin-bottom:4px}.trio .pastebox p{font-size:.86rem;line-height:1.6}
+.trio .pastebox textarea{min-height:96px;font-size:.95rem;padding:12px 14px;border-radius:14px}
+.trio .pastebox .big{padding:10px 18px;font-size:.95rem}.trio .pastebox .mu{font-size:.8rem}
+.rcdrop{border:2px dashed #BFD0EC;border-radius:14px;background:var(--bg);padding:22px 12px;text-align:center;color:var(--mu);font-size:.92rem;cursor:pointer}
+.rcdrop.over,#rcZone:focus .rcdrop{border-color:var(--gr);background:#fff;color:var(--gr)}#rcZone:focus{outline:none}
+.rcdrop u{color:var(--gr);font-weight:700}
+.rci{display:grid;grid-template-columns:56px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--ln2)}
+.rci img{width:56px;height:56px;object-fit:cover;border-radius:10px;cursor:zoom-in;border:1px solid var(--ln);background:var(--bg)}
+.trio .row.between{flex-wrap:nowrap;gap:10px}.trio .row.between .mu{flex:1;min-width:0}.trio .row.between .big{flex:none}
+#xlNow .k div{font-size:.8rem;white-space:nowrap}
+.rci .amt{width:100%;padding:6px 10px;font-size:.88rem;border-radius:8px}
+.rci .cands{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.rci .cands button{font-size:.76rem;padding:4px 8px;border-radius:8px;background:var(--mint);color:var(--gr2);border:0;font-weight:700}
+.rci .cands button.hit{background:var(--gr);color:#fff}
+.rci .x{font-size:.74rem;color:var(--mu2);background:none;border:0;padding:2px 4px}
+.rcsum{font-size:.82rem;color:var(--mu)}.rcsum b{color:var(--bad)}
+#xlNow{background:var(--bg);border-radius:14px;padding:14px 16px;font-size:.9rem;line-height:1.7}
+#xlNow .k{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+#xlNow .k div{background:#fff;border-radius:10px;padding:8px 10px;text-align:center}#xlNow .k b{display:block;font-size:1.1rem}
+#xlNow .who{display:inline-block}
+.mstrip{background:#fff;border-radius:22px;box-shadow:var(--sh);padding:18px 22px}
+.mstrip h3{margin:0 0 12px;font-size:1.05rem}.mstrip h3 small{color:var(--mu);font-weight:500;margin-left:8px;font-size:.82rem}
+.mrow{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px}
+.mcard{border:1.5px solid var(--ln);border-radius:14px;padding:10px 12px;background:#fff;text-align:left;cursor:pointer}
+.mcard.on{border-color:var(--gr);background:var(--mint)}
+.mcard b{display:block;font-size:.95rem;margin-bottom:4px}.mcard span{display:block;font-size:.8rem}
+.mcard .bars{display:flex;gap:3px;align-items:flex-end;height:28px;margin-top:6px}.mcard .bars i{flex:1;border-radius:3px 3px 0 0}
+@media(max-width:1280px){.trio{grid-template-columns:1fr 1fr}.trio #rcZone{grid-column:1/-1}}
+@media(max-width:760px){.trio{grid-template-columns:1fr}}
 </style></head><body>
 <div class="app2">
 <nav class="rail2" aria-label="큰 메뉴">
@@ -382,11 +416,26 @@ body[data-pg=rep] .doc .xbar,body[data-pg=rep] .doc .stbar{display:none}
 <main class="main">
 
 <div id="p0" style="display:flex;flex-direction:column;gap:22px">
+  <div class="trio">
   <section class="pastebox" id="pasteBox">
-    <div class="pt"><img src="img/ic_excel.png" alt=""><div><h2>통장 내역을 여기에 붙여넣으세요</h2><p>인터넷뱅킹 거래내역 화면에서 <b>전체 선택(Ctrl+A) → 복사(Ctrl+C)</b> 하고, 아래 칸을 누르고 <b>붙여넣기(Ctrl+V)</b>만 하면 끝이에요. 회비·미납·결산이 자동으로 정리돼요.</p></div></div>
-    <textarea id="bankPaste" placeholder="여기를 누르고 Ctrl+V&#10;&#10;예) 2026.10.01  김민준  20,000  ...  5,150,796"></textarea>
-    <div class="row between"><span class="mu" id="pasteMsg">엑셀 파일로 받으셨다면 왼쪽 메뉴 '통장 불러오기'에 넣어도 돼요.</span><button class="big" id="pasteGo">정리하기</button></div>
+    <div class="pt"><img src="img/ic_ledger.png" alt=""><div><h2>① 통장 내역</h2><p>인터넷뱅킹 거래내역을 <b>전체 선택 → 복사</b> 후 아래 칸에 <b>Ctrl+V</b>. 여러 달을 한꺼번에, 입금만·출금만 따로 붙여도 달별로 정리돼요.</p></div></div>
+    <textarea id="bankPaste" placeholder="여기를 누르고 Ctrl+V&#10;예) 2026.10.01  김민준  20,000  …"></textarea>
+    <div class="row between"><span class="mu" id="pasteMsg">엑셀 파일은 '통장 불러오기'에 넣어도 돼요.</span><button class="big" id="pasteGo">정리하기</button></div>
   </section>
+  <section class="pastebox" id="xlBox">
+    <div class="pt"><img src="img/ic_excel.png" alt=""><div><h2>② 지금 쓰는 관리 엑셀</h2><p>쓰던 엑셀의 <b>회비 납부표·회원 명단·장부</b> 칸을 그대로 복사해 <b>Ctrl+V</b>. 현재 상황이 바로 나와요.</p></div></div>
+    <textarea id="xlPaste" placeholder="여기를 누르고 Ctrl+V&#10;예) 이름  9월  10월  11월&#10;     김민준  O  O"></textarea>
+    <div class="row between"><span class="mu" id="xlMsg">이름 + 달(9월·10월…) 칸이면 회비 납부표로 읽어요.</span><button class="big" id="xlGo">읽기</button></div>
+    <div id="xlNow" hidden></div>
+  </section>
+  <section class="pastebox" id="rcZone" tabindex="0">
+    <div class="pt"><img src="img/ic_wallet.png" alt=""><div><h2>③ 영수증</h2><p>영수증 사진을 <b>복사해서 Ctrl+V</b> (또는 끌어 놓기). 금액을 적으면 맞는 지출에 <b>저절로 붙어요</b>.</p></div></div>
+    <div class="rcdrop" id="rcDrop">📷 여기를 누르고 Ctrl+V · 사진 끌어 놓기 · <u id="rcAdd">사진 고르기</u></div>
+    <div id="rcList"></div>
+    <input type="file" id="rcMany" accept="image/*" multiple hidden>
+  </section>
+  </div>
+  <section class="mstrip" id="hMonths" hidden></section>
   <div class="hhero">
     <div class="greet"><img class="gshut" src="img/ic_shuttle.png" alt=""><p class="eyebrow">HELLO</p><h2 id="hHi">총무님, 안녕하세요</h2><p id="hSay"></p>
       <div class="acts"><button data-go="1">이번 달 돈 정리 보기</button><button class="g" data-go="2">통장 엑셀 넣기</button></div></div>
@@ -471,7 +520,7 @@ const CATK=Object.fromEntries(Object.entries(CATS).map(([k,v])=>[v,k]));
 const today=new Date(),THIS=ymOf(today.getFullYear(),today.getMonth()+1);
 
 /* ---------- 상태 ---------- */
-const blank=()=>({club:'',fee:20000,start:'',members:[],manual:{},tx:[],carry:{},att:{},rules:{},sample:false});
+const blank=()=>({club:'',fee:20000,start:'',members:[],manual:{},tx:[],carry:{},att:{},rules:{},sample:false,inbox:[]});
 let ST=blank(),CM='',RAW=null,ATTUNK=[];
 function monthsBetween(a,b){const o=[];if(!a||!b||a>b)return o;let[y,m]=a.split('-').map(Number);while(ymOf(y,m)<=b){o.push(ymOf(y,m));m++;if(o.length>240)break}return o}
 const mem=n=>ST.members.find(m=>m.name===n);
@@ -569,9 +618,12 @@ function classify(t){const c=autoCat(t);t.cat=c.cat;t.unk=!!c.unk;t.who=[];t.mon
   else{t.unknown=[];if(t.unk)t.flag='무슨 돈인지 골라 주세요'}}
 function takeTx(list,kind){
   if(!list.length){toast('읽을 수 있는 내역이 없어요. 칸 선택을 확인해 주세요.');return}
-  const yms=new Set(list.map(t=>t.date.slice(0,7)));
+  // 달마다: 입금·출금이 다 있으면 그 달을 새로 바꾸고, 입금만(또는 출금만) 있으면 그쪽만 바꿔요
+  const side={};list.forEach(t=>{const k=t.date.slice(0,7);side[k]=side[k]||{i:0,o:0};if(t.in>0)side[k].i++;else side[k].o++});
   const oldRc={};ST.tx.forEach(t=>{if(t.rc&&t.rc.length)oldRc[t.date+norm(t.text)+(t.in||-t.out)]=t.rc});
-  ST.tx=ST.tx.filter(t=>t.manual||!yms.has(t.date.slice(0,7))).concat(list.map((t,i)=>({...t,rc:oldRc[t.date+norm(t.text)+(t.in||-t.out)]||[],id:t.date+'#'+i+'#'+norm(t.text)+'#'+(t.in||-t.out)})));
+  const gone=t=>{const sd=side[t.date.slice(0,7)];if(t.manual||!sd)return false;if(sd.i&&sd.o)return true;return sd.i?t.in>0:t.out>0};
+  const tag=Date.now().toString(36).slice(-4);
+  ST.tx=ST.tx.filter(t=>!gone(t)).concat(list.map((t,i)=>({...t,rc:oldRc[t.date+norm(t.text)+(t.in||-t.out)]||[],id:t.date+'#'+tag+i+'#'+norm(t.text)+'#'+(t.in||-t.out)})));
   ST.tx.sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0);
   const cnt={};list.forEach(t=>{const k=t.date.slice(0,7);cnt[k]=(cnt[k]||0)+1});CM=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0][0];
   if(!ST.start)ST.start=CM;
@@ -1080,10 +1132,93 @@ function sample(){
   ['sM','sA'].forEach(i=>$(i).textContent='');$('sB').textContent='예시 장부예요';render();
 }
 $('btnSample').addEventListener('click',sample);
-$('btnReset').addEventListener('click',()=>{const b=$('btnReset');if(!b.dataset.sure){b.dataset.sure=1;b.textContent='정말 처음부터?';b.style.color='var(--bad)';setTimeout(()=>{delete b.dataset.sure;b.textContent='처음부터';b.style.color=''},3000);return}delete b.dataset.sure;b.textContent='처음부터';b.style.color='';ST=blank();CM='';RAW=null;ATTUNK=[];['dM','dB','dA'].forEach(i=>$(i).classList.remove('done'));['sM','sB','sA'].forEach(i=>$(i).textContent='');$('colBox').hidden=true;$('inStart').value=THIS;render()});
+$('btnReset').addEventListener('click',()=>{const b=$('btnReset');if(!b.dataset.sure){b.dataset.sure=1;b.textContent='정말 처음부터?';b.style.color='var(--bad)';setTimeout(()=>{delete b.dataset.sure;b.textContent='처음부터';b.style.color=''},3000);return}delete b.dataset.sure;b.textContent='처음부터';b.style.color='';ST=blank();CM='';RAW=null;ATTUNK=[];XLN=false;try{localStorage.removeItem(SKEY)}catch(_){}['dM','dB','dA'].forEach(i=>$(i).classList.remove('done'));['sM','sB','sA'].forEach(i=>$(i).textContent='');$('colBox').hidden=true;$('inStart').value=THIS;render()});
 $('inStart').value=THIS;
+
+/* ---------- ② 지금 쓰는 관리 엑셀 붙여넣기 ---------- */
+let XLN=false;
+function monHead(c,y){c=String(c??'').trim();let m;
+  if(m=c.match(/^(\d{4})\s*[.\-/년]\s*(\d{1,2})\s*월?$/))return {y:+m[1],m:+m[2]};
+  if(m=c.match(/^(\d{2})\s*[.\-/년]\s*(\d{1,2})\s*월$/))return {y:2000+ +m[1],m:+m[2]};
+  if(m=c.match(/^(\d{1,2})\s*월(\s*회비)?$/))return {y:null,m:+m[1]};return null}
+const NOPAY=/^(x|X|✕|×|미납|미|0|-|—|N|n|안냄)$/;
+const isName=c=>/^[가-힣]{2,4}$/.test(String(c??'').trim())&&!/^(이름|성명|합계|총계|소계|구분|비고|회원|정회원|보류|휴면|탈퇴|명단)$/.test(String(c).trim());
+function ensureMem(name,o={}){let m=ST.members.find(x=>x.name===name||keysOf(x).includes(norm(name)));if(!m){m={name,type:o.type||'정회원',fee:o.fee||ST.fee,alias:[],join:''};ST.members.push(m)}else{if(o.fee)m.fee=o.fee;if(o.type)m.type=o.type}return m}
+function readManageText(txt){
+  const R=txt.replace(/\r/g,'').split('\n').map(l=>l.split('\t').map(c=>c.trim())).filter(r=>r.some(c=>c));if(!R.length)return null;
+  const baseY=+(THIS.slice(0,4));
+  // 1) 회비 납부표: 달 제목이 2칸 이상
+  const hi=R.findIndex(r=>r.filter(c=>monHead(c)).length>=2);
+  if(hi>=0){const H=R[hi];let y=null,prev=0;const yy=H.map(c=>monHead(c)).find(h=>h&&h.y);let cy=yy?yy.y:baseY;
+    const cols=H.map(c=>{const h=monHead(c);if(!h)return null;if(h.y)cy=h.y;else if(prev&&h.m<prev)cy++;prev=h.m;return ymOf(h.y||cy,h.m)});
+    if(!yy){const last=cols.filter(Boolean).pop();if(last>THIS){const sh=+last.slice(0,4)-+THIS.slice(0,4)+(last.slice(5)>THIS.slice(5)?1:0);for(let i=0;i<cols.length;i++)if(cols[i])cols[i]=ymOf(+cols[i].slice(0,4)-sh,+cols[i].slice(5))}}
+    const body=R.slice(hi+1);const nc=H.map((_,i)=>body.filter(r=>isName(r[i])).length);const ni=nc.indexOf(Math.max(...nc));
+    const fi=H.findIndex(h=>/회비|금액|월회비/.test(h)&&!monHead(h)),ti=H.findIndex(h=>/구분|상태|회원구분/.test(h));
+    let n=0,marks=0;body.forEach(r=>{const nm=r[ni];if(!isName(nm))return;const o={};if(fi>=0&&num(r[fi])>=1000)o.fee=num(r[fi]);if(ti>=0&&/보류|휴면|탈퇴/.test(r[ti]))o.type='보류';ensureMem(nm,o);n++;
+      cols.forEach((k,i)=>{if(!k)return;const v=String(r[i]??'').trim();if(!v)return;const mm=ST.manual[nm]=ST.manual[nm]||{};if(NOPAY.test(v))mm[k]='x';else{mm[k]=/현/.test(v)?'현':'✓';marks++}})});
+    const ks=cols.filter(Boolean).sort();if(!ST.start||ks[0]<ST.start)ST.start=ks[0];
+    if(!ST.tx.length||!CM)CM=ks.filter(k=>k<=THIS).pop()||ks[ks.length-1];
+    return {kind:'회비 납부표',msg:`회원 ${n}명 · 낸 칸 ${marks}개 (${mlab(ks[0])}월~${mlab(ks[ks.length-1])}월)`}}
+  // 2) 장부: 날짜 + 금액
+  const L=parseBankText(txt);if(L.length){takeTx(L,'관리 엑셀 장부');return {kind:'장부',msg:`내역 ${L.length}줄`}}
+  // 3) 회원 명단
+  const h2=R.findIndex(r=>r.some(c=>/^(이름|성명)$/.test(c)));const H=h2>=0?R[h2]:[];const body=h2>=0?R.slice(h2+1):R;
+  const nc=(body[0]||[]).map((_,i)=>body.filter(r=>isName(r[i])).length);const ni=h2>=0?H.findIndex(c=>/^(이름|성명)$/.test(c)):nc.indexOf(Math.max(...nc,0));
+  if(ni<0)return null;const fi=H.findIndex(h=>/회비|금액/.test(h)),ti=H.findIndex(h=>/구분|상태/.test(h)),ji=H.findIndex(h=>/가입/.test(h));let n=0;
+  body.forEach(r=>{if(!isName(r[ni]))return;const m=ensureMem(r[ni],{fee:fi>=0&&num(r[fi])>=1000?num(r[fi]):0,type:ti>=0&&/보류|휴면|탈퇴/.test(r[ti])?'보류':''});if(ji>=0){const d=parseDate(r[ji]);if(d)m.join=dstr(d).slice(0,7)}n++});
+  return n?{kind:'회원 명단',msg:`회원 ${n}명`}:null}
+function doXl(){const t=$('xlPaste').value;if(!t.trim()){toast('먼저 관리 엑셀 칸을 복사해서 붙여넣어 주세요');return}
+  if(ST.sample){ST=blank();ATTUNK=[];CM=''}snap();
+  const r=readManageText(t);if(!r){$('xlMsg').textContent='읽을 수 있는 칸이 없어요. 이름이나 날짜·금액이 같이 복사됐는지 봐 주세요.';toast('읽지 못했어요');return}
+  $('xlPaste').value='';XLN=true;$('xlMsg').innerHTML=`✓ ${r.kind}로 읽었어요 · ${r.msg}`;render();toast(r.kind+'를 넣었어요. 아래에 지금 상황이 나와요')}
+function drawXlNow(){const el=$('xlNow');if(!el)return;el.hidden=!XLN;if(!XLN)return;
+  const bad=C.act.filter(r=>!r.paid),ok=C.act.length-bad.length,late=C.act.filter(r=>r.miss.length>=3);
+  el.innerHTML=`<b>지금 상황 · ${mlab(CM)}월</b><div class="k"><div>회원<b>${C.act.length}명</b></div><div>이번 달 낸 분<b class="y">${ok}명</b></div><div>안 낸 분<b class="n">${bad.length}명</b></div></div>
+   ${bad.length?`안 낸 분: ${bad.slice(0,8).map(r=>esc(r.m.name)).join(', ')}${bad.length>8?` 외 ${bad.length-8}명`:''}<br>`:'이번 달 회비는 모두 들어왔어요.<br>'}
+   밀린 회비 합계 <b class="n">${man(C.unpaid)}</b>${late.length?` · 3달 이상 밀린 분 <b>${late.length}명</b>`:''}${ST.tx.length?` · 남은 돈 <b>${won(C.carryOut)}원</b>`:''}`}
+$('xlGo').addEventListener('click',doXl);$('xlPaste').addEventListener('paste',()=>setTimeout(doXl,50));
+
+/* ---------- ③ 영수증 붙여넣기 ---------- */
+async function addReceipts(files){files=[...files].filter(f=>/^image\//.test(f.type));if(!files.length)return 0;ST.inbox=ST.inbox||[];
+  for(const f of files){try{ST.inbox.push({id:'r'+Date.now()+Math.floor(Math.random()*999),u:await shrink(f),amt:0})}catch(_){}}
+  render();toast(files.length+'장 받았어요. 금액을 적거나 맞는 지출을 눌러 주세요');return files.length}
+function rcCands(r){const L=ST.tx.filter(t=>t.out>0&&!(t.rc&&t.rc.length));
+  let A=r.amt?L.filter(t=>t.out===r.amt):[];const rest=L.filter(t=>!A.includes(t)).sort((a,b)=>(b.date.slice(0,7)===CM)-(a.date.slice(0,7)===CM)||(a.date<b.date?1:-1));
+  return {hit:A,list:A.concat(rest).slice(0,5)}}
+function attachRc(rid,tid){const r=(ST.inbox||[]).find(x=>x.id===rid),t=txOf(tid);if(!r||!t)return;snap();(t.rc=t.rc||[]).push(r.u);ST.inbox=ST.inbox.filter(x=>x!==r);render();toast(`${mlab(t.date.slice(0,7))}/${+t.date.slice(8)} ${t.text}에 붙였어요`)}
+function drawInbox(){const el=$('rcList');if(!el)return;const I=ST.inbox||[];const miss=ST.tx.filter(t=>t.date.slice(0,7)===CM&&t.out>0&&!(t.rc&&t.rc.length)).length;
+  el.innerHTML=I.map(r=>{const c=rcCands(r);return `<div class="rci" data-rid="${r.id}"><img src="${r.u}" alt="영수증" data-rbig="${r.id}"><div><input class="amt" data-ramt="${r.id}" inputmode="numeric" placeholder="영수증 금액 (예: 56000, 5만6천)" value="${r.amt?won(r.amt):''}">
+    <div class="cands">${c.list.length?c.list.map(t=>`<button data-rto="${r.id}|${esc(t.id)}" class="${c.hit.includes(t)?'hit':''}">${mlab(t.date.slice(0,7))}/${+t.date.slice(8)} ${esc(t.text.slice(0,10))} ${won(t.out)}</button>`).join(''):'<span class="mu">붙일 지출이 아직 없어요</span>'}<button class="x" data-rdel="${r.id}">빼기</button></div></div></div>`}).join('')+
+    `<p class="rcsum">${I.length?`연결 기다리는 영수증 ${I.length}장 · `:''}${mlab(CM)}월 영수증 없는 지출 <b>${miss}건</b></p>`}
+$('rcList').addEventListener('click',e=>{const b=e.target.closest('[data-rto],[data-rdel],[data-rbig]');if(!b)return;
+  if(b.dataset.rto){const [r,t]=b.dataset.rto.split('|');attachRc(r,t)}
+  else if(b.dataset.rdel){snap();ST.inbox=ST.inbox.filter(x=>x.id!==b.dataset.rdel);render();toast('영수증을 뺐어요 (Ctrl+Z로 되돌리기)')}
+  else{const r=ST.inbox.find(x=>x.id===b.dataset.rbig);if(r){$('lbImg').src=r.u;$('lb').dataset.k='';$('lb').hidden=false}}});
+$('rcList').addEventListener('change',e=>{const id=e.target.dataset.ramt;if(!id)return;const r=ST.inbox.find(x=>x.id===id);if(!r)return;r.amt=calc(e.target.value);
+  const c=rcCands(r);if(r.amt&&c.hit.length===1){attachRc(r.id,c.hit[0].id);return}render();if(r.amt&&!c.hit.length)toast('같은 금액 지출이 없어요. 아래에서 골라 주세요')});
+$('rcList').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.ramt)e.target.blur()});
+$('rcDrop').addEventListener('click',e=>{if(e.target.id==='rcAdd')$('rcMany').click();else $('rcZone').focus()});
+$('rcMany').addEventListener('change',e=>{addReceipts(e.target.files);e.target.value=''});
+['dragover','dragenter'].forEach(k=>$('rcZone').addEventListener(k,e=>{e.preventDefault();$('rcDrop').classList.add('over')}));
+$('rcZone').addEventListener('dragleave',()=>$('rcDrop').classList.remove('over'));
+$('rcZone').addEventListener('drop',e=>{e.preventDefault();$('rcDrop').classList.remove('over');addReceipts(e.dataTransfer.files)});
+// 어느 화면에서든 사진을 Ctrl+V 하면 영수증으로 받아요
+document.addEventListener('paste',e=>{const fs=[...(e.clipboardData?.files||[])].filter(f=>/^image\//.test(f.type));if(!fs.length)return;e.preventDefault();addReceipts(fs).then(n=>{if(n&&PAGE!==0)toast(n+'장 받았어요. 오늘 할 일 ③ 영수증 칸에서 연결해 주세요')})});
+
+/* ---------- 월별 흐름 ---------- */
+function drawMonths(){const el=$('hMonths');if(!el)return;const ks=[...new Set(ST.tx.map(t=>t.date.slice(0,7)))].sort().slice(-12);el.hidden=!ks.length;if(!ks.length)return;
+  const D=ks.map(k=>{const L=ST.tx.filter(t=>t.date.slice(0,7)===k&&t.cat!=='skip');return {k,i:L.reduce((a,t)=>a+t.in,0),o:L.reduce((a,t)=>a+t.out,0),n:L.length,rc:L.filter(t=>t.out>0&&!(t.rc&&t.rc.length)).length}});
+  const mx=Math.max(1,...D.map(d=>Math.max(d.i,d.o)));
+  el.innerHTML=`<h3>월별 통장 흐름<small>달을 누르면 그 달로 바뀌어요</small></h3><div class="mrow">${D.map(d=>`<button class="mcard ${d.k===CM?'on':''}" data-mk="${d.k}"><b>${d.k.slice(2,4)}년 ${mlab(d.k)}월</b><span class="y">＋ ${man(d.i)}</span><span class="n">− ${man(d.o)}</span><div class="bars"><i style="height:${Math.max(2,d.i/mx*28)}px;background:#9DB8E6"></i><i style="height:${Math.max(2,d.o/mx*28)}px;background:#F2A7A0"></i></div><span class="mu">${d.n}건${d.rc?` · 영수증 없음 ${d.rc}`:''}</span></button>`).join('')}</div>`}
+$('hMonths').addEventListener('click',e=>{const b=e.target.closest('[data-mk]');if(!b)return;CM=b.dataset.mk;render()});
+
+/* ---------- 이 컴퓨터에 자동 저장 ---------- */
+const SKEY='clubfin.v1';let saveT=null,saveWarn=false;
+function autosave(){clearTimeout(saveT);saveT=setTimeout(()=>{if(ST.sample)return;const o={ST,CM,XLN};
+  try{localStorage.setItem(SKEY,JSON.stringify(o))}catch(_){try{const lite=JSON.parse(JSON.stringify(o));lite.ST.tx.forEach(t=>t.rc=[]);lite.ST.inbox=[];localStorage.setItem(SKEY,JSON.stringify(lite));if(!saveWarn){saveWarn=true;toast('사진이 많아 사진은 빼고 저장했어요. 관리 엑셀로 받아 두세요')}}catch(_){}}},400)}
+const _render0=render;render=function(){_render0();try{drawXlNow();drawInbox();drawMonths()}catch(err){console.error(err)}autosave()};
 window.__CF={get ST(){return ST},get C(){return C},get CM(){return CM},importManage,parseBank,takeTx,render,XLSXread:b=>XLSX.read(b,{type:'array',cellDates:true})};
-sample();goPage(0);
+(()=>{let o=null;try{o=JSON.parse(localStorage.getItem(SKEY)||'null')}catch(_){}if(o&&o.ST&&(o.ST.members.length||o.ST.tx.length)){ST=Object.assign(blank(),o.ST);CM=o.CM||'';XLN=!!o.XLN;render()}else sample()})();goPage(0);
 })();
 </script>
 </body></html>
