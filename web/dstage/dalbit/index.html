@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>달빛툰</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;600;800&family=Noto+Sans+KR:wght@400;600;800&display=swap">
+<style>
+/* 레이아웃: 위 붉은 로고 헤더 · 표지 선반(가로) · 작품 페이지(큰 표지 + 정보) · 세로 뷰어 */
+:root{--bg:#0E1222;--card:rgba(255,255,255,.045);--ink:#EEF0F7;--mu:#9AA3BC;--ln:rgba(255,255,255,.09);--red:#E5263B;--sans:"Pretendard","Noto Sans KR",system-ui,sans-serif;--serif:"Gowun Batang","Noto Serif KR",serif;--vbg:#0C0E16;--vink:#ECE8E2}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;background-image:radial-gradient(1200px 600px at 75% -10%,rgba(150,170,255,.18),transparent 60%),radial-gradient(900px 500px at 10% 0%,rgba(229,38,59,.10),transparent 60%),radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.5),transparent),radial-gradient(1px 1px at 70% 20%,rgba(255,255,255,.4),transparent),radial-gradient(1.5px 1.5px at 40% 70%,rgba(255,255,255,.35),transparent),radial-gradient(1px 1px at 85% 60%,rgba(255,255,255,.4),transparent);background-attachment:fixed}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+.hd{position:sticky;top:0;z-index:20;background:rgba(14,18,34,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--ln)}
+.hd .in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:26px;height:62px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.logo{display:flex;align-items:center;justify-content:center;flex-direction:column;width:52px;height:52px;background:var(--red);color:#fff;font-weight:800;line-height:1;letter-spacing:-.02em}
+.logo b{font-size:1.05rem}.logo small{font-size:.55rem;opacity:.9;margin-top:2px}
+.nav{display:flex;gap:24px;font-size:.98rem;color:#C9CFE0;overflow-x:auto;white-space:nowrap}
+.nav a{padding:6px 0;border-bottom:2px solid transparent}.nav a.on{border-color:var(--red);font-weight:700}
+.wrap{max-width:1180px;margin:0 auto;padding-block:22px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.box{background:var(--card);border:1px solid var(--ln);border-radius:14px;margin-bottom:22px}
+.bh{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid var(--ln)}
+.tag{border:2px solid var(--red);color:#FF6B7A;font-weight:800;font-size:.9rem;padding:9px 8px;line-height:1}
+.bh h2{margin:0;font-size:1.25rem}.bh small{display:block;color:var(--mu);font-size:.8rem;margin-bottom:2px}
+.shelf{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;padding:16px}
+.card .cv{transition:transform .2s;border-radius:10px}.card:hover .cv{transform:translateY(-3px)}
+.card h3{margin:10px 0 2px;font-size:1.02rem;font-weight:700}.card p{margin:0;color:var(--mu);font-size:.8rem}.card p b{color:var(--red);font-weight:600}
+.cv{position:relative;width:100%;max-width:100%;aspect-ratio:3/4;overflow:hidden;background:#333}
+.cv img{width:100%;height:100%;object-fit:cover;display:block}
+.cv .moon{position:absolute;left:50%;top:9%;width:44%;aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle at 40% 35%,#fff,#c9d4df 55%,#7e8d9e);box-shadow:0 0 40px rgba(255,90,70,.4)}
+.cv .crack{position:absolute;left:50%;top:9%;width:3px;height:22%;background:linear-gradient(#ff4a3a,#7a0d08);transform:translateX(-50%) rotate(14deg)}
+.cv .ic{position:absolute;left:0;right:0;text-align:center;filter:drop-shadow(0 6px 14px rgba(0,0,0,.45))}
+.cv .ttl{position:absolute;left:0;right:0;bottom:0;padding:12px 10px;background:linear-gradient(transparent,rgba(10,6,4,.85) 45%);text-align:center;color:#fff}
+.cv .ttl b{display:block;font-family:var(--serif);font-weight:700;text-shadow:0 2px 6px #000}.cv .ttl i{font-style:normal;color:#FFD9C4;letter-spacing:.15em}
+.cv .badge{position:absolute;left:8px;top:8px;background:var(--red);color:#fff;font-size:.68rem;font-weight:800;padding:2px 7px}
+.cv .badge.soon{background:#fff;color:#7A5B2E}
+/* 작품 페이지 */
+.hero{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);background:var(--card);border:1px solid var(--ln);border-radius:14px;overflow:hidden;margin-bottom:26px}
+.hero .big{position:relative;min-height:380px;overflow:hidden}
+.hero .big .cv{position:absolute;inset:0;aspect-ratio:auto;height:100%}.hero .big .cv img{object-position:center 30%}
+.info{padding:22px 22px 20px;display:flex;flex-direction:column;min-width:0}
+.info h1{margin:0 0 12px;font-size:1.35rem;font-weight:600;padding-bottom:12px;border-bottom:1px solid var(--ln)}
+.info dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 10px;font-size:.88rem;color:#C9CFE0}
+.info dt{color:var(--mu)}.info dd{margin:0}
+.info .intro{margin-top:12px;font-size:.9rem;line-height:1.8;color:#C9CFE0}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto;padding-top:18px}
+.btn{border:1px solid rgba(255,255,255,.25);background:transparent;color:#EEF0F7;border-radius:10px;padding:12px;font-size:.95rem;text-align:center}
+.btn.pr{background:var(--red);border-color:var(--red);color:#fff}
+.btn[disabled]{opacity:.45;cursor:default}
+.scn{margin-top:12px;font-size:.8rem;color:var(--mu)}.scn a{color:#C9CFE0;text-decoration:underline;text-underline-offset:3px}
+.list .row{display:grid;grid-template-columns:200px minmax(0,1fr) auto;gap:18px;align-items:center;padding:12px 0;border-bottom:1px solid var(--ln)}
+.list .row .th{aspect-ratio:16/7;overflow:hidden;border:1px solid var(--ln);border-radius:8px}
+.list .row .th .cv{aspect-ratio:auto;height:100%}
+.list .row h4{margin:0 0 4px;font-weight:500;font-size:1rem}.list .row small{color:var(--mu)}
+.list .row.soon{opacity:.5}
+.list .row:not(.soon):hover h4{color:var(--red)}
+.lh{display:flex;justify-content:space-between;align-items:center;padding:6px 0 12px;border-bottom:1px solid var(--ln);font-size:1.15rem}
+.pill{font-size:.72rem;border:1px solid var(--ln);padding:3px 8px;color:var(--mu)}
+/* 뷰어 */
+body.view{background:var(--vbg)}
+.vbar{position:sticky;top:0;z-index:20;background:rgba(18,18,18,.94);border-bottom:1px solid #2a2a2a;color:var(--vink)}
+.vbar .in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px;height:52px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.vbar a,.vbar button{color:var(--vink);background:none;border:1px solid #3a3a3a;padding:6px 12px;font-size:.85rem}
+.vbar .t{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;text-align:center}
+.reader{max-width:720px;margin:0 auto;color:var(--vink);padding-block:0 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.reader .open{min-height:62vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px}
+.reader .open i{font-style:normal;color:#C9473F;letter-spacing:.3em;font-size:.8rem}
+.reader .open h1{font-family:var(--serif);font-size:2.1rem;margin:0}
+.reader .open p{color:#8f8a84;font-size:.85rem;margin:0}
+.reader .p{font-family:var(--serif);font-size:1.12rem;line-height:2.05;margin:0 0 1.6em;text-wrap:pretty}
+.reader .q{font-family:var(--serif);font-size:1.35rem;line-height:1.8;text-align:center;margin:2.4em 0;color:#fff}
+.reader .q b{display:inline-block;background:#fff;color:#111;border-radius:999px;padding:14px 26px;font-weight:700}
+.reader .gap{height:28vh}
+.reader img{display:block;width:100%;margin:0 auto}
+body.view .reader.img{padding-left:0;padding-right:0;max-width:800px}
+.reader .end{margin-top:60px;border-top:1px solid #2a2a2a;padding-top:28px;display:flex;justify-content:center;gap:10px}
+.reader .end a{border:1px solid #444;padding:12px 22px}.reader .end a.nx{background:var(--red);border-color:var(--red);color:#fff}
+.note{font-size:.78rem;color:#8f8a84;text-align:center;margin-top:18px}
+
+.feat{position:relative;overflow:hidden;border-radius:18px;margin-bottom:26px;border:1px solid var(--ln);min-height:340px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:center}
+.feat .bgi{position:absolute;inset:-30px;background-size:cover;background-position:center 30%;filter:blur(22px) brightness(.45) saturate(1.2);transform:scale(1.1)}
+.feat .tx{position:relative;padding:34px 34px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.feat .tx i{font-style:normal;color:#FF8A96;font-size:.78rem;letter-spacing:.25em;font-weight:700}
+.feat .tx h2{margin:0;font-family:var(--serif);font-size:2.1rem;line-height:1.3;text-wrap:balance}
+.feat .tx p{margin:0;color:#D5DAEA;line-height:1.8;font-size:.95rem;max-width:56ch}
+.feat .tx .go{display:flex;gap:8px;margin-top:6px}.feat .tx .go a{padding:12px 20px;border-radius:10px;font-weight:700}
+.feat .art{position:relative;height:100%;display:flex;align-items:center;justify-content:center;padding:22px}
+.feat .art img{max-height:360px;width:auto;max-width:100%;border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+@media (max-width:760px){.feat{grid-template-columns:1fr}.feat .art{order:-1;padding-bottom:0}.feat .art img{max-height:300px}.feat .tx{padding:22px}.feat .tx h2{font-size:1.6rem}}
+@media (max-width:760px){.shelf{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{grid-template-columns:1fr}.hero .big{min-height:300px}.list .row{grid-template-columns:110px minmax(0,1fr)}.list .row .r{display:none}.nav{gap:16px}}
+@media (prefers-reduced-motion:reduce){.card .cv{transition:none}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="data.js?v=20261120"></script>
+<script>
+const S=window.TOON.series;const $=s=>document.querySelector(s);
+const esc=t=>String(t).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function cover(x,size){const a=x.art||{};const fs=size==="big"?"2rem":size==="th"?"1rem":"1.02rem";
+ if(a.img)return `<div class="cv"><img src="${a.img}" alt="${esc(x.t)} 표지">${size==="th"?"":`<div class="ttl"><b style="font-size:${fs};line-height:1.3;text-wrap:balance">${esc(x.t)}</b><i style="display:block;margin-top:4px;font-size:${size==="big"?".9rem":".62rem"}">${esc(x.sub)}</i></div><span class="badge ${x.eps.length?"":"soon"}">${x.eps.length?"연재":"예정"}</span>`}</div>`;
+ return `<div class="cv" style="background:${a.bg}">${a.moon?'<div class="moon"></div><div class="crack"></div>':""}<div class="ic" style="top:${a.moon?"38%":"24%"};font-size:${size==="big"?"6rem":size==="th"?"1.6rem":"3rem"}">${a.ic||""}</div>${size==="th"?"":`<div class="ttl"><b style="font-size:${fs};line-height:1.3;text-wrap:balance">${esc(x.t)}</b><i style="display:block;margin-top:4px;font-size:${size==="big"?".9rem":".62rem"}">${esc(x.sub)}</i></div>`}${size==="th"?"":`<span class="badge ${x.eps.length?"":"soon"}">${x.eps.length?"연재":"예정"}</span>`}</div>`}
+const live=s=>s.eps.filter(e=>e.type!=="soon");
+function header(on){return `<header class="hd"><div class="in"><a class="logo" href="#home"><b>달빛</b><small>TOON</small></a><nav class="nav"><a href="#home" class="${on==="home"?"on":""}">최신 만화</a><a href="#ongoing" class="${on==="ongoing"?"on":""}">연재 중</a><a href="#soon" class="${on==="soon"?"on":""}">연재 예정</a></nav></div></header>`}
+function card(x){const n=live(x).length;return `<a class="card" href="#s-${x.id}">${cover(x)}<h3>${esc(x.t)}</h3><p>${esc(x.g)} ${n?(live(x).at(-1).date||"").slice(5).replace(".","."):""}${n?`<b>(${n})</b>`:" · 곧 시작"}</p></a>`}
+function home(tab){const on=S.filter(x=>live(x).length),soon=S.filter(x=>!live(x).length);
+ const sec=(tag,small,h,arr)=>arr.length?`<section class="box"><div class="bh"><span class="tag">${tag}</span><div><small>${small}</small><h2>${h}</h2></div></div><div class="shelf">${arr.map(card).join("")}</div></section>`:"";
+ const f=on[0];const feat=(tab==="home"&&f)?`<section class="feat"><div class="bgi" style="background-image:url(${f.art.img})"></div><div class="tx"><i>오늘의 달빛툰</i><h2>${esc(f.t)}</h2><p>${esc(f.intro)}</p><div class="go"><a class="btn pr" href="#v-${f.id}-${live(f)[0].no}">1화 보기</a><a class="btn" href="#s-${f.id}">목록</a></div></div><div class="art"><img src="${f.art.img}" alt="${esc(f.t)}"></div></section>`:"";
+ return header(tab)+`<main class="wrap">${feat}${tab!=="soon"?sec("NEW","내가 보고 싶어서 만드는 웹툰","최신 만화",on):""}${tab!=="ongoing"?sec("SOON","마녀를 지켜라 · 장송의 프리렌 감성","연재 예정",soon):""}<p class="note">달빛툰 · 새 화는 만들어지는 대로 올라와요</p></main>`}
+function series(id){const x=S.find(s=>s.id===id)||S[0];const L=live(x);
+ return header("")+`<main class="wrap"><section class="hero"><div class="big">${cover(x,"big")}</div><div class="info"><h1>${esc(x.t)}</h1><dl><dt>장르</dt><dd>${esc(x.g)}</dd><dt>분류</dt><dd>${esc(x.kind)}${x.day?" · 매주 "+x.day:""}</dd><dt>작가</dt><dd>${esc(x.by)}</dd></dl><div class="intro">${esc(x.intro)}</div>
+  <div class="btns"><a class="btn" href="#home">☆ 서재로</a>${L.length?`<a class="btn pr" href="#v-${x.id}-${L[0].no}">처음부터</a>`:`<button class="btn pr" disabled>곧 시작</button>`}</div>${L.some(e=>e.body)?`<div class="scn">📜 시나리오(글) · ${L.filter(e=>e.body).map(e=>`<a href="#t-${x.id}-${e.no}">${e.no}화</a>`).join(" · ")}</div>`:""}</div></section>
+  <section><div class="lh"><span>목록</span><span class="pill">총 ${L.length}화</span></div><div class="list">${x.eps.length?x.eps.slice().reverse().map(e=>e.type==="soon"?`<div class="row soon"><div class="th">${cover(x,"th")}</div><div><h4>${esc(x.t)} ${e.no}화 · ${esc(e.t)}</h4><small>준비 중</small></div><span class="r pill">예정</span></div>`:`<a class="row" href="#v-${x.id}-${e.no}"><div class="th">${e.thumb?`<div class="cv"><img src="${e.thumb}" alt=""></div>`:cover(x,"th")}</div><div><h4>${esc(x.t)} ${e.no}화 · ${esc(e.t)}</h4><small>${e.date}</small></div><span class="r pill">${e.type==="img"?"웹툰":"글 버전"}</span></a>`).join(""):`<p style="color:var(--mu);padding:18px 0">첫 화를 준비하고 있어요.</p>`}</div></section></main>`}
+function viewer(id,no,asText){const x=S.find(s=>s.id===id)||S[0];const L=live(x);const i=L.findIndex(e=>e.no===+no);const e=L[i]||L[0];const pv=L[i-1],nx=L[i+1];
+ let body="";if(e.type==="img"&&!asText)body=(e.imgs||[]).map(u=>`<img src="${u}" alt="" loading="lazy">`).join("");
+ else body=e.body.split(/\n\n+/).map(par=>{const t=par.trim();if(!t)return"";if(/^「[^」]+」$/.test(t))return `<div class="q"><b>${esc(t.slice(1,-1))}</b></div>`;if(/^[—―-]{2,}|^\*\*\*$/.test(t))return '<div class="gap"></div>';return `<p class="p">${esc(t).replace(/「([^」]+)」/g,'<b style="color:#fff">「$1」</b>').replace(/\n/g,"<br>")}</p>`}).join("");
+ return `<div class="vbar"><div class="in"><a href="#s-${x.id}">목록</a><div class="t">${esc(x.t)} ${e.no}화</div>${nx?`<a href="#v-${x.id}-${nx.no}">다음 ▶</a>`:`<button disabled style="opacity:.4">다음</button>`}</div></div>
+ <article class="reader${e.type==="img"&&!asText?" img":""}">${e.type==="img"&&!asText?"":`<div class="open"><i>EPISODE ${e.no}</i><h1>${esc(e.t)}</h1><p>${esc(x.t)} · ${e.date}</p></div>`}${body}
+ ${(e.type==="text"||asText)?'<p class="note">시나리오(글) 버전이에요'+(e.type==="img"?` · <a href="#v-${x.id}-${e.no}" style="color:#fff">웹툰으로 보기</a>`:'')+'</p>':""}
+ <div class="end">${pv?`<a href="#v-${x.id}-${pv.no}">◀ ${pv.no}화</a>`:""}<a href="#s-${x.id}">목록</a>${nx?`<a class="nx" href="#v-${x.id}-${nx.no}">${nx.no}화 보기 ▶</a>`:""}</div></article>`}
+function route(){const h=location.hash.slice(1)||"home";document.body.classList.toggle("view",h.startsWith("v-")||h.startsWith("t-"));let html;
+ if(h.startsWith("s-"))html=series(h.slice(2));else if(h.startsWith("v-")||h.startsWith("t-")){const m=h.match(/^[vt]-(.+)-(\d+)$/);html=viewer(m?m[1]:S[0].id,m?m[2]:1,h.startsWith("t-"))}else html=home(["ongoing","soon"].includes(h)?h:"home");
+ $("#app").innerHTML=html;window.scrollTo(0,0)}
+addEventListener("hashchange",route);route();
+</script>
+</body>
+</html>

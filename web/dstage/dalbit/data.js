@@ -2,6 +2,53 @@
 window.TOON={
  "series": [
   {
+   "id": "ruru",
+   "t": "편의점 알바는 아기 드래곤",
+   "sub": "아기 드래곤 루루",
+   "g": "힐링 · 개그",
+   "kind": "연재 중",
+   "day": "월요일",
+   "by": "딸깍툰",
+   "art": {
+    "bg": "radial-gradient(120% 90% at 50% 10%,#FFF3DC 0%,#9FD8C0 45%,#24483A 100%)",
+    "moon": false,
+    "ic": "🐉",
+    "img": "img/ruru_cover.jpg"
+   },
+   "intro": "야간 알바를 석 달째 못 구한 무표정 점장 도윤. 장난으로 써 붙인 공고 '종족 무관'을 보고, 인간 변신이 서툰 아기 드래곤 루루가 찾아왔다. 꼬리는 숨겨지지 않고, 도시락은 불로 데운다. 동네 편의점의 따뜻한 개그 일상.",
+   "eps": [
+    {
+     "no": 1,
+     "t": "첫 출근",
+     "date": "2026.11.23",
+     "type": "img",
+     "imgs": [
+      "img/ruru/ep1_01.jpg?v=1",
+      "img/ruru/ep1_02.jpg?v=1",
+      "img/ruru/ep1_03.jpg?v=1",
+      "img/ruru/ep1_04.jpg?v=1",
+      "img/ruru/ep1_05.jpg?v=1",
+      "img/ruru/ep1_06.jpg?v=1",
+      "img/ruru/ep1_07.jpg?v=1",
+      "img/ruru/ep1_08.jpg?v=1",
+      "img/ruru/ep1_09.jpg?v=1",
+      "img/ruru/ep1_10.jpg?v=1",
+      "img/ruru/ep1_11.jpg?v=1",
+      "img/ruru/ep1_12.jpg?v=1",
+      "img/ruru/ep1_13.jpg?v=1"
+     ],
+     "body": "장유동 골목 끝 24시 편의점. 야간 알바를 석 달째 못 구한 점장 도윤 앞에, 공고를 들고 아기 드래곤 루루가 뛰어든다. '종족 무관'이라고 써 있어서요! 장난으로 쓴 공고였지만 야간 할 사람이 없으니, 루루는 바로 조끼를 받는다. 첫 업무는 도시락 데우기. 전자레인지를 처음 본 루루는 자신 있게 불을 뿜고, 도시락은 숯이 된다. 그때 들어온 단골 할머니. '어머, 직화 도시락이네? 이거 줘요~' 도윤은 커피를 마시며 작게 웃는다. '전자레인지는 내일 가르쳐 줄게.'"
+    },
+    {
+     "no": 2,
+     "t": "전자레인지 수업",
+     "date": "",
+     "type": "soon",
+     "body": ""
+    }
+   ]
+  },
+  {
    "id": "spring",
    "t": "봄을 잃은 마을",
    "sub": "새싹 소녀 새봄",
@@ -23,18 +70,18 @@ window.TOON={
      "date": "2026.11.20",
      "type": "img",
      "imgs": [
-      "img/spring/ep1_01.jpg?v=2",
-      "img/spring/ep1_02.jpg?v=2",
-      "img/spring/ep1_03.jpg?v=2",
-      "img/spring/ep1_04.jpg?v=2",
-      "img/spring/ep1_05.jpg?v=2",
-      "img/spring/ep1_06.jpg?v=2",
-      "img/spring/ep1_07.jpg?v=2",
-      "img/spring/ep1_08.jpg?v=2",
-      "img/spring/ep1_09.jpg?v=2",
-      "img/spring/ep1_10.jpg?v=2",
-      "img/spring/ep1_11.jpg?v=2",
-      "img/spring/ep1_12.jpg?v=2"
+      "img/spring/ep1_01.jpg?v=1",
+      "img/spring/ep1_02.jpg?v=1",
+      "img/spring/ep1_03.jpg?v=1",
+      "img/spring/ep1_04.jpg?v=1",
+      "img/spring/ep1_05.jpg?v=1",
+      "img/spring/ep1_06.jpg?v=1",
+      "img/spring/ep1_07.jpg?v=1",
+      "img/spring/ep1_08.jpg?v=1",
+      "img/spring/ep1_09.jpg?v=1",
+      "img/spring/ep1_10.jpg?v=1",
+      "img/spring/ep1_11.jpg?v=1",
+      "img/spring/ep1_12.jpg?v=1"
      ],
      "body": "그날 밤, 누군가 마을의 봄나무에서 별 씨앗을 땄다. 그리고 한 알이, 떨어졌다.\n\n아침. 꽃을 한 번도 못 피워 본 새봄의 모자 새싹이 빛나고 있었다. 문을 열자 마을은 온통 회색이었다.\n\n봄나무 아래에서는 지키던 견습 기사 루비가 졸고 있었다. 루비는 새봄의 빛을 보고 알아챘다. 「그 빛… 봄나무의 별 씨앗이야!」\n\n빛을 따라 회색 슬라임들이 기어 나와 고양이 카페의 화분을 덮쳤다. 루비는 막아서다 무거운 칼에 넘어졌다.\n\n「내 빛 때문이야… 그러니까, 내가!」\n\n새봄의 빛이 터지자 슬라임 머리에 꽃이 피고, 카페 한 칸만큼 봄이 돌아왔다.\n\n그날 밤, 지붕 위의 도둑이 빛나는 카페 창을 내려다보았다. 「한 알을 흘렸군.」"
     },
