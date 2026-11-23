@@ -1,0 +1,162 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>장유 바른공인중개사사무소 (예시)</title>
+<meta name="description" content="김해 장유 아파트 매매·전세·월세 전문. 찰칵홈 부동산 홈페이지 예시.">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0e2a47;--gold:#c99a3c;--bg:#f6f4ef;--ink:#1b2430;--sub:#5d6775;--line:#e3ddd2}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans KR',sans-serif;color:var(--ink);background:#fff;font-size:17px;line-height:1.65}
+a{color:inherit;text-decoration:none}
+.in{max-width:1140px;margin:0 auto;padding:0 20px}
+.demo{background:#fff6dc;color:#7a5a12;text-align:center;font-size:14px;padding:8px 12px}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header .in{display:flex;align-items:center;height:76px;gap:28px}
+.brand b{display:block;font-family:'Noto Serif KR',serif;font-size:24px;color:var(--navy);letter-spacing:-.5px}
+.brand small{font-size:12px;color:var(--sub);letter-spacing:.2em}
+header nav{display:flex;gap:24px;font-weight:500}
+header nav a:hover{color:var(--gold)}
+.call i{display:none}@media(max-width:860px){.call i{display:inline}}.call{margin-left:auto;background:var(--navy);color:#fff;border-radius:99px;padding:12px 22px;font-weight:700;font-size:16px}
+.hero{position:relative;height:560px;background:url(img/apt.jpg) center 60%/cover}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,42,71,.82),rgba(14,42,71,.25) 70%)}
+.hero .in{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;color:#fff}
+.hero small{color:#f1d38f;font-weight:700;letter-spacing:.2em}
+.hero h1{font-family:'Noto Serif KR',serif;font-size:52px;line-height:1.3;margin-top:12px}
+.hero p{font-size:20px;opacity:.92;margin-top:14px}
+.srch{margin-top:30px;background:#fff;border-radius:16px;padding:10px;display:flex;gap:8px;max-width:720px;flex-wrap:wrap}
+.srch button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:14px 20px;cursor:pointer;background:#f2efe8;color:var(--ink);font-size:17px}
+.srch button.on{background:var(--navy);color:#fff}
+.srch .go{margin-left:auto;background:var(--gold);color:#fff}
+section{padding:80px 0}
+.eb{color:var(--gold);font-weight:900;letter-spacing:.25em;font-size:13px}
+h2{font-family:'Noto Serif KR',serif;font-size:36px;color:var(--navy);margin-top:8px;line-height:1.35}
+.sl{color:var(--sub);margin-top:10px}
+.flt{display:flex;gap:8px;margin-top:26px;flex-wrap:wrap}
+.flt button{font:inherit;font-size:16px;font-weight:700;border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:10px 20px;cursor:pointer}
+.flt button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.ls{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:22px}
+.card{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;transition:box-shadow .3s}
+.card:hover{box-shadow:0 16px 36px rgba(14,42,71,.1)}
+.card .im{height:210px;background-size:cover;background-position:center;position:relative}
+.card .tg{position:absolute;left:14px;top:14px;background:var(--navy);color:#fff;font-weight:700;font-size:14px;padding:5px 12px;border-radius:8px}
+.card .tg.j{background:#2f7d5b}.card .tg.w{background:#a85c2b}
+.card .bd{padding:20px}
+.card .pr{font-size:26px;font-weight:900;color:var(--navy)}
+.card .nm{font-weight:700;margin-top:4px}
+.card .sp{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.card .sp span{font-size:14px;background:#f2efe8;border-radius:6px;padding:3px 9px;color:var(--sub)}
+.card .ask{display:block;text-align:center;margin-top:16px;border:1.5px solid var(--navy);color:var(--navy);border-radius:10px;padding:10px;font-weight:700}
+.law{margin-top:14px;font-size:13px;color:var(--sub)}
+.alt{background:var(--bg)}
+.area{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+.area img{width:100%;border-radius:20px;display:block}
+.pts{display:grid;gap:12px;margin-top:22px}
+.pts div{display:flex;gap:14px;background:#fff;border-radius:14px;padding:16px 18px;border:1px solid var(--line)}
+.pts i{font-style:normal;font-size:26px}
+.pts b{display:block}.pts small{color:var(--sub);font-size:15px}
+.ceo{display:grid;grid-template-columns:1fr 1.2fr;gap:44px;align-items:center}
+.ceo img{width:100%;border-radius:20px;display:block}
+.ceo blockquote{font-family:'Noto Serif KR',serif;font-size:26px;line-height:1.6;color:var(--navy)}
+.ceo .sig{margin-top:18px;color:var(--sub)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.steps div{background:#fff;border-radius:16px;padding:24px;border:1px solid var(--line)}
+.steps em{font-style:normal;color:var(--gold);font-weight:900;font-size:22px}
+.steps b{display:block;font-size:19px;margin-top:6px}.steps small{color:var(--sub);font-size:15px}
+.blog{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.blog a{border:1px solid var(--line);border-radius:16px;padding:22px;background:#fff}
+.blog small{color:var(--gold);font-weight:700}.blog b{display:block;font-size:19px;margin-top:6px;line-height:1.45}.blog p{color:var(--sub);font-size:15px;margin-top:8px}
+.contact{background:var(--navy);color:#fff;border-radius:24px;padding:50px;display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:center}
+.contact h2{color:#fff}
+.contact .btns{display:grid;gap:10px}
+.contact .btns a{display:block;text-align:center;border-radius:14px;padding:18px;font-size:20px;font-weight:900}
+.b1{background:var(--gold);color:#fff}.b2{background:#fee500;color:#3c1e1e}.b3{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3)}
+footer{padding:40px 0 90px;color:var(--sub);font-size:14px;line-height:1.9}
+footer b{color:var(--ink)}
+.fab{position:fixed;right:18px;bottom:18px;z-index:30;background:var(--gold);color:#fff;border-radius:99px;padding:16px 22px;font-weight:900;font-size:17px;box-shadow:0 10px 24px rgba(0,0,0,.2)}
+@media(max-width:860px){header nav{display:none}header .in{height:64px}.brand b{font-size:19px}.brand small{display:none}.call{padding:9px 14px;font-size:14px}.call span{display:none}.srch button{padding:11px 14px;font-size:15px}.hero{height:520px}.hero h1{font-size:34px}.ls,.blog{grid-template-columns:1fr}.area,.ceo,.contact{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}h2{font-size:28px}.contact{padding:30px}}
+</style></head><body>
+<div class="demo">✨ 찰칵홈이 만든 <b>부동산 홈페이지 예시</b>예요 · 상호·매물·사진만 바꾸면 대표님 홈페이지가 돼요</div>
+<header><div class="in">
+ <a class="brand" href="#"><b>장유 바른공인중개사</b><small>JANGYU REALTY</small></a>
+ <nav><a href="#list">추천 매물</a><a href="#area">장유 생활 정보</a><a href="#ceo">대표 인사</a><a href="#news">부동산 소식</a><a href="#contact">상담 문의</a></nav>
+ <a class="call" href="#contact">📞 <span>055-000-0000</span><i style="font-style:normal">전화</i></a>
+</div></header>
+
+<div class="hero"><div class="in">
+ <small>김해 장유 · 율하 · 대청 아파트 전문</small>
+ <h1>장유에서 20년,<br>동네를 가장 잘 아는 중개사무소</h1>
+ <p>매매·전세·월세, 집 보러 오시기 전에 원하시는 조건부터 편하게 말씀 주세요.</p>
+ <div class="srch" id="srch"><button class="on" data-k="all">전체</button><button data-k="매매">매매</button><button data-k="전세">전세</button><button data-k="월세">월세</button><a class="srch go" href="#list" style="margin-left:auto;background:var(--gold);color:#fff;border-radius:10px;padding:14px 22px;font-weight:700">매물 보기 →</a></div>
+</div></div>
+
+<section id="list"><div class="in">
+ <div class="eb">LISTINGS</div><h2>이번 주 추천 매물</h2>
+ <p class="sl">사진은 대표가 직접 다녀와 찍은 것만 올려요. 궁금한 매물은 눌러서 바로 문의하세요.</p>
+ <div class="flt" id="flt"><button class="on" data-k="all">전체</button><button data-k="매매">매매</button><button data-k="전세">전세</button><button data-k="월세">월세</button></div>
+ <div class="ls" id="ls"></div>
+ <p class="law">※ 예시 매물이에요. 실제 홈페이지에서는 공인중개사법에 따라 소재지·면적·가격·층수·방향·입주 가능일 등 표시 항목과 중개사무소 정보를 매물마다 함께 표시해요.</p>
+</div></section>
+
+<section id="area" class="alt"><div class="in area">
+ <img src="img/living.jpg" alt="공원 앞 아파트 거실 예시">
+ <div><div class="eb">LIVING INFO</div><h2>장유, 이래서<br>살기 좋아요</h2>
+  <div class="pts">
+   <div><i>🌳</i><span><b>공원과 산책로</b><small>단지 바로 옆 큰 공원, 저녁 산책하기 좋은 동네</small></span></div>
+   <div><i>🏫</i><span><b>초·중학교 도보권</b><small>아이 키우는 집이 많은 학교 가까운 단지 위주</small></span></div>
+   <div><i>🛒</i><span><b>생활 편의</b><small>대형마트·병원·학원가가 차로 5분 안에</small></span></div>
+   <div><i>🚗</i><span><b>창원·부산 출퇴근</b><small>남해고속도로·부산 방면 교통 (예시)</small></span></div>
+  </div></div>
+</div></section>
+
+<section id="ceo"><div class="in ceo">
+ <img src="img/office.jpg" alt="중개사무소 내부 예시">
+ <div><div class="eb">GREETING</div>
+  <blockquote>“집은 숫자가 아니라<br>가족이 살 곳이니까요.”</blockquote>
+  <p class="sig">좋은 점만이 아니라 아쉬운 점까지 먼저 말씀드립니다. 계약이 끝난 뒤에도 궁금한 건 언제든 연락 주세요.<br><b>대표 공인중개사 ○○○ (예시)</b></p>
+ </div>
+</div></section>
+
+<section class="alt"><div class="in">
+ <div class="eb">HOW WE WORK</div><h2>상담은 이렇게 진행돼요</h2>
+ <div class="steps">
+  <div><em>01</em><b>조건 듣기</b><small>예산·지역·입주 시기를 전화나 카톡으로</small></div>
+  <div><em>02</em><b>매물 추천</b><small>조건에 맞는 매물을 사진과 함께 먼저 보내 드려요</small></div>
+  <div><em>03</em><b>함께 보기</b><small>원하시는 시간에 같이 방문해요</small></div>
+  <div><em>04</em><b>안전한 계약</b><small>등기부·권리관계를 꼼꼼히 확인하고 설명</small></div>
+ </div>
+</div></section>
+
+<section id="news"><div class="in">
+ <div class="eb">NEWS</div><h2>장유 부동산 소식</h2>
+ <div class="blog">
+  <a href="#"><small>시세 이야기</small><b>장유 30평대 아파트, 요즘 전세는 얼마일까?</b><p>단지별로 최근 거래를 쉽게 정리했어요. (블로그 글 예시)</p></a>
+  <a href="#"><small>이사 준비</small><b>전세 계약 전 꼭 확인할 서류 4가지</b><p>등기부등본부터 확정일자까지, 처음이셔도 걱정 없게.</p></a>
+  <a href="#"><small>동네 소개</small><b>아이 키우기 좋은 장유 단지 3곳</b><p>학교·공원·학원가 기준으로 골라 봤어요.</p></a>
+ </div>
+</div></section>
+
+<section id="contact"><div class="in"><div class="contact">
+ <div><div class="eb" style="color:#f1d38f">CONTACT</div><h2>편하게 물어보세요</h2><p style="opacity:.85;margin-top:10px">평일 09:00–19:00 · 토요일 10:00–16:00<br>김해시 장유 ○○로 00, 1층 (예시)</p></div>
+ <div class="btns"><a class="b1" href="#">📞 전화 상담 055-000-0000</a><a class="b2" href="#">💬 카카오톡 상담</a><a class="b3" href="#">📍 오시는 길</a></div>
+</div></div></section>
+
+<footer><div class="in">
+ <b>장유 바른공인중개사사무소 (예시)</b><br>
+ 대표 공인중개사 ○○○ · 중개사무소 등록번호 제00000-0000-00000호 · 사업자등록번호 000-00-00000<br>
+ 김해시 장유 ○○로 00 · 055-000-0000<br>
+ <span style="font-size:13px">이 페이지는 찰칵홈 제작 예시이며, 상호·매물·연락처는 모두 가상 정보입니다.</span>
+</div></footer>
+<a class="fab" href="#contact">💬 상담하기</a>
+<script>
+const L=[
+ {t:"매매",p:"4억 2,000만",n:"장유 ○○아파트 34평",img:"img/living.jpg",s:["남향","12/20층","방3·욕2","공원 조망"]},
+ {t:"전세",p:"2억 5,000만",n:"율하 ○○아파트 25평",img:"img/kitchen.jpg",s:["동남향","7/15층","방3·욕1","초교 도보 5분"]},
+ {t:"월세",p:"1,000 / 60",n:"대청 ○○오피스텔 18평",img:"img/office.jpg",s:["남서향","4/10층","방1·욕1","풀옵션"]},
+ {t:"매매",p:"3억 6,500만",n:"장유 ○○아파트 32평",img:"img/kitchen.jpg",s:["남향","5/25층","방3·욕2","리모델링"]},
+ {t:"전세",p:"3억",n:"장유 ○○아파트 33평",img:"img/apt.jpg",s:["남향","15/25층","방3·욕2","즉시 입주"]},
+ {t:"월세",p:"500 / 45",n:"율하 ○○빌라 15평",img:"img/living.jpg",s:["동향","2/4층","방2·욕1","주차 1대"]}];
+const cls={매매:"",전세:"j",월세:"w"};
+function draw(k){document.getElementById('ls').innerHTML=L.filter(x=>k==="all"||x.t===k).map(x=>`<div class="card"><div class="im" style="background-image:url(${x.img})"><span class="tg ${cls[x.t]}">${x.t}</span></div><div class="bd"><div class="pr">${x.p}</div><div class="nm">${x.n}</div><div class="sp">${x.s.map(s=>`<span>${s}</span>`).join("")}</div><a class="ask" href="#contact">이 매물 문의하기</a></div></div>`).join("")}
+function setK(k){document.querySelectorAll('#flt button,#srch button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));draw(k)}
+document.querySelectorAll('#flt button,#srch button').forEach(b=>b.onclick=()=>setK(b.dataset.k));draw("all");
+</script>
+</body></html>
