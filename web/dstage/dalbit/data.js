@@ -42,6 +42,25 @@ window.TOON={
     {
      "no": 2,
      "t": "전자레인지 수업",
+     "date": "2026.11.23",
+     "type": "img",
+     "imgs": [
+      "img/ruru/ep2_01.jpg?v=1",
+      "img/ruru/ep2_02.jpg?v=1",
+      "img/ruru/ep2_03.jpg?v=1",
+      "img/ruru/ep2_04.jpg?v=1",
+      "img/ruru/ep2_05.jpg?v=1",
+      "img/ruru/ep2_06.jpg?v=1",
+      "img/ruru/ep2_07.jpg?v=1",
+      "img/ruru/ep2_08.jpg?v=1",
+      "img/ruru/ep2_09.jpg?v=1",
+      "img/ruru/ep2_10.jpg?v=1"
+     ],
+     "body": "다음 날 밤, 편의점 앞에는 '드래곤 직화 도시락' 줄이 서 있다. 도윤은 오늘만큼은 전자레인지부터 가르치기로 한다. 하지만 루루는 상자 속 '작은 태양'에 반하고, 버튼을 마구 누르고, 빙글빙글 도는 도시락에 넋을 잃는다. 결과는 미지근한 도시락과 화난 손님들. 도윤의 새 작전은 '불은 딱 1초만'. 루루의 1초 직화는 완벽했다. 단, 천장의 스프링클러만 빼고."
+    },
+    {
+     "no": 3,
+     "t": "꼬리 손님",
      "date": "",
      "type": "soon",
      "body": ""
