@@ -1020,9 +1020,9 @@ function fsHint(){const f=document.getElementById("fsave");if(!f)return;f.classL
 <script id="router">
 (function(){
  if(location.hash.startsWith("#studio"))return;
- const MAP={home:["top","ex"],how:["how"],why:["why"],pf:["pf"],price:["price"],faq:["faq"]};
+ const MAP={home:["top","ex","how","why","pf","price","faq"],how:["how"],why:["why"],pf:["pf"],price:["price"],faq:["faq"]};
  const ALL=[].concat(...Object.values(MAP)).map(id=>document.getElementById(id)).filter(Boolean);
- const ID2V={};for(const v in MAP)MAP[v].forEach(id=>ID2V[id]=v);ID2V.top="home";
+ const ID2V={};for(const v in MAP)if(v!=="home")MAP[v].forEach(id=>ID2V[id]=v);ID2V.top="home";ID2V.ex="home";
  function show(v,push){
   if(!MAP[v])v="home";
   ALL.forEach(el=>el.classList.add("vh"));ALL.forEach(el=>el.classList.remove("vtop"));if(v!=="home"){const f=document.getElementById(MAP[v][0]);if(f)f.classList.add("vtop")}
