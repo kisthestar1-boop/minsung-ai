@@ -205,6 +205,70 @@ details summary{cursor:pointer;font-weight:700}
 .rep table.led td:focus-within{box-shadow:inset 0 0 0 2px var(--acc)}
 
 @media (max-width:820px){.app{grid-template-columns:1fr}.rep table.led{min-width:720px}.rep{overflow-x:auto}.rep .eq>div{flex:1 1 40%}}
+
+/* ===== 보고서 문서형 (학습: 숫자 오른쪽·같은 폭 숫자, 표를 화면 가득 늘이지 않기, 가로선만 연하게, 묶음은 여백으로, 중요한 숫자만 강조, 줄 높이 40px) ===== */
+.rep{border:0;background:none;overflow:visible}
+.doc{max-width:980px;margin:0 auto;background:#fff;border:1px solid var(--ln);border-radius:8px;padding:30px 36px 26px;box-shadow:0 1px 3px rgba(20,30,45,.05)}
+.doc .dh{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;padding-bottom:18px;border-bottom:2px solid var(--ink);flex-wrap:wrap}
+.doc h3{margin:0;font-size:1.55rem;letter-spacing:-.02em}.doc .dh p{margin:6px 0 0;color:var(--mu);font-size:.95rem}
+.doc .kpi{text-align:right}.doc .kpi span{font-size:.9rem;color:var(--mu)}
+.doc .kpi b{display:block;font-size:2.1rem;line-height:1.15;font-variant-numeric:tabular-nums;letter-spacing:-.01em}.doc .kpi b small{font-size:1rem;margin-left:3px;color:var(--mu);font-weight:600}
+.doc .kpi em{font-style:normal;font-size:.88rem;font-weight:700}
+.doc .stmt{max-width:620px;margin:22px auto 8px}
+.doc table{width:100%;border-collapse:collapse;font-variant-numeric:lining-nums tabular-nums}
+.doc table.st{font-size:1.02rem}
+.doc table.st td{padding:9px 4px;border-bottom:1px solid #EEF0F3;white-space:normal;max-width:none;overflow:visible}
+.doc table.st tr.it td:first-child{padding-left:22px;color:#3B4452}
+.doc table.st tr.gh td{padding-top:20px;border-bottom:1px solid #C9D0DA;font-weight:800;font-size:.92rem;color:var(--acc);letter-spacing:.02em}
+.doc table.st tr.stot td{font-weight:700;border-bottom:0;padding-bottom:4px}
+.doc table.st tr.cf td{font-weight:700}
+.doc table.st tr.fin td{border-top:2px solid var(--ink);border-bottom:3px double var(--ink);font-weight:800;font-size:1.18rem;padding:13px 4px;background:#FFF8D6}
+.doc .cn{font-size:.8rem;color:#8A94A3;font-weight:500;margin-left:6px}
+.doc .sub{display:block;margin:2px 0 0;font-size:.82rem;color:var(--mu)}
+.doc input.big2{font-size:1.02rem;font-weight:700;text-align:right;width:160px;border:1px solid transparent;background:transparent;padding:2px 4px}
+.doc input.big2:hover,.doc input.big2:focus{border-color:var(--acc);background:#fff}
+.doc .lh{display:flex;align-items:center;gap:14px;margin:34px 0 4px;flex-wrap:wrap;padding:0}
+.doc .lh h4{margin:0;font-size:1.2rem}
+.doc .fc{display:flex;gap:6px;flex-wrap:wrap}
+.doc .fc button{font-size:.86rem;padding:4px 12px;border-radius:16px;font-weight:600;color:#4A5361;background:#F3F5F8;border:1px solid transparent}
+.doc .fc button span{color:#8A94A3;margin-left:2px}.doc .fc button.on{background:var(--ink);color:#fff}.doc .fc button.on span{color:#C9D0DA}
+.doc .hint{margin:4px 0 10px;font-size:.84rem;color:#8A94A3}
+.doc table.led{table-layout:fixed;font-size:.98rem;border-top:2px solid var(--ink);min-width:0}
+.doc table.led th{position:static;background:none;border:0;border-bottom:1px solid #C9D0DA;color:#4A5361;font-size:.84rem;font-weight:700;padding:10px 6px;text-align:left}
+.doc table.led th.num{text-align:right}
+.doc table.led td{height:44px;padding:0 6px;border:0;border-bottom:1px solid #EEF0F3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc table.led td.tx{display:table-cell}
+.doc table.led td.tx .sub{display:inline;margin-left:8px}
+.doc table.led input{font-size:.98rem;border:1px solid transparent;background:transparent;border-radius:4px;padding:5px 6px;color:var(--ink)}
+.doc table.led input.t{width:auto;max-width:62%;min-width:120px;flex:none}
+.doc table.led tr:not(.nw) input.t{width:auto}
+.doc table.led input.d{width:100%;text-align:left;color:#6B7584;font-size:.92rem}
+.doc table.led input.a{width:100%;text-align:right;font-variant-numeric:tabular-nums}
+.doc table.led input.a.o{color:var(--bad)}
+.doc table.led input:hover,.doc table.led input:focus{border-color:var(--acc);background:#fff}
+.doc table.led select.cs{appearance:none;-webkit-appearance:none;width:auto;max-width:100%;font-size:.84rem;font-weight:600;padding:3px 10px;border-radius:14px;border:0;background:#EEF3FB;color:#2B5797;cursor:pointer}
+.doc table.led tr.out select.cs{background:#FCEEEC;color:#B03A31}
+.doc table.led select.cs:hover,.doc table.led select.cs:focus{outline:2px solid var(--acc)}
+.doc td.bl{color:#4A5361;font-weight:600;background:none}
+.doc table.led tr.cf td{color:#6B7584;font-weight:600;background:#FAFBFC}
+.doc table.led tr.flag td{background:#FFF8DC}
+.doc table.led tr:not(.nw):not(.tot):hover td{background:#F7FAFF}
+.doc table.led td.nb .ic,.doc table.led td.nb .rc{opacity:.25;transition:opacity .15s}
+.doc table.led tr:hover td.nb .ic,.doc table.led tr:hover td.nb .rc,.doc table.led td.nb .rc img~.ic{opacity:1}
+.doc table.led td.nb .rc:has(img){opacity:1}
+.doc table.led tr.nw td{background:#F5F9FF;border-top:1px dashed #BFD7F8;border-bottom:1px dashed #BFD7F8}
+.doc table.led tr.nw input{border:1px solid #CFDDF1!important;background:#fff!important}
+.doc table.led tr.nw input.t{width:100%;max-width:none}
+.doc table.led tr.nw select.cs{background:#fff;border:1px solid #CFDDF1}
+.doc table.led tr.tot td{font-weight:800;border-top:2px solid var(--ink);border-bottom:0;background:none;height:48px}
+.doc .addl{margin:0}
+@media (max-width:820px){.doc{padding:18px 14px;border-radius:0;border-left:0;border-right:0}.doc .kpi{text-align:left}.doc .stmt{margin:16px 0}.doc .ledw{overflow-x:auto}.doc table.led{min-width:720px}}
+
+.doc table.led td.tx{display:flex;align-items:center;gap:6px;height:44px}
+.doc table.led td.tx input.t,.doc table.led tr:not(.nw) input.t{flex:1 1 auto;width:auto;max-width:none;min-width:0}
+.doc .pill.fl{flex:none;cursor:help}.doc td.tx .addl{flex:none;font-size:.76rem;padding:2px 8px}
+@media (max-width:1500px){.body{grid-template-columns:190px 1fr}.side{display:none}}
+@media (max-width:820px){.body{grid-template-columns:1fr}}
 </style></head><body>
 <div class="app">
 <nav class="rail" aria-label="큰 메뉴"><button data-go="0" title="홈" class="on"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg><small>홈</small></button><button data-go="1" title="재무"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg><small>재무</small></button><button data-go="3" data-tab="pay" title="회비"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg><small>회비</small></button><button data-go="3" data-tab="att" title="출결"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M8 14l2.5 2.5L16 12"/></svg><small>출결</small></button><button data-go="3" data-tab="mem" title="회원"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 010 7M18.5 14.8c1.6.9 2.6 2.6 3 5.2"/></svg><small>회원</small></button><button data-go="2" title="자료"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg><small>자료</small></button><span class="sp"></span></nav>
@@ -470,26 +534,37 @@ function drawMain(){
   let bal=C.carryIn;const balOf={};list.forEach(t=>{if(t.cat!=='skip')bal+=t.in-t.out;balOf[t.id]=bal});
   const show=list.filter(t=>FIL==='all'||(FIL==='chk'?t.flag:t.cat===FIL));
   const row=t=>{const isOut=t.cat==='out'||t.out>0;const rcs=(t.rc||[]).map((u,i)=>`<img src="${u}" alt="영수증 ${i+1}" data-big="${esc(t.id)}|${i}">`).join('');
-    const who=t.cat==='fee'&&!t.flag&&t.who.length?`<span class="sub">${esc(t.who.join(', '))}${t.mons.length>1||t.mons[0]!==CM?' · '+t.mons.map(mlab).join(',')+'월':''}</span>`:'';
-    const fl=t.flag?`<span class="pill p-bad" title="${esc(t.flag)}">확인</span><span class="sub n">${esc(t.flag)}</span>${t.unknown&&t.unknown.length?`<button class="addl" data-add="${esc(t.id)}">＋ 회원 추가</button>`:''}`:'';
-    return `<tr class="${t.flag?'flag':''}"><td class="c dt"><input class="d" data-e="${esc(t.id)}" data-f="date" value="${mlab(t.date)}/${+t.date.slice(8)}" aria-label="날짜"></td><td>${catSel(t)}</td><td class="tx"><input class="t" data-e="${esc(t.id)}" data-f="text" value="${esc(t.text)}" aria-label="내역">${who}${fl}</td><td class="num">${isOut?'':`<input class="a" data-e="${esc(t.id)}" data-f="in" inputmode="numeric" value="${won(t.in)}" aria-label="수입">`}</td><td class="num">${isOut?`<input class="a o" data-e="${esc(t.id)}" data-f="out" inputmode="numeric" value="${won(t.out)}" aria-label="지출">`:''}</td><td class="num bl">${won(balOf[t.id])}</td><td class="c nb">${isOut?`<span class="rc">${rcs}<button class="ic" data-rc="${esc(t.id)}" title="영수증 사진 붙이기">📷</button></span>`:''}<button class="ic" data-del="${esc(t.id)}" title="이 줄 지우기">🗑</button></td></tr>`};
+    const who='';const tip=t.cat==='fee'&&t.who.length?esc(t.who.join(', '))+(t.mons.length>1||t.mons[0]!==CM?' · '+t.mons.map(mlab).join(',')+'월':''):'';
+    const fl=t.flag?`<span class="pill p-bad fl" title="${esc(t.flag)}">확인 ⓘ</span>${t.unknown&&t.unknown.length?`<button class="addl" data-add="${esc(t.id)}">＋ 회원</button>`:''}`:'';
+    return `<tr class="${t.flag?'flag':''} ${t.cat==='out'||t.out>0?'out':''}"><td><input class="d" data-e="${esc(t.id)}" data-f="date" value="${mlab(t.date)}/${+t.date.slice(8)}" aria-label="날짜"></td><td class="tx"><input class="t" data-e="${esc(t.id)}" data-f="text" value="${esc(t.text)}" title="${tip||esc(t.text)}" aria-label="내역">${who}${fl}</td><td>${catSel(t)}</td><td class="num">${isOut?'':`<input class="a" data-e="${esc(t.id)}" data-f="in" inputmode="numeric" value="${won(t.in)}" aria-label="수입">`}</td><td class="num">${isOut?`<input class="a o" data-e="${esc(t.id)}" data-f="out" inputmode="numeric" value="${won(t.out)}" aria-label="지출">`:''}</td><td class="num bl">${won(balOf[t.id])}</td><td class="nb">${isOut?`<span class="rc">${rcs}<button class="ic" data-rc="${esc(t.id)}" title="영수증 사진 붙이기">📷</button></span>`:''}<button class="ic" data-del="${esc(t.id)}" title="이 줄 지우기">🗑</button></td></tr>`};
   const inc=[['회비','fee'],['가입비','join'],['대회비','meet'],['레슨비','lesson'],['기타 수입','etc']];
   const cnt=k=>list.filter(t=>t.cat===k).length;
   const outs=list.filter(t=>t.cat==='out');
   const flagN=list.filter(t=>t.flag).length;
   const chips=[['all','전체',list.length]].concat(flagN?[['chk','확인 필요',flagN]]:[]).concat(inc.map(([l,k])=>[k,l,cnt(k)]).filter(x=>x[2])).concat([['out','지출',outs.length]]);
-  $('main').innerHTML=`<div class="ttl">▶ ${esc(ST.club||'클럽')} ${mo}월 재무 보고 ◀<small>(${y}.${pad(mo)}.01 ~ ${y}.${pad(mo)}.${last}) · 정회원 ${C.act.length}명${C.rows.length-C.act.length?' · 보류 '+(C.rows.length-C.act.length)+'명':''}</small></div>
-  <div class="eq"><div><span>전월 이월</span><input class="a big2" id="carry" inputmode="numeric" value="${won(C.carryIn)}" aria-label="전월 이월"></div><i>+</i><div class="g"><span>들어온 돈</span><b>${won(C.inSum)}</b></div><i>−</i><div class="r"><span>나간 돈</span><b>${won(C.outSum)}</b></div><i>=</i><div class="k"><span>차월 이월 (잔액)</span><b>${won(C.carryOut)}</b></div></div>
-  <div class="two">
-    <table class="mini"><thead><tr><th>수입</th><th class="c">건</th><th class="num">금액</th></tr></thead><tbody>${inc.map(([l,k])=>`<tr data-fil="${k}" class="${C.by[k]?'':'zero'}"><td>${l}${k==='fee'?` <span class="sub">선납 ${won(C.pre)} · 미납 <b class="n">${won(C.unpaid)}</b></span>`:''}</td><td class="c">${cnt(k)||''}</td><td class="num">${C.by[k]?won(C.by[k]):'-'}</td></tr>`).join('')}<tr class="tot"><td>합계</td><td></td><td class="num">${won(C.inSum)}</td></tr></tbody></table>
-    <table class="mini"><thead><tr><th>지출</th><th class="c">날짜</th><th class="num">금액</th></tr></thead><tbody>${outs.slice(0,5).map(t=>`<tr><td>${esc(t.text)}</td><td class="c dt">${mlab(t.date)}/${+t.date.slice(8)}</td><td class="num">${won(t.out)}</td></tr>`).join('')}${outs.length>5?`<tr data-fil="out"><td class="sub" colspan="3">외 ${outs.length-5}건 · 아래 전표에서 보기</td></tr>`:''}${outs.length?'':'<tr><td colspan="3" class="sub">이번 달 지출이 없어요</td></tr>'}<tr class="tot"><td>합계</td><td></td><td class="num">${won(C.outSum)}</td></tr></tbody></table>
+  const L=(lab,val,cls='',sub='')=>`<tr class="${cls}"><td>${lab}${sub?`<span class="sub">${sub}</span>`:''}</td><td class="num">${val}</td></tr>`;
+  const incRows=inc.map(([l,k])=>C.by[k]||k==='fee'?L(l+(cnt(k)?` <span class="cn">${cnt(k)}건</span>`:''),C.by[k]?won(C.by[k]):'0','it',k==='fee'&&C.unpaid?`선납 ${won(C.pre)} · <b class="n">미납 ${won(C.unpaid)}</b>`:''):'').join('');
+  const outRows=outs.map(t=>L(esc(t.text)+` <span class="cn">${mlab(t.date)}/${+t.date.slice(8)}</span>`,won(t.out),'it')).join('')||L('<span class="sub" style="margin:0">지출 없음</span>','0','it');
+  $('main').innerHTML=`<div class="doc">
+  <div class="dh"><div><h3>${esc(ST.club||'클럽')} ${mo}월 재무 보고</h3><p>${y}.${pad(mo)}.01 ~ ${y}.${pad(mo)}.${last} · 정회원 ${C.act.length}명${C.rows.length-C.act.length?' · 보류 '+(C.rows.length-C.act.length)+'명':''}</p></div>
+    <div class="kpi"><span>이번 달 말 잔액</span><b>${won(C.carryOut)}<small>원</small></b><em class="${C.inSum-C.outSum>=0?'y':'n'}">${C.inSum-C.outSum>=0?'▲':'▼'} ${won(Math.abs(C.inSum-C.outSum))} (전월 대비)</em></div></div>
+  <div class="stmt">
+    <table class="st"><tbody>
+      <tr class="cf"><td>전월 이월</td><td class="num"><input class="a big2" id="carry" inputmode="numeric" value="${won(C.carryIn)}" aria-label="전월 이월"></td></tr>
+      <tr class="gh"><td colspan="2">수입</td></tr>${incRows}
+      ${L('수입 합계','<b class="y">+'+won(C.inSum)+'</b>','stot')}
+      <tr class="gh"><td colspan="2">지출</td></tr>${outRows}
+      ${L('지출 합계','<b class="n">−'+won(C.outSum)+'</b>','stot')}
+      <tr class="fin"><td>차월 이월 (잔액)</td><td class="num">${won(C.carryOut)}</td></tr>
+    </tbody></table>
   </div>
-  <div class="lh"><b>전표 (날짜순)</b><span class="sub">엑셀처럼 칸을 눌러 바로 고쳐요 · Enter는 아래 칸 · 맨 아래 줄에 새로 쓰거나 엑셀에서 복사한 줄을 붙여 넣으세요</span><div class="fc">${chips.map(([k,l,n])=>`<button data-fil="${k}" class="${FIL===k?'on':''}">${l} ${n}</button>`).join('')}</div></div>
-  <table class="led"><colgroup><col style="width:58px"><col style="width:104px"><col><col style="width:110px"><col style="width:110px"><col style="width:116px"><col style="width:86px"></colgroup>
-  <thead><tr><th class="c">날짜</th><th>분류</th><th>내역</th><th class="num">수입</th><th class="num">지출</th><th class="num">잔액</th><th class="c">증빙</th></tr></thead>
-  <tbody><tr class="cf"><td></td><td></td><td>전월 이월</td><td></td><td></td><td class="num bl">${won(C.carryIn)}</td><td></td></tr>${show.map(row).join('')||'<tr><td colspan="7" class="sub" style="padding:14px">내역이 없어요. 자료 넣기에서 통장 내역을 넣거나 ＋ 버튼으로 적어 주세요.</td></tr>'}
-  <tr class="nw"><td class="c"><input class="d" data-nw="date" value="${esc(NWDATE||mlab(CM)+'/'+(CM===THIS?today.getDate():1))}" aria-label="새 줄 날짜"></td><td><select class="cs" data-nw="cat" aria-label="새 줄 분류"><option value="auto">자동</option>${Object.entries(CATS).filter(([k])=>k!=='skip').map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></td><td class="tx"><input class="t" data-nw="text" placeholder="여기에 새 내역 쓰기 · 엑셀에서 복사한 줄 붙여 넣기" aria-label="새 줄 내역"></td><td class="num"><input class="a" data-nw="in" inputmode="numeric" placeholder="수입" aria-label="새 줄 수입"></td><td class="num"><input class="a o" data-nw="out" inputmode="numeric" placeholder="지출" aria-label="새 줄 지출"></td><td></td><td class="c"><button class="addl" data-commit="1">넣기 ↵</button></td></tr>
-  <tr class="tot"><td></td><td></td><td>${FIL==='all'?'월 합계':'보이는 줄 합계'}</td><td class="num">${won(show.reduce((a,t)=>a+t.in,0))}</td><td class="num">${won(show.reduce((a,t)=>a+t.out,0))}</td><td class="num bl">${won(C.carryOut)}</td><td></td></tr></tbody></table>`;
+  <div class="lh"><h4>전표</h4><div class="fc">${chips.map(([k,l,n])=>`<button data-fil="${k}" class="${FIL===k?'on':''}">${l} <span>${n}</span></button>`).join('')}</div></div>
+  <p class="hint">칸을 눌러 바로 고쳐요 · <b>Enter</b> 아래 칸 · 맨 아래 줄에 새로 쓰거나 엑셀에서 복사한 줄을 붙여 넣으세요</p>
+  <div class="ledw"><table class="led"><colgroup><col style="width:64px"><col><col style="width:96px"><col style="width:112px"><col style="width:112px"><col style="width:124px"><col style="width:64px"></colgroup>
+  <thead><tr><th>날짜</th><th>내역</th><th>분류</th><th class="num">수입</th><th class="num">지출</th><th class="num">잔액</th><th></th></tr></thead>
+  <tbody><tr class="cf"><td></td><td>전월 이월</td><td></td><td></td><td></td><td class="num bl">${won(C.carryIn)}</td><td></td></tr>${show.map(row).join('')||'<tr><td colspan="7" class="sub" style="padding:16px">내역이 없어요.</td></tr>'}
+  <tr class="nw"><td><input class="d" data-nw="date" value="${esc(NWDATE||mlab(CM)+'/'+(CM===THIS?today.getDate():1))}" aria-label="새 줄 날짜"></td><td class="tx"><input class="t" data-nw="text" placeholder="＋ 새 내역 쓰기 (엑셀에서 복사한 줄 붙여 넣기도 돼요)" aria-label="새 줄 내역"></td><td><select class="cs" data-nw="cat" aria-label="새 줄 분류"><option value="auto">자동</option>${Object.entries(CATS).filter(([k])=>k!=='skip').map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></td><td class="num"><input class="a" data-nw="in" inputmode="numeric" placeholder="수입" aria-label="새 줄 수입"></td><td class="num"><input class="a o" data-nw="out" inputmode="numeric" placeholder="지출" aria-label="새 줄 지출"></td><td></td><td><button class="addl" data-commit="1">넣기</button></td></tr>
+  <tr class="tot"><td></td><td>${FIL==='all'?'합계':'보이는 줄 합계'}</td><td></td><td class="num">${won(show.reduce((a,t)=>a+t.in,0))}</td><td class="num">${won(show.reduce((a,t)=>a+t.out,0))}</td><td class="num">${won(C.carryOut)}</td><td></td></tr></tbody></table></div></div>`;
 }
 function drawPay(){
   if(!C.rows.length){$('tPay').innerHTML='<tr><td class="mu">회원 명단을 먼저 넣어 주세요.</td></tr>';return}
