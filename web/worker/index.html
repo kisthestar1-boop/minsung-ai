@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>찰칵일꾼 · 귀찮은 일, 대신 해 드려요</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F7FB;--ink:#1D2433;--mu:#626B7F;--ln:#E3E6EE;--card:#fff;--acc:#2E9E5B;--acc2:#1F7A45;--y:#FFE58F}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#11151D;--ink:#EEF1F7;--mu:#9AA3B5;--ln:#262C38;--card:#181D27;--y:#5A4B12}}
+:root[data-theme=dark]{--bg:#11151D;--ink:#EEF1F7;--mu:#9AA3B5;--ln:#262C38;--card:#181D27;--y:#5A4B12}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',sans-serif;line-height:1.6}
+a{color:inherit}
+.in{max-width:1080px;margin:0 auto;padding:0 16px}
+header.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--ln)}
+header.top .in{display:flex;align-items:center;gap:14px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand i{font-style:normal;width:36px;height:36px;border-radius:10px;background:var(--acc);display:grid;place-items:center;font-size:20px}
+.brand b{font-size:1.45rem;font-weight:900;letter-spacing:-.03em}
+.brand small{display:block;font-size:.62rem;letter-spacing:.16em;color:var(--mu);font-weight:700;margin-top:-3px}
+.sp{flex:1}
+.btn{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;padding:11px 20px;font-weight:800;font-size:.95rem;text-decoration:none;cursor:pointer}
+.btn.pr{background:var(--acc);color:#fff}.btn.gh{background:var(--card);border:1px solid var(--ln);color:var(--ink)}
+.hero{background:linear-gradient(135deg,#3BB273 0%,#2E8FB8 55%,#5A5BD6 100%);color:#fff;text-align:center;padding:64px 0 56px}
+.hero .emo{font-size:3.4rem;display:flex;justify-content:center;gap:28px;margin-bottom:18px}
+.hero h1{font-family:'Jua',sans-serif;font-weight:400;font-size:clamp(2.4rem,6vw,4rem);line-height:1.15;text-shadow:0 3px 12px rgba(0,0,0,.18)}
+.hero .pill{display:inline-block;margin-top:16px;background:#fff;color:#1D2433;font-weight:800;padding:10px 22px;border-radius:999px;font-size:1.05rem}
+.hero p.s{margin-top:14px;opacity:.92;font-size:.95rem}
+.hero .cta{margin-top:26px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.hero .btn.gh{background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.4)}
+section{padding:64px 0}
+.eb{color:var(--acc);font-weight:900;font-size:.8rem;letter-spacing:.18em}
+h2{font-size:clamp(1.6rem,3.4vw,2.2rem);font-weight:900;letter-spacing:-.03em;margin-top:6px}
+.lead{color:var(--mu);margin-top:8px;max-width:40em}
+.hl{background:var(--y);padding:0 4px;border-radius:4px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+.svc{background:var(--card);border:1px solid var(--ln);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:8px}
+.svc .ic{font-size:2rem}
+.svc b{font-size:1.08rem}
+.svc p{color:var(--mu);font-size:.88rem;flex:1}
+.svc .pr{font-weight:900;color:var(--acc)}
+.svc .t{font-size:.75rem;color:var(--mu)}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px;counter-reset:f}
+.flow div{background:var(--card);border:1px solid var(--ln);border-radius:18px;padding:20px}
+.flow div:before{counter-increment:f;content:"STEP 0" counter(f);font-size:.72rem;font-weight:900;letter-spacing:.14em;color:var(--acc)}
+.flow b{display:block;margin:6px 0 4px;font-size:1.05rem}.flow small{color:var(--mu)}
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+.why div{border-radius:18px;padding:22px;background:var(--card);border:1px solid var(--ln)}
+.why b{font-size:1.6rem;font-weight:900;color:var(--acc);display:block}
+.why small{color:var(--mu)}
+.no{margin-top:24px;background:var(--card);border:1px dashed var(--ln);border-radius:16px;padding:18px 20px;color:var(--mu);font-size:.9rem}
+.faq details{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:16px 18px;margin-top:10px}
+.faq summary{font-weight:800;cursor:pointer}
+.faq p{color:var(--mu);margin-top:8px;font-size:.92rem}
+.end{background:#1D2433;color:#fff;text-align:center;padding:60px 16px}
+.end h2{color:#fff}
+.end .btn{margin-top:20px}
+footer{text-align:center;color:var(--mu);font-size:.8rem;padding:24px 16px 40px}
+@media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:1fr 1fr}.why{grid-template-columns:1fr}.hero .emo{gap:14px;font-size:2.6rem}}
+@media (max-width:480px){.grid{grid-template-columns:1fr}.top .btn{display:none}}
+</style></head><body>
+<header class="top"><div class="in">
+ <a class="brand" href="#"><i>🧰</i><span><b>찰칵일꾼</b><small>AI WORK HELPER</small></span></a>
+ <span class="sp"></span>
+ <a class="btn pr" href="#ask">일 맡기기</a>
+</div></header>
+
+<div class="hero"><div class="in">
+ <div class="emo"><span>📑</span><span>✂️</span><span>⚡</span><span>🤖</span></div>
+ <h1>귀찮은 일, 대신 해 드려요</h1>
+ <div class="pill">파일만 보내 주시면, 끝난 파일로 돌려드려요</div>
+ <p class="s">반복 입력 · 누끼 · 자막 · 번역 · 상품명 정리처럼 시간만 잡아먹는 일</p>
+ <div class="cta"><a class="btn pr" href="#ask" style="background:#fff;color:#1F7A45">무료 샘플 먼저 받기</a><a class="btn gh" href="#svc">어떤 일을 하나요?</a></div>
+</div></div>
+
+<section id="svc"><div class="in">
+ <div class="eb">WHAT WE DO</div>
+ <h2>이런 일, 이제 직접 안 하셔도 돼요</h2>
+ <p class="lead">AI가 빠르게 처리하고, <span class="hl">사람이 한 번 더 확인</span>해서 넘겨드려요. 몇 개든, 몇 백 개든 같은 품질로요.</p>
+ <div class="grid">
+  <div class="svc"><span class="ic">✂️</span><b>누끼 · 배경 지우기</b><p>상품 사진 배경을 지우고 흰 배경·그림자까지. 쇼핑몰 규격으로 맞춰 드려요.</p><span class="pr">장당 500원~</span><span class="t">50장 기준 당일</span></div>
+  <div class="svc"><span class="ic">📊</span><b>데이터 입력 · 엑셀 정리</b><p>사진·PDF·명함 속 글자를 엑셀로, 흩어진 표를 하나로, 중복 정리까지.</p><span class="pr">100행 1만 원~</span><span class="t">양에 따라 1~2일</span></div>
+  <div class="svc"><span class="ic">🏷️</span><b>상품명 · 상품 정보 정리</b><p>스마트스토어·쿠팡에 맞는 상품명, 태그, 옵션표를 대량으로 만들어 드려요.</p><span class="pr">상품당 1,000원~</span><span class="t">100개 기준 1일</span></div>
+  <div class="svc"><span class="ic">🎬</span><b>영상 자막</b><p>말소리를 받아 적고 시간 맞춰 자막 파일(SRT)로. 쇼츠용 큰 자막도 가능해요.</p><span class="pr">1분당 2,000원~</span><span class="t">10분 영상 당일</span></div>
+  <div class="svc"><span class="ic">🇯🇵</span><b>일본어 번역</b><p>상품 설명·메일·상세페이지를 한↔일로. 무역 실무 경험자가 최종 확인해요.</p><span class="pr">A4 1장 1.5만 원~</span><span class="t">1~2일</span></div>
+  <div class="svc"><span class="ic">🎙️</span><b>녹취 · 회의록</b><p>회의·인터뷰 녹음을 글로 옮기고, 핵심만 한 장으로 요약해 드려요.</p><span class="pr">30분 1만 원~</span><span class="t">당일</span></div>
+  <div class="svc"><span class="ic">🖼️</span><b>썸네일 · 배너 대량 제작</b><p>같은 틀에 글자·사진만 바꾼 썸네일·배너를 수십 장 한 번에.</p><span class="pr">장당 2,000원~</span><span class="t">20장 기준 1일</span></div>
+  <div class="svc"><span class="ic">📝</span><b>문서 정리 · 맞춤법</b><p>안내문·공지·매뉴얼을 읽기 쉽게 다듬고 맞춤법까지 확인해 드려요.</p><span class="pr">A4 1장 5천 원~</span><span class="t">당일</span></div>
+ </div>
+</div></section>
+
+<section style="padding-top:0"><div class="in">
+ <div class="eb">HOW IT WORKS</div>
+ <h2>맡기는 방법은 네 단계</h2>
+ <div class="flow">
+  <div><b>파일 보내기</b><small>사진·엑셀·영상·문서 그대로. 원하는 결과 예시가 있으면 함께요.</small></div>
+  <div><b>무료 샘플</b><small>결제 전에 몇 개만 먼저 해서 보여 드려요. 마음에 들 때만 진행.</small></div>
+  <div><b>전체 처리</b><small>AI로 빠르게 처리하고, 사람이 한 번 더 확인해요.</small></div>
+  <div><b>파일로 전달</b><small>바로 쓸 수 있는 파일로. 고칠 곳은 말씀만 주세요.</small></div>
+ </div>
+</div></section>
+
+<section style="padding-top:0"><div class="in">
+ <div class="eb">WHY US</div>
+ <h2>왜 찰칵일꾼일까요</h2>
+ <div class="why">
+  <div><b>빠르게</b><small>사람 손으로 하루 걸리는 반복 작업을 몇 시간 안에.</small></div>
+  <div><b>많아도 같게</b><small>10개든 1,000개든 같은 규칙으로 처리해서 들쭉날쭉하지 않아요.</small></div>
+  <div><b>먼저 보고 결정</b><small>결제 전 무료 샘플. 기대와 다르면 진행하지 않으셔도 돼요.</small></div>
+ </div>
+ <div class="no">🙅 이런 일은 받지 않아요 · 과제·논문 대필, 가짜 후기 작성, 개인정보를 모아 파는 일처럼 남에게 피해가 갈 수 있는 일</div>
+</div></section>
+
+<section class="faq" style="padding-top:0"><div class="in">
+ <div class="eb">FAQ</div>
+ <h2>자주 묻는 질문</h2>
+ <details><summary>AI로 하면 틀리는 곳은 없나요?</summary><p>AI가 처리한 뒤 사람이 한 번 더 확인해요. 그래도 틀린 곳이 있으면 무료로 고쳐 드려요.</p></details>
+ <details><summary>보낸 파일은 안전한가요?</summary><p>작업에만 쓰고, 작업이 끝나면 요청하신 대로 지워 드려요. 다른 곳에 쓰지 않아요.</p></details>
+ <details><summary>양이 아주 많아도 되나요?</summary><p>네. 양이 많을수록 단가를 낮춰 드려요. 먼저 샘플로 기준을 맞춘 뒤 한 번에 처리해요.</p></details>
+</div></section>
+
+<div class="end" id="ask">
+ <h2>귀찮은 일, 지금 하나 맡겨 보세요</h2>
+ <p style="opacity:.8;margin-top:8px">숨고에서 '찰칵홈'을 찾아 요청해 주시면, 무료 샘플부터 보내 드려요.</p>
+ <a class="btn pr" href="https://soomgo.com" target="_blank" rel="noopener">숨고에서 맡기기 ↗</a>
+</div>
+<footer>찰칵일꾼 · 찰칵상세 · 찰칵홈 — AI로 빠르게, 사람이 꼼꼼하게</footer>
+</body></html>
