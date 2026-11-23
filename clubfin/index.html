@@ -242,6 +242,36 @@ footer{border-top:1px solid var(--ln);padding:26px 0 40px;color:var(--mu2);font-
 .dn li span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#3A443F}
 .dn li b{font-variant-numeric:tabular-nums}
 @media (max-width:820px){.viz{grid-template-columns:1fr}.greet .gshut{width:80px;height:80px;right:14px;top:14px}.doc .big3 .bI{width:64px;height:64px}.dn{flex-direction:column;align-items:flex-start}.dn ul{width:100%}}
+
+.chips2{display:flex;gap:10px;flex-wrap:wrap}
+.c2{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-weight:700;border:2px solid;background:#fff}
+.c2 b{font-size:1.08rem}.c2.ok{color:var(--ok);border-color:#BFE3CF}.c2.no{color:var(--bad);border-color:#F3C1BB}.c2.mo{color:#8A6300;border-color:#EBD9A6}
+.c2 img{width:26px;height:26px;margin:-4px 0}
+.paygrid{display:grid;grid-template-columns:1fr 330px;gap:20px;align-items:start}
+.tbl tr.hot td{background:#FDF0EE}
+.kak{background:#fff;border-radius:22px;box-shadow:var(--sh);padding:22px;display:flex;flex-direction:column;gap:14px;position:sticky;top:90px}
+.kt{display:flex;align-items:center;gap:10px}.kt img{width:44px;height:44px}.kt h3{margin:0;font-size:1.1rem}
+.kbub{background:var(--gr);border-radius:18px;padding:14px}
+.khd{display:flex;align-items:center;gap:6px;color:#fff;font-weight:800;font-size:.86rem;margin-bottom:10px}.khd span{background:#FEE500;border-radius:6px;padding:1px 5px;font-size:.8rem}
+.kmsg{background:#fff;border-radius:4px 16px 16px 16px;padding:14px 16px;white-space:pre-wrap;font-size:.92rem;line-height:1.7;max-height:340px;overflow:auto}
+.ybtn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--yl);border:0;border-radius:14px;padding:14px;font-size:1.08rem;font-weight:800;color:var(--gr2)}
+.ybtn:hover{background:#EDB935;color:var(--gr2)}.ybtn img{width:30px;height:30px;margin:-6px 0}
+@media (max-width:1060px){.paygrid{grid-template-columns:1fr}.kak{position:static}}
+
+.sumc{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sumc>div{background:#fff;border-radius:20px;box-shadow:var(--sh);padding:18px 22px;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:14px;align-items:center}
+.sumc img{width:58px;height:58px;grid-row:span 2}
+.sumc span{color:var(--mu);font-weight:700;font-size:.92rem;align-self:end}.sumc b{font-size:1.7rem;letter-spacing:-.02em;align-self:start}
+.sumc .warn b{color:var(--bad)}
+.board{background:#E9D9B4;border-radius:24px;padding:18px 18px 18px;display:flex;flex-direction:column;gap:12px}
+.board h3{margin:2px 6px;font-family:Hahmlet,serif;font-size:1.15rem;color:#5A4520}
+.board .tbl{box-shadow:none}
+.cbar{position:relative;display:inline-block;width:86px;height:24px;border-radius:12px;background:#EEF0EE;overflow:hidden;vertical-align:middle}
+.cbar i{position:absolute;left:0;top:0;bottom:0;border-radius:12px}.cbar.g i{background:#3E9A6C}.cbar.y i{background:#F4C84B}.cbar.r i{background:#E58A80}
+.cbar b{position:relative;font-size:.8rem;font-weight:800;line-height:24px;color:#18201C}
+.kak .ppl .av{width:58px}
+@media (max-width:820px){.sumc{grid-template-columns:1fr}}
+.dot.sh{padding:0;background:#E4EFE8}.dot.sh img{width:26px;height:26px}
 </style></head><body>
 <header class="nav"><div class="wrap">
   <a class="brand" href="#" data-go="0"><span class="mk"><img src="img/ic_shuttle.png" alt=""></span><span><b id="clubName">클럽</b><small>우리 클럽 살림</small></span></a>
@@ -313,9 +343,9 @@ footer{border-top:1px solid var(--ln);padding:26px 0 40px;color:var(--mu2);font-
   <div class="tabs" role="tablist">
     <button data-t="pay" aria-selected="true">회비 납부표</button><button data-t="un" aria-selected="false">안 낸 분</button><button data-t="att" aria-selected="false">출결</button><button data-t="mem" aria-selected="false">회원</button>
   </div>
-  <div id="v-pay" style="display:flex;flex-direction:column;gap:12px"><p class="mu">동그라미를 누르면 바꿀 수 있어요: 안 냄 → ✓ 통장 → 현 현금 → 안 냄. <b class="pre">선</b>은 미리 낸 달이에요.</p><div class="tbl pay"><table id="tPay"></table></div></div>
+  <div id="v-pay" style="display:flex;flex-direction:column;gap:12px"><div class="chips2" id="payTop"></div><div class="paygrid"><div style="display:flex;flex-direction:column;gap:10px;min-width:0"><div class="tbl pay"><table id="tPay"></table></div><p class="mu">동그라미를 누르면 바뀌어요: 안 냄 → ✓ 통장 → 현 현금 → 안 냄. <b class="pre">선</b>은 미리 낸 달이에요.</p></div><aside class="kak"><div class="kt"><img src="img/ic_bell.png" alt=""><h3>안 낸 분께 보낼 글</h3></div><div class="kbub"><div class="khd"><span>💬</span>클럽 살림 알림</div><div class="kmsg" id="msg2"></div></div><button class="ybtn" id="copyMsg2"><img src="img/ic_chat.png" alt="">글 복사</button></aside></div></div>
   <div id="v-un" hidden style="display:flex;flex-direction:column;gap:12px"><div class="tbl"><table id="tUn"></table></div><div class="box"><div class="row between"><h2>💬 안 낸 분께 보낼 글</h2><button class="pri" id="copyMsg">글 복사</button></div><div class="msg" id="msg"></div></div></div>
-  <div id="v-att" hidden style="display:flex;flex-direction:column;gap:12px"><div class="tbl"><table id="tAtt"></table></div><div class="box"><div class="row between"><h2>👋 오래 안 나온 분께 보낼 글</h2><button class="pri" id="copyHi">글 복사</button></div><div class="msg" id="hi"></div></div></div>
+  <div id="v-att" hidden style="display:flex;flex-direction:column;gap:16px"><div class="sumc" id="attTop"></div><div class="paygrid"><div class="board"><h3>출결 현황판</h3><div class="tbl"><table id="tAtt"></table></div></div><aside class="kak"><div class="kt"><img src="img/ic_bell.png" alt=""><h3>오래 안 나온 분께 안부 글</h3></div><div class="ppl" id="hiAv"></div><div class="kbub"><div class="khd"><span>💬</span>클럽 살림 알림</div><div class="kmsg" id="hi2"></div></div><button class="ybtn" id="copyHi2"><img src="img/ic_chat.png" alt="">글 복사</button></aside></div><div class="msg" id="hi" hidden></div><button id="copyHi" hidden></button></div>
   <div id="v-mem" hidden style="display:flex;flex-direction:column;gap:12px"><p class="mu">구분을 "보류"로 바꾸면 회비 계산에서 빠져요.</p><div class="tbl"><table id="tMem"></table></div>
     <div class="row"><input id="newName" placeholder="새 회원 이름" style="width:180px"><button class="pri" id="addMem">회원 추가</button></div></div>
 </section>
@@ -486,9 +516,19 @@ function render(){
   const ruleN=C.list.filter(t=>!t.flag&&ST.rules[norm(t.text)]).length,autoN=C.list.length-flagged.length-ruleN;
   $('pills').innerHTML=C.list.length?`<span class="pill p-ok">✓ 자동 정리 ${autoN}줄</span><span class="pill p-q">기억한 규칙 ${ruleN}줄</span><span class="pill ${flagged.length?'p-bad':'p-ok'}">확인 필요 ${flagged.length}줄</span>`:'<span class="mu">아직 내역이 없어요. 아래 표에 직접 적거나 ② 에서 파일을 넣어 주세요.</span>';
   if(flagged.some(t=>t.cat==='fee'))OPEN.fee=true;
-  drawMain();drawPay();drawUn();drawAtt();drawMem();drawHome();drawCal();$('clubRo').textContent=ST.club||'클럽';$('condInfo').textContent=`회원 ${C.act.length}명 · ${mlab(CM)}월 내역 ${C.list.length}줄`;
+  drawMain();drawPay();drawUn();drawAtt();drawMem();drawHome();drawPayTop();drawAttTop();drawCal();$('clubRo').textContent=ST.club||'클럽';$('condInfo').textContent=`회원 ${C.act.length}명 · ${mlab(CM)}월 내역 ${C.list.length}줄`;
   $('barInfo').textContent=`회원 ${ST.members.length}명 · 내역 ${ST.tx.length}줄 · 출결 ${Object.keys(attDates()).length}일`;
 }
+function drawPayTop(){const bad=C.act.filter(r=>!r.paid),paid=C.act.length-bad.length;
+  $('payTop').innerHTML=`<span class="c2 ok">✓ 낸 사람 <b>${paid}명</b></span><span class="c2 no">✕ 아직 <b>${bad.length}명</b></span><span class="c2 mo"><img src="img/ic_fee.png" alt="">안 낸 돈 <b>${won(C.unpaid)}원</b></span>`;
+  $('msg2').textContent=$('msg').textContent}
+$('copyMsg2').addEventListener('click',()=>$('copyMsg').click());
+function drawAttTop(){const ds=Object.keys(attDates()).filter(d=>d.slice(0,7)===CM);const tot=ds.reduce((a,d)=>a+ST.members.filter(m=>(ST.att[m.name]||{})[d]).length,0);
+  const gone=C.act.filter(r=>ds.length&&!ds.some(d=>(ST.att[r.m.name]||{})[d]));
+  $('attTop').innerHTML=`<div><img src="img/ic_calendar.png" alt=""><span>이번 달 운동한 날</span><b>${ds.length}일</b></div><div><img src="img/ic_people.png" alt=""><span>평균 참석</span><b>${ds.length?(tot/ds.length).toFixed(1):0}명</b></div><div class="${gone.length?'warn':''}"><img src="img/ic_bell.png" alt=""><span>한 번도 못 뵌 분</span><b>${gone.length}명</b></div>`;
+  $('hiAv').innerHTML=gone.length?gone.map(r=>`<span class="av no"><i>${esc(r.m.name.slice(-2))}</i>${esc(r.m.name)}</span>`).join(''):'<p class="mu">모든 회원이 한 번 이상 나왔어요 🙌</p>';
+  $('hi2').textContent=$('hi').textContent}
+$('copyHi2').addEventListener('click',()=>$('copyHi').click());
 let FIL='all';
 function viz(){
   const inc=[['회비','fee','#1F4D3A'],['가입비','join','#3E8E63'],['대회비','meet','#F4C84B'],['레슨비','lesson','#F08A3C'],['기타','etc','#9DB8A8']].map(([l,k,c])=>({l,v:C.by[k]||0,c})).filter(x=>x.v>0);
@@ -552,7 +592,7 @@ function drawPay(){
   $('tPay').innerHTML='<thead><tr><th>회원</th>'+cols.map(k=>`<th class="c">${mlab(k)}월</th>`).join('')+'<th class="c">밀린 달</th><th class="num">안 낸 돈</th></tr></thead><tbody>'+C.rows.map(r=>{
     const cells=cols.map(k=>{const v=r.pm[k];let s='',c='';if(!r.active){s='보류';c='mu'}else if(v==='현'){s='현';c='cashm'}else if(v){s=k>CM?'선':'✓';c=k>CM?'pre':'y'}else if(k>CM){s='·';c=''}else if(r.miss.includes(k)){s='✕';c='n'}else{s='';}
       return `<td class="c" data-pay="${esc(r.m.name)}|${k}"><i class="dot ${c||'e'}">${s||'·'}</i></td>`}).join('');
-    return `<tr><td><span class="who"><i>${esc(r.m.name.slice(-2))}</i>${esc(r.m.name)}</span></td>${cells}<td class="c cntb ${r.miss.length?'n':'y'}">${r.active?(r.miss.length?r.miss.length+'달':'없음'):''}</td><td class="num">${r.miss.length?won(r.miss.length*(r.m.fee||ST.fee)):''}</td></tr>`}).join('')+'</tbody>';
+    return `<tr class="${r.miss.length>=3?'hot':''}"><td><span class="who"><i>${esc(r.m.name.slice(-2))}</i>${esc(r.m.name)}</span></td>${cells}<td class="c cntb ${r.miss.length?'n':'y'}">${r.active?(r.miss.length?r.miss.length+'달':'없음'):''}</td><td class="num">${r.miss.length?won(r.miss.length*(r.m.fee||ST.fee)):''}</td></tr>`}).join('')+'</tbody>';
 }
 function unpaidList(){return C.act.filter(r=>r.miss.length).sort((a,b)=>b.miss.length-a.miss.length)}
 function drawUn(){
@@ -565,7 +605,7 @@ function drawAtt(){
   const all=Object.keys(attDates()).sort(),ds=all.filter(d=>d.slice(0,7)===CM);
   if(!all.length){$('tAtt').innerHTML='<tr><td class="mu">③ 칸에 출결 내역을 넣으면 여기에 정리돼요.</td></tr>';$('hi').textContent='';return}
   const last=n=>Object.keys(ST.att[n]||{}).sort().pop()||'';
-  $('tAtt').innerHTML='<thead><tr><th>회원</th>'+ds.map(d=>`<th class="c">${+d.slice(8)}일</th>`).join('')+`<th class="c">${mlab(CM)}월 횟수</th><th>마지막으로 나온 날</th></tr></thead><tbody>`+ST.members.map(m=>{const a=ST.att[m.name]||{};const n=ds.filter(d=>a[d]).length;return `<tr><td><span class="who"><i>${esc(m.name.slice(-2))}</i>${esc(m.name)}</span></td>${ds.map(d=>`<td class="c">${a[d]?'<i class="dot y">🏸</i>':'<i class="dot e">·</i>'}</td>`).join('')}<td class="c cntb ${n?'y':'n'}">${n}번</td><td class="mu">${last(m.name)||'기록 없음'}</td></tr>`}).join('')+'</tbody>'+(ATTUNK.length?`<tfoot><tr><td colspan="${ds.length+3}" class="mu">명단에 없어 빠진 이름: ${esc(ATTUNK.join(', '))}</td></tr></tfoot>`:'');
+  $('tAtt').innerHTML='<thead><tr><th>회원</th>'+ds.map(d=>`<th class="c">${+d.slice(8)}일</th>`).join('')+`<th class="c">${mlab(CM)}월 횟수</th><th>마지막으로 나온 날</th></tr></thead><tbody>`+ST.members.map(m=>{const a=ST.att[m.name]||{};const n=ds.filter(d=>a[d]).length;return `<tr><td><span class="who"><i>${esc(m.name.slice(-2))}</i>${esc(m.name)}</span></td>${ds.map(d=>`<td class="c">${a[d]?'<i class="dot y sh"><img src="img/ic_shuttle.png" alt="나옴"></i>':'<i class="dot e">·</i>'}</td>`).join('')}<td class="c"><span class="cbar ${n>=ds.length*.75?'g':n>=ds.length*.4?'y':'r'}"><i style="width:${ds.length?n/ds.length*100:0}%"></i><b>${n}/${ds.length}</b></span></td><td class="mu">${last(m.name)?mlab(last(m.name))+'월 '+(+last(m.name).slice(8))+'일':'기록 없음'}</td></tr>`}).join('')+'</tbody>'+(ATTUNK.length?`<tfoot><tr><td colspan="${ds.length+3}" class="mu">명단에 없어 빠진 이름: ${esc(ATTUNK.join(', '))}</td></tr></tfoot>`:'');
   const gone=C.act.filter(r=>ds.length&&!ds.some(d=>(ST.att[r.m.name]||{})[d]));
   $('hi').textContent=gone.length?`${mlab(CM)}월에 한 번도 못 뵌 분: ${gone.map(r=>r.m.name).join(', ')}\n\n보낼 글 ▼\n안녕하세요 😊 요즘 코트에서 못 뵌 것 같아 안부 여쭤요. 바쁘신 일 지나면 편하게 운동하러 오세요. 기다리고 있을게요!`:`${mlab(CM)}월에는 모든 회원이 한 번 이상 나왔어요.`;
 }
