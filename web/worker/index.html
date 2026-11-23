@@ -56,10 +56,18 @@ h2{font-size:clamp(1.6rem,3.4vw,2.2rem);font-weight:900;letter-spacing:-.03em;ma
 footer{text-align:center;color:var(--mu);font-size:.8rem;padding:24px 16px 40px}
 @media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:1fr 1fr}.why{grid-template-columns:1fr}.hero .emo{gap:14px;font-size:2.6rem}}
 @media (max-width:480px){.grid{grid-template-columns:1fr}.top .btn{display:none}}
+.pfg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.pfg button{border:0;background:#fff;border-radius:18px;padding:10px 10px 14px;cursor:zoom-in;text-align:left;font:inherit;color:inherit;box-shadow:0 6px 18px rgba(29,36,51,.06)}
+.pfg img{width:100%;border-radius:12px;display:block}
+.pfg b{display:block;margin:10px 4px 0;font-size:16px}.pfg small{display:block;margin:2px 4px 0;color:var(--mu);font-size:13px}
+.navl{display:flex;gap:20px;font-size:15px;color:var(--mu);font-weight:500;margin-left:30px}
+.lbx{position:fixed;inset:0;background:rgba(15,20,30,.85);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.lbx.on{display:flex}.lbx img{max-width:min(1100px,100%);max-height:92vh;border-radius:12px}
+@media(max-width:800px){.pfg{grid-template-columns:1fr}.navl{display:none}}
 </style></head><body>
 <header class="top"><div class="in">
  <a class="brand" href="#"><i>🧰</i><span><b>찰칵일꾼</b><small>AI WORK HELPER</small></span></a>
- <span class="sp"></span>
+ <nav class="navl"><a href="#svc">하는 일</a><a href="#pf">작업 예시</a><a href="#ask">맡기기</a></nav><span class="sp"></span>
  <a class="btn pr" href="#ask">일 맡기기</a>
 </div></header>
 
@@ -68,7 +76,7 @@ footer{text-align:center;color:var(--mu);font-size:.8rem;padding:24px 16px 40px}
  <h1>귀찮은 일, 대신 해 드려요</h1>
  <div class="pill">파일만 보내 주시면, 끝난 파일로 돌려드려요</div>
  <p class="s">반복 입력 · 누끼 · 자막 · 번역 · 상품명 정리처럼 시간만 잡아먹는 일</p>
- <div class="cta"><a class="btn pr" href="#ask" style="background:#fff;color:#1F7A45">무료 샘플 먼저 받기</a><a class="btn gh" href="#svc">어떤 일을 하나요?</a></div>
+ <div class="cta"><a class="btn pr" href="#ask" style="background:#fff;color:#1F7A45">무료 샘플 먼저 받기</a><a class="btn gh" href="#pf">작업 예시 보기</a></div>
 </div></div>
 
 <section id="svc"><div class="in">
@@ -84,7 +92,26 @@ footer{text-align:center;color:var(--mu);font-size:.8rem;padding:24px 16px 40px}
   <div class="svc"><span class="ic">🎙️</span><b>녹취 · 회의록</b><p>회의·인터뷰 녹음을 글로 옮기고, 핵심만 한 장으로 요약해 드려요.</p><span class="pr">30분 1만 원~</span><span class="t">당일</span></div>
   <div class="svc"><span class="ic">🖼️</span><b>썸네일 · 배너 대량 제작</b><p>같은 틀에 글자·사진만 바꾼 썸네일·배너를 수십 장 한 번에.</p><span class="pr">장당 2,000원~</span><span class="t">20장 기준 1일</span></div>
   <div class="svc"><span class="ic">📝</span><b>문서 정리 · 맞춤법</b><p>안내문·공지·매뉴얼을 읽기 쉽게 다듬고 맞춤법까지 확인해 드려요.</p><span class="pr">A4 1장 5천 원~</span><span class="t">당일</span></div>
+  <div class="svc"><span class="ic">🇺🇸</span><b>영어 번역</b><p>상품 설명·메일·안내문을 한↔영으로. 해외 고객이 읽기 편한 자연스러운 문장으로.</p><span class="pr">A4 1장 1.2만 원~</span><span class="t">1일</span></div>
+  <div class="svc"><span class="ic">📽️</span><b>PPT 정리 · 디자인</b><p>메모·한글 문서를 깔끔한 발표 자료로. 표·그래프도 보기 좋게 다시 그려요.</p><span class="pr">10장 3만 원~</span><span class="t">1~2일</span></div>
+  <div class="svc"><span class="ic">⚙️</span><b>엑셀 함수 · 자동화</b><p>매일 손으로 하던 집계를 함수·구글시트 자동화로. 버튼 하나로 끝나게.</p><span class="pr">건당 3만 원~</span><span class="t">1~2일</span></div>
+  <div class="svc"><span class="ic">🛒</span><b>쇼핑몰 상품 등록 대행</b><p>사진·상품명·옵션·상세까지 스마트스토어·쿠팡에 대량 등록해 드려요.</p><span class="pr">상품당 3,000원~</span><span class="t">50개 기준 1~2일</span></div>
  </div>
+</div></section>
+
+<section id="pf" style="padding-top:0"><div class="in">
+ <div class="eb">PORTFOLIO</div>
+ <h2>실제로 이렇게 바꿔 드려요</h2>
+ <p class="lead">보내 주신 그대로(BEFORE)와 돌려드리는 결과(AFTER)예요. 눌러서 크게 보세요.</p>
+ <div class="pfg">
+  <button data-src="img/w1.jpg"><img src="img/w1.jpg" alt="일본어 번역 예시"><b>일본어 번역</b><small>상품 설명 · 쇼핑몰 말투</small></button>
+  <button data-src="img/w2.jpg"><img src="img/w2.jpg" alt="영상 자막 예시"><b>영상 자막</b><small>SRT + 쇼츠 큰 자막</small></button>
+  <button data-src="img/w3.jpg"><img src="img/w3.jpg" alt="엑셀 정리 예시"><b>데이터 · 엑셀 정리</b><small>메모 → 표, 중복 제거</small></button>
+  <button data-src="img/w4.jpg"><img src="img/w4.jpg" alt="상품명 정리 예시"><b>상품명 · 태그</b><small>스마트스토어 규격</small></button>
+  <button data-src="img/w5.jpg"><img src="img/w5.jpg" alt="회의록 예시"><b>녹취 · 회의록</b><small>결정 · 할 일 · 기한</small></button>
+  <button data-src="img/w6.jpg"><img src="img/w6.jpg" alt="안내문 다듬기 예시"><b>안내문 · 맞춤법</b><small>읽기 쉽게 다시 쓰기</small></button>
+ </div>
+ <p class="lead" style="font-size:13px;margin-top:14px">※ 예시 속 이름·연락처·가게는 모두 설명용 가상 정보예요.</p>
 </div></section>
 
 <section style="padding-top:0"><div class="in">
@@ -123,4 +150,6 @@ footer{text-align:center;color:var(--mu);font-size:.8rem;padding:24px 16px 40px}
  <a class="btn pr" href="https://soomgo.com" target="_blank" rel="noopener">숨고에서 맡기기 ↗</a>
 </div>
 <footer>찰칵일꾼 · 찰칵상세 · 찰칵홈 — AI로 빠르게, 사람이 꼼꼼하게</footer>
+<div class="lbx" id="lbx" onclick="this.classList.remove('on')"><img id="lbxi" alt=""></div>
+<script>document.querySelectorAll('.pfg button').forEach(b=>b.onclick=()=>{document.getElementById('lbxi').src=b.dataset.src;document.getElementById('lbx').classList.add('on')})</script>
 </body></html>

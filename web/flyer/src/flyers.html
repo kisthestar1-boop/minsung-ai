@@ -1,0 +1,145 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><style>
+@font-face{font-family:BH;src:url(../../../toon_tools/fonts/BlackHanSans-Regular.ttf)}
+@font-face{font-family:GB;src:url(../../../toon_tools/fonts/GowunBatang-Bold.ttf)}
+@font-face{font-family:GR;src:url(../../../toon_tools/fonts/GowunBatang-Regular.ttf)}
+@font-face{font-family:JU;src:url(../../../toon_tools/fonts/Jua-Regular.ttf)}
+@font-face{font-family:DH;src:url(../../../toon_tools/fonts/DoHyeon-Regular.ttf)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#ddd;font-family:'Noto Sans CJK KR',sans-serif;padding:20px;display:flex;flex-wrap:wrap;gap:20px}
+.f{width:827px;height:1170px;position:relative;overflow:hidden;background:#fff}
+.cut{border-top:3px dashed rgba(0,0,0,.35);position:relative}
+.cut:before{content:"✂";position:absolute;left:20px;top:-17px;font-size:24px;background:inherit;padding:0 6px}
+
+/* 1 국밥 */
+#f1{background:#1a1311;color:#fff}
+#f1 .ph{height:620px;background:url(../img/food.jpg) center 62%/cover}
+#f1 .ph:after{content:"";position:absolute;left:0;right:0;top:380px;height:260px;background:linear-gradient(transparent,#1a1311)}
+#f1 .tag{position:absolute;left:44px;top:40px;background:#d7261e;font-family:BH;font-size:30px;padding:10px 22px;border-radius:6px;letter-spacing:2px}
+#f1 .ttl{position:absolute;left:44px;top:470px;font-family:BH;font-size:112px;line-height:1;letter-spacing:-2px;text-shadow:0 6px 30px rgba(0,0,0,.6)}
+#f1 .ttl small{display:block;font-size:38px;color:#f3c27a;letter-spacing:4px;margin-bottom:14px}
+#f1 .body{position:absolute;left:44px;right:44px;top:650px}
+#f1 .lead{font-size:24px;color:#e9dcd2;line-height:1.6}
+#f1 .menu{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:26px}
+#f1 .menu div{border:2px solid #4a3a33;border-radius:12px;padding:18px 16px}
+#f1 .menu b{display:block;font-family:BH;font-size:30px}
+#f1 .menu s{color:#8d7a70;font-size:18px;margin-right:6px}
+#f1 .menu em{font-style:normal;font-family:BH;font-size:30px;color:#f3c27a}
+#f1 .cp{position:absolute;left:0;right:0;bottom:0;height:250px;background:#f3c27a;color:#1a1311;padding:42px 44px}
+#f1 .cp:before{background:#f3c27a}
+#f1 .cp h4{font-family:BH;font-size:40px;font-weight:400;max-width:430px;line-height:1.2}
+#f1 .cp p{font-size:21px;margin-top:8px}
+#f1 .cp .info{position:absolute;right:44px;top:44px;text-align:right;font-size:20px;line-height:1.7}
+#f1 .cp .info b{font-family:BH;font-size:34px;font-weight:400}
+
+/* 2 학원 */
+#f2{background:#f7f9fc;color:#14213d}
+#f2 .top{padding:58px 56px 0}
+#f2 .eb{display:inline-block;background:#14213d;color:#fff;font-weight:800;font-size:20px;padding:8px 16px;border-radius:99px;letter-spacing:1px}
+#f2 h1{font-family:DH;font-weight:400;font-size:92px;line-height:1.08;margin-top:22px;letter-spacing:-2px}
+#f2 h1 em{font-style:normal;color:#2f6fed}
+#f2 .sub{font-size:24px;color:#4a5677;margin-top:16px;line-height:1.55}
+#f2 .ph{position:absolute;right:0;top:450px;width:540px;height:320px;background:url(../img/academy.jpg) center 70%/cover;border-radius:28px 0 0 28px}
+#f2 .badge{position:absolute;left:70px;top:500px;width:250px;height:250px;border-radius:50%;background:#ffd23f;display:grid;place-items:center;text-align:center;font-family:DH;font-size:34px;line-height:1.2;transform:rotate(-8deg);box-shadow:0 14px 30px rgba(0,0,0,.12)}
+#f2 .badge b{display:block;font-size:64px;font-weight:400;color:#14213d}
+#f2 .cls{position:absolute;left:56px;right:56px;top:800px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+#f2 .cls div{background:#fff;border-radius:18px;padding:22px 20px;box-shadow:0 6px 20px rgba(20,33,61,.08)}
+#f2 .cls i{font-style:normal;color:#2f6fed;font-weight:900;font-size:18px}
+#f2 .cls b{display:block;font-family:DH;font-weight:400;font-size:32px;margin-top:6px}
+#f2 .cls small{display:block;color:#4a5677;font-size:18px;margin-top:6px;line-height:1.45}
+#f2 .bot{position:absolute;left:0;right:0;bottom:0;height:150px;background:#14213d;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 56px}
+#f2 .bot b{font-family:DH;font-weight:400;font-size:52px;color:#ffd23f}
+#f2 .bot span{font-size:20px;line-height:1.6;text-align:right}
+
+/* 3 미용실 */
+#f3{background:#efe7dc;color:#3a2f27}
+#f3 .ph{position:absolute;left:56px;right:56px;top:56px;height:620px;background:url(../img/salon.jpg) center 30%/cover;border-radius:300px 300px 0 0}
+#f3 .nm{position:absolute;left:0;right:0;top:700px;text-align:center}
+#f3 .nm small{font-family:GR;letter-spacing:.6em;font-size:18px;color:#8a7360}
+#f3 .nm h1{font-family:GB;font-size:76px;margin-top:10px;letter-spacing:4px}
+#f3 .nm p{font-family:GR;font-size:24px;color:#6b5a4c;margin-top:8px}
+#f3 .pr{position:absolute;left:96px;right:96px;top:910px;display:grid;grid-template-columns:1fr 1fr;column-gap:50px;row-gap:12px;font-family:GR;font-size:23px}
+#f3 .pr div{display:flex;justify-content:space-between;border-bottom:1px solid #cdbca8;padding-bottom:8px}
+#f3 .pr b{font-family:GB}
+#f3 .ev{position:absolute;right:70px;top:610px;width:170px;height:170px;border-radius:50%;background:#3a2f27;color:#efe7dc;display:grid;place-items:center;text-align:center;font-family:GB;font-size:24px;line-height:1.3}
+#f3 .ev b{display:block;font-size:46px}
+#f3 .ft{position:absolute;left:0;right:0;bottom:34px;text-align:center;font-family:GR;font-size:19px;color:#6b5a4c}
+
+/* 4 베이커리 */
+#f4{background:#fbf3e4;color:#4a2c17}
+#f4 .ph{position:absolute;left:0;right:0;top:0;height:640px;background:url(../img/bakery.jpg) center 78%/cover}
+#f4 .lbl{position:absolute;left:50%;top:560px;transform:translateX(-50%);background:#fbf3e4;border-radius:30px 30px 0 0;padding:36px 70px 0;text-align:center;width:640px}
+#f4 .lbl small{font-family:JU;font-size:26px;color:#c0782b}
+#f4 .lbl h1{font-family:JU;font-weight:400;font-size:84px;line-height:1.1;margin-top:6px}
+#f4 .items{position:absolute;left:60px;right:60px;top:810px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;text-align:center}
+#f4 .items div{background:#fff;border-radius:22px;padding:22px 8px;border:2px solid #f0dcbd}
+#f4 .items .e{font-size:44px}
+#f4 .items b{display:block;font-family:JU;font-weight:400;font-size:28px;margin-top:6px}
+#f4 .items small{display:block;font-size:19px;color:#8a6a50;margin-top:4px}
+#f4 .bt{position:absolute;left:60px;right:60px;bottom:50px;display:flex;justify-content:space-between;align-items:center;font-size:20px;color:#8a6a50}
+#f4 .bt b{font-family:JU;font-weight:400;font-size:36px;color:#c0782b}
+
+/* 5 필라테스 */
+#f5{background:#fff;color:#22302a}
+#f5 .ph{position:absolute;left:0;top:0;width:827px;height:560px;background:url(../img/pilates.jpg) center 72%/cover}
+#f5 .box{position:absolute;left:56px;right:56px;top:470px;background:#fff;border-radius:26px;padding:44px 46px;box-shadow:0 20px 50px rgba(0,0,0,.12)}
+#f5 .box small{font-weight:800;letter-spacing:.3em;color:#6f8f7a;font-size:17px}
+#f5 .box h1{font-size:66px;font-weight:900;letter-spacing:-2px;line-height:1.15;margin-top:12px}
+#f5 .box h1 em{font-style:normal;color:#6f8f7a}
+#f5 .box p{font-size:22px;color:#5b6a63;margin-top:14px;line-height:1.55}
+#f5 .pl{position:absolute;left:56px;right:56px;top:880px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+#f5 .pl div{border:2px solid #dfe8e2;border-radius:18px;padding:20px 18px}
+#f5 .pl div.on{background:#22302a;color:#fff;border-color:#22302a}
+#f5 .pl b{display:block;font-size:22px;font-weight:800}
+#f5 .pl em{display:block;font-style:normal;font-size:34px;font-weight:900;margin-top:6px}
+#f5 .pl small{display:block;font-size:16px;opacity:.7;margin-top:2px}
+#f5 .ft{position:absolute;left:56px;right:56px;bottom:40px;display:flex;justify-content:space-between;font-size:19px;color:#5b6a63}
+#f5 .ft b{color:#22302a;font-size:24px}
+.smp{position:absolute;right:16px;bottom:10px;font-size:13px;opacity:.45}
+</style></head><body>
+
+<div class="f" id="f1">
+ <div class="ph"></div><span class="tag">GRAND OPEN</span>
+ <div class="ttl"><small>장유 · 30년 손맛</small>뚝배기 한 그릇</div>
+ <div class="body">
+  <p class="lead">새벽마다 사골을 12시간 우려낸 진한 국물.<br>오픈 기념 2주 동안 국밥 한 그릇 2,000원 할인해 드려요.</p>
+  <div class="menu"><div><b>돼지국밥</b><s>10,000</s><em>8,000</em></div><div><b>순대국밥</b><s>10,000</s><em>8,000</em></div><div><b>수육 (소)</b><s>22,000</s><em>19,000</em></div></div>
+ </div>
+ <div class="cp cut"><h4>이 쿠폰 들고 오시면 공깃밥 무료</h4><p>오픈 기념 · 12월 31일까지 · 1인 1매</p>
+  <div class="info"><b>뚝배기 한 그릇</b><br>김해시 장유로 000 (예시)<br>☎ 055-000-0000</div></div>
+ <span class="smp">찰칵전단지 제작 예시 · 가상 가게</span>
+</div>
+
+<div class="f" id="f2">
+ <div class="top"><span class="eb">2027 신학기 원생 모집</span><h1>수학이<br><em>쉬워지는</em> 순간</h1><p class="sub">한 반 6명, 개념부터 다시.<br>모르는 건 그날 바로 해결해요.</p></div>
+ <div class="ph"></div>
+ <div class="badge"><span><b>무료</b>레벨 테스트<br>+ 상담</span></div>
+ <div class="cls"><div><i>초등</i><b>연산·사고력</b><small>초3~6 · 주 3회<br>교과 + 서술형</small></div><div><i>중등</i><b>내신 완성</b><small>중1~3 · 주 3회<br>학교별 기출</small></div><div><i>고등</i><b>수능 기초</b><small>고1~2 · 주 2회<br>개념 + 오답 관리</small></div></div>
+ <div class="bot"><b>숲길수학</b><span>김해시 장유 ○○로 00 (예시)<br>상담 ☎ 055-000-0000</span></div>
+ <span class="smp" style="color:#fff">찰칵전단지 제작 예시 · 가상 학원</span>
+</div>
+
+<div class="f" id="f3">
+ <div class="ph"></div>
+ <div class="ev"><span><b>20%</b>오픈 할인</span></div>
+ <div class="nm"><small>HAIR · STUDIO</small><h1>온담 헤어</h1><p>머리결이 편안해지는 1:1 예약제 살롱</p></div>
+ <div class="pr"><div><span>커트</span><b>20,000</b></div><div><span>클리닉</span><b>40,000~</b></div><div><span>펌</span><b>70,000~</b></div><div><span>뿌리 염색</span><b>45,000~</b></div><div><span>셋팅펌</span><b>110,000~</b></div><div><span>두피 스파</span><b>35,000</b></div></div>
+ <div class="ft">네이버 예약 · 온담 헤어 (예시) · ☎ 055-000-0000</div>
+ <span class="smp">찰칵전단지 제작 예시 · 가상 가게</span>
+</div>
+
+<div class="f" id="f4">
+ <div class="ph"></div>
+ <div class="lbl"><small>매일 아침 8시, 갓 구운 빵</small><h1>솔트앤밀<br>베이커리</h1></div>
+ <div class="items"><div><div class="e">🥐</div><b>소금빵</b><small>2,800원</small></div><div><div class="e">🍞</div><b>우유식빵</b><small>4,500원</small></div><div><div class="e">☕</div><b>라떼</b><small>4,000원</small></div></div>
+ <div class="bt"><span>장유 율하 ○○상가 1층 (예시)<br>매일 08:00 – 20:00</span><b>오픈 첫 주 소금빵 1+1</b></div>
+ <span class="smp">찰칵전단지 제작 예시 · 가상 가게</span>
+</div>
+
+<div class="f" id="f5">
+ <div class="ph"></div>
+ <div class="box"><small>SUMGYEOL PILATES</small><h1>숨 고르는<br><em>50분</em>의 시간</h1><p>기구 필라테스 소그룹(최대 4명) · 개인 레슨.<br>처음이라면 체험 수업부터 편하게 시작하세요.</p></div>
+ <div class="pl"><div class="on"><b>체험 1회</b><em>15,000</em><small>첫 방문 한정</small></div><div><b>그룹 8회</b><em>240,000</em><small>회당 30,000</small></div><div><b>개인 10회</b><em>600,000</em><small>회당 60,000</small></div></div>
+ <div class="ft"><span>장유 대청 ○○빌딩 3층 (예시)</span><b>☎ 055-000-0000</b></div>
+ <span class="smp">찰칵전단지 제작 예시 · 가상 가게</span>
+</div>
+</body></html>
