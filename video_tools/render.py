@@ -37,7 +37,13 @@ def text_block(d,lines,y,size,fill=(255,255,255),stroke=(20,20,20),sw=10,fnt=FB,
 def card(d,box,fill,r=36): d.rounded_rectangle(box,r,fill=fill)
 def render(spec,out):
     scenes=spec['scenes']; dur=spec['dur']; N=int(dur*FPS)
-    bases=[prep(s['img'],s.get('cropb',0),s.get('mode','cover')) for s in scenes]
+    bases=[]
+    for s in scenes:
+        if s.get('vid'):
+            fd=out+'_vid%d'%len(bases); os.makedirs(fd,exist_ok=True)
+            subprocess.run(['ffmpeg','-loglevel','error','-y','-ss',str(s.get('vss',0)),'-i',s['vid'],'-vf','crop=iw:ih*0.88:0:0,fps=30','-q:v','3',fd+'/%05d.jpg'],check=True)
+            bases.append(sorted(os.path.join(fd,f) for f in os.listdir(fd)))
+        else: bases.append(prep(s['img'],s.get('cropb',0),s.get('mode','cover')))
     tmp=out+'_frames'; os.makedirs(tmp,exist_ok=True)
     XF=0.35
     for n in range(N):
@@ -45,10 +51,18 @@ def render(spec,out):
         idx=max(i for i,s in enumerate(scenes) if s['t0']<=t+1e-6)
         s=scenes[idx]; t1=scenes[idx+1]['t0'] if idx+1<len(scenes) else dur
         p=(t-s['t0'])/max(0.01,t1-s['t0'])
-        fr=kb(bases[idx],min(1,p),s.get('m','in'))
+        def frame_of(i,tt):
+            b=bases[i]
+            if isinstance(b,list):
+                k=min(len(b)-1,int((tt-scenes[i]['t0'])*FPS)) if tt>=scenes[i]['t0'] else 0
+                return cover(Image.open(b[max(0,k)]).convert('RGB'),W,H)
+            return None
+        fv=frame_of(idx,t)
+        fr=fv if fv is not None else kb(bases[idx],min(1,p),s.get('m','in'))
         if idx+1<len(scenes) and t>t1-XF:
             s2=scenes[idx+1]; a=(t-(t1-XF))/XF
-            fr=Image.blend(fr,kb(bases[idx+1],0,s2.get('m','in')),a)
+            nx=frame_of(idx+1,scenes[idx+1]['t0'])
+            fr=Image.blend(fr,nx if nx is not None else kb(bases[idx+1],0,s2.get('m','in')),a)
         # dark gradient for text
         ov=Image.new('RGBA',(W,H),(0,0,0,0)); od=ImageDraw.Draw(ov)
         for yy in range(0,520): od.line((0,yy,W,yy),fill=(0,0,0,int(120*(1-yy/520))))
@@ -58,7 +72,7 @@ def render(spec,out):
         spec['overlay'](d,t,idx,s)
         fr.convert('RGB').save(f'{tmp}/{n:05d}.jpg',quality=88)
     subprocess.run(['ffmpeg','-y','-loglevel','error','-framerate',str(FPS),'-i',f'{tmp}/%05d.jpg','-i',spec['audio'],'-filter_complex',f"[1:a]apad,atrim=0:{dur},volume=1.0[a]",'-map','0:v','-map','[a]','-c:v','libx264','-preset','veryfast','-crf','21','-pix_fmt','yuv420p','-c:a','aac','-b:a','160k','-shortest',out],check=True)
-    subprocess.run(['rm','-rf',tmp])
+    subprocess.run(['rm','-rf',tmp]+[out+'_vid%d'%i for i in range(len(bases))])
 
 def text_karaoke(d,lines,y,size,prog,hi=(255,214,80),base=(255,255,255),dim=(235,235,235),sw=10,fnt=FB):
     f=font(fnt,size); total=sum(len(l) for l in lines); upto=int(total*prog+0.999); c=0

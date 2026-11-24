@@ -17,10 +17,10 @@ def ov(d,t,idx,s):
         for txt,ff,y,c in [('장유에서 국밥 생각나면',f2,980,(240,228,215)),('여기 한 번 와 보세요',f1,1060,(255,200,90)),('뚝배기 한 그릇 (예시)',f2,1210,(255,255,255)),('새벽 6시 ~ 밤 9시 · 주차 가능',f3,1290,(220,205,190)),('찰칵영상 시안',f3,1370,(170,150,135))]:
             tw=d.textlength(txt,font=ff); d.text(((W-tw)/2,y),txt,font=ff,fill=c)
 spec=dict(dur=19.8,audio=V+'food_v1.wav',overlay=ov,scenes=[
- dict(t0=0,img=V+'food_spoon.jpg',cropb=.08,m='in'),
+ dict(t0=0,vid=V+'veo_food_hook.mp4',vss=0.5),
  dict(t0=3.8,img=V+'food_pot.jpg',cropb=.08,m='up'),
  dict(t0=7.0,img=F+'food.jpg',m='in'),
  dict(t0=10.0,img=V+'food_spoon.jpg',cropb=.08,m='out'),
  dict(t0=13.1,img=V+'food_kkak.jpg',cropb=.08,m='left'),
  dict(t0=16.1,img=F+'food.jpg',m='out')])
-render(spec,'/home/claude/chalkak-video/v2/food_v3.mp4')
+render(spec,'/home/claude/chalkak-video/v2/food_v4.mp4')
