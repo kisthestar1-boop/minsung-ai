@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>더위즈영수학원 시안</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 믿음직한 내신 전문가, 조용하고 단단하게
+   IDEA: 채점이 끝난 학교 시험지 한 장 — 빨간 펜 동그라미와 서술형 풀이
+   PICTURE: 시험지 위에 빨간 펜으로 채점된 문항, 옆에 학교별 탭
+   COLOUR and TYPE: 흰 종이 + 먹색 글씨 + 빨간 펜, 받침 색은 칠판 초록 / 명조 제목 + 고딕 본문
+   LAYOUT: 학원명 크게, 첫 화면은 문장과 시험지가 함께, 아래로 특징·학교별 분석·교습비·상담 */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#121513);--ink:light-dark(#1b1d1c,#eceeea);--sub:light-dark(#5d625f,#a9b0ab);--line:light-dark(#e3e6e3,#2c322e);--red:#d4283a;--board:light-dark(#1f3d33,#17302a);--paper:light-dark(#ffffff,#1a1e1c);--soft:light-dark(#f4f6f4,#191d1b)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 "Noto Sans KR",system-ui,sans-serif;overflow-x:clip}
+a{color:inherit}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+.notice{background:var(--ink);color:var(--bg);font-size:13px;text-align:center;padding:7px 12px}
+header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:12px max(5vw,16px);max-width:1240px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto}
+.mark{width:40px;height:40px;border-radius:10px;background:var(--board);color:#fff;display:grid;place-items:center;font:800 18px "Noto Serif KR",serif}
+.brand b{font:800 24px/1.1 "Noto Serif KR",serif;letter-spacing:-.5px}
+.brand small{display:block;font-size:12px;color:var(--sub)}
+.nav nav{display:flex;gap:18px;flex-wrap:wrap;font-size:15px}
+.nav nav a{text-decoration:none;color:var(--sub)}.nav nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border-radius:10px;border:0;background:var(--red);color:#fff;font:700 15px "Noto Sans KR",sans-serif;text-decoration:none;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(24px,4vw,56px);align-items:center}
+h1{font:800 clamp(32px,4.6vw,52px)/1.12 "Noto Serif KR",serif;margin:0 0 18px;text-wrap:balance;letter-spacing:-1px}
+.lead{font-size:17px;color:var(--sub);max-width:34em;margin:0 0 26px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;background:var(--soft)}
+.fig{position:relative;min-height:440px}
+.sheet{position:absolute;inset:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;box-shadow:0 24px 50px -24px rgba(0,0,0,.35);transform:rotate(-1.2deg)}
+.sheet svg{position:absolute;inset:0;width:100%;height:100%}
+h2{font:800 clamp(26px,3vw,36px)/1.2 "Noto Serif KR",serif;margin:0 0 10px;letter-spacing:-.5px;text-wrap:balance}
+.sec-sub{color:var(--sub);margin:0 0 30px;max-width:40em}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{border-top:2px solid var(--ink);padding-top:18px}
+.card h3{font-size:19px;margin:0 0 8px}
+.card p{margin:0;color:var(--sub)}
+.card .n{font:800 40px/1 "Noto Serif KR",serif;color:var(--red);margin-bottom:10px}
+.board{background:var(--board);color:#eef3ef}
+.board .sec-sub{color:#b9cbc1}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;counter-reset:s}
+.step{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:18px}
+.step b{display:block;font-size:17px;margin-bottom:6px}
+.step span{color:#c9d8cf;font-size:15px}
+.hl{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.hl div{border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;font-weight:500;background:var(--soft)}
+.hl i{display:block;font-style:normal;font-size:13px;color:var(--sub);font-weight:400;margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:16px}
+th,td{padding:14px 12px;border-bottom:1px solid var(--line);text-align:left}
+th{font-size:14px;color:var(--sub);font-weight:500}
+td.num{text-align:right;font-weight:700;white-space:nowrap}
+.note{font-size:13px;color:var(--sub);margin-top:10px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px)}
+form{display:grid;gap:14px}
+label{font-size:14px;font-weight:500;display:grid;gap:6px}
+input,select,textarea{font:16px "Noto Sans KR",sans-serif;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);min-height:46px}
+.done{display:none;background:var(--soft);border-left:4px solid var(--red);padding:14px 16px;border-radius:6px}
+.map{border:1px solid var(--line);border-radius:12px;min-height:240px;position:relative;overflow:hidden;background:var(--soft)}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+footer{border-top:1px solid var(--line);color:var(--sub);font-size:14px}
+.float{position:fixed;right:16px;bottom:16px;z-index:6;display:flex;gap:8px}
+@media(max-width:900px){.hero,.two{grid-template-columns:minmax(0,1fr)}.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.fig{min-height:380px}}
+@media(max-width:600px){.three,.steps{grid-template-columns:minmax(0,1fr)}.nav nav{display:none}.brand b{font-size:21px}.fig{min-height:340px}.float .ghost{display:none}}
+@media(prefers-reduced-motion:no-preference){.pen{stroke-dasharray:320;stroke-dashoffset:320;animation:draw 1.6s .4s ease forwards}@keyframes draw{to{stroke-dashoffset:0}}}
+</style>
+</head>
+<body>
+<div class="notice">찰칵홈이 더위즈영수학원을 위해 만든 제안 시안입니다 · 실제 운영 사이트가 아니에요</div>
+<header><div class="nav">
+<a class="brand" href="#top"><span class="mark">W</span><span><b>더위즈영수학원</b><small>장유 영어·수학 내신 전문</small></span></a>
+<nav><a href="#why">학원 소개</a><a href="#school">학교별 분석</a><a href="#fee">교습비</a><a href="#contact">상담 신청</a></nav>
+<a class="btn" href="#contact">상담 신청</a>
+</div></header>
+
+<main id="top">
+<section class="band"><div class="wrap hero">
+<div>
+<h1>시험지를 가장 잘 아는<br>장유 내신 전문 학원</h1>
+<p class="lead">학교마다 시험은 다릅니다. 더위즈는 장유 중·고등학교 시험지를 학교별로 분석하고, 서술형까지 스스로 풀어내는 힘을 키웁니다.</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="#contact">무료 상담 신청</a><a class="btn ghost" href="#school">학교별 분석 보기</a></div>
+<div class="chips"><span class="chip">정원 6명</span><span class="chip">1:1 밀착 관리</span><span class="chip">서술형 대비</span><span class="chip">초·중·고</span></div>
+</div>
+<div class="fig"><div class="sheet"><svg viewBox="0 0 520 440" preserveAspectRatio="xMidYMid meet" aria-label="빨간 펜으로 채점된 학교 시험지">
+<g font-family="Noto Sans KR,sans-serif" fill="currentColor">
+<text x="34" y="52" font-size="13" fill="#8a8f8c">20○○학년도 2학기 기말고사 · 수학</text>
+<text x="34" y="82" font-size="20" font-weight="700" font-family="Noto Serif KR,serif">장유 ○○중학교 2학년</text>
+<line x1="34" y1="98" x2="486" y2="98" stroke="#c9ceca"/>
+<g id="q"><text x="34" y="136" font-size="15" font-weight="700">1.</text><rect x="62" y="124" width="300" height="9" rx="4" fill="#dfe3e0"/><rect x="62" y="140" width="220" height="9" rx="4" fill="#e9ece9"/></g>
+<use href="#q" y="74"/><use href="#q" y="148"/>
+<text x="34" y="210" font-size="15" font-weight="700">2.</text><text x="34" y="284" font-size="15" font-weight="700">3.</text>
+<rect x="34" y="318" width="452" height="92" rx="8" fill="none" stroke="#c9ceca" stroke-dasharray="5 5"/>
+<text x="48" y="342" font-size="13" fill="#8a8f8c">서술형 4. 풀이 과정을 쓰시오.</text>
+<path class="pen" d="M52 366 q30 -10 60 0 t60 0 t60 2 M52 390 q40 -8 80 0 t70 0" fill="none" stroke="#2b4a8b" stroke-width="2" stroke-linecap="round"/>
+</g>
+<g fill="none" stroke="#d4283a" stroke-width="3" stroke-linecap="round">
+<ellipse class="pen" cx="400" cy="134" rx="30" ry="22"/>
+<ellipse class="pen" cx="400" cy="208" rx="30" ry="22"/>
+<path class="pen" d="M380 280 l14 14 l26 -30"/>
+<path class="pen" d="M420 360 q20 -40 50 -44"/>
+</g>
+<text x="420" y="78" font-family="Noto Serif KR,serif" font-size="44" font-weight="800" fill="#d4283a" transform="rotate(-8 440 70)">100</text>
+<text x="452" y="314" font-size="13" fill="#d4283a" font-weight="700">서술형 만점</text>
+</svg></div></div>
+</div></section>
+
+<section class="band" id="why"><div class="wrap">
+<h2>더위즈가 다른 세 가지</h2>
+<p class="sec-sub">많이 푸는 것보다, 우리 학교 시험에서 실제로 맞히는 것을 목표로 합니다.</p>
+<div class="three">
+<div class="card"><div class="n">학교별</div><h3>시험지 분석</h3><p>장유 중·고등학교 기출과 출제 경향을 학교별로 정리해 수업과 내신 대비에 바로 씁니다.</p></div>
+<div class="card"><div class="n">6명</div><h3>정원제 1:1 밀착 관리</h3><p>한 반 정원은 6명. 학생 한 명 한 명의 약한 단원과 실수 습관까지 선생님이 직접 챙깁니다.</p></div>
+<div class="card"><div class="n">서술형</div><h3>스스로 푸는 힘</h3><p>답만 맞히는 공부가 아니라 풀이 과정을 쓰는 연습으로, 서술형 감점까지 줄입니다.</p></div>
+</div>
+</div></section>
+
+<section class="band board" id="school"><div class="wrap">
+<h2>장유 11개 중·고등학교, 학교별로 대비합니다</h2>
+<p class="sec-sub">더위즈가 직접 만든 학교별 가이드북과 시험지 분석으로 시험 4주 전부터 계획을 세웁니다.</p>
+<div class="steps">
+<div class="step"><b>시험 범위 확인</b><span>학교별 범위와 출제 비율 정리</span></div>
+<div class="step"><b>기출 분석</b><span>학교별 킬러 문항과 단골 유형</span></div>
+<div class="step"><b>서술형 훈련</b><span>풀이 쓰기와 감점 포인트 첨삭</span></div>
+<div class="step"><b>직전 마무리</b><span>실전 모의 시험과 오답 정리</span></div>
+</div>
+</div></section>
+
+<section class="band"><div class="wrap">
+<h2>학원 소식</h2>
+<p class="sec-sub">인스타그램에 올리시던 소식을 홈페이지에서도 한눈에 볼 수 있게 정리합니다.</p>
+<div class="hl">
+<div>학교별 킬러문제<i>학교별 고난도 문항</i></div>
+<div>학교시험지 분석<i>출제 경향 정리</i></div>
+<div>성적 우수자<i>학생들의 노력</i></div>
+<div>초등부<i>초등 수업 이야기</i></div>
+<div>중·고등부<i>내신 대비 현장</i></div>
+<div>동기와 습관<i>공부 습관 만들기</i></div>
+</div>
+</div></section>
+
+<section class="band" id="fee" style="background:var(--soft)"><div class="wrap">
+<h2>교습비 안내</h2>
+<p class="sec-sub">교습비는 학원 게시표 기준으로 투명하게 안내합니다.</p>
+<table><thead><tr><th>과정</th><th>대상</th><th style="text-align:right">월 교습비</th></tr></thead><tbody>
+<tr><td>초등부</td><td>초등 고학년</td><td class="num">20만 원 · 22만 원</td></tr>
+<tr><td>중등부</td><td>중1 ~ 중3</td><td class="num">26만 원</td></tr>
+<tr><td>고등부</td><td>고1 ~ 고3</td><td class="num">32만 원</td></tr>
+</tbody></table>
+<p class="note">학원 인스타그램 소개글 기준으로 넣은 예시입니다. 실제 사이트에는 원장님이 확인해 주신 금액으로 넣어요.</p>
+</div></section>
+
+<section class="band" id="contact"><div class="wrap two">
+<div>
+<h2>상담 신청</h2>
+<p class="sec-sub">남겨 주시면 원장님이 직접 연락드립니다. 학년과 다니는 학교를 알려 주시면 맞춤 상담이 가능해요.</p>
+<form id="f">
+<label>학생 이름<input id="nm" required autocomplete="off"></label>
+<label>학년<select id="gr"><option>초등 고학년</option><option>중1</option><option>중2</option><option>중3</option><option>고1</option><option>고2</option><option>고3</option></select></label>
+<label>학교<input id="sc" placeholder="예: 장유중"></label>
+<label>보호자 연락처<input id="ph" inputmode="tel" required></label>
+<button class="btn" type="submit">상담 신청하기</button>
+<div class="done" id="ok">시안 화면이라 실제로 전송되지는 않아요. 실제 사이트에서는 이 신청이 원장님 휴대폰 문자로 바로 갑니다.</div>
+</form>
+</div>
+<div>
+<h2>오시는 길</h2>
+<p class="sec-sub">경남 김해시 장유로 232</p>
+<div class="map"><svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" aria-label="약도">
+<rect width="400" height="260" fill="none"/>
+<path d="M0 150 H400 M120 0 V260 M300 0 V260" stroke="#c9ceca" stroke-width="18"/>
+<text x="10" y="140" font-size="12" fill="#8a8f8c" font-family="Noto Sans KR,sans-serif">장유로</text>
+<circle cx="210" cy="110" r="14" fill="#d4283a"/><circle cx="210" cy="110" r="5" fill="#fff"/>
+<text x="230" y="104" font-size="14" font-weight="700" fill="currentColor" font-family="Noto Sans KR,sans-serif">더위즈영수학원</text>
+</svg></div>
+<p class="note">실제 사이트에는 네이버 지도와 바로 연결돼요.</p>
+</div>
+</div></section>
+</main>
+
+<footer class="band"><div class="wrap">
+<b style="color:var(--ink)">더위즈영수학원</b><br>경남 김해시 장유로 232 · 교습소 등록 제2853호 · 제2248호<br>
+<span style="font-size:13px">이 페이지는 찰칵홈(chalkakhome.com)이 제안용으로 만든 시안입니다.</span>
+</div></footer>
+<div class="float"><a class="btn ghost" href="#fee" style="background:var(--bg)">교습비</a><a class="btn" href="#contact">상담 신청</a></div>
+<script>{
+const f=document.getElementById('f'),ok=document.getElementById('ok');
+f.addEventListener('submit',e=>{e.preventDefault();ok.style.display='block';});
+}</script>
+</body>
+</html>
