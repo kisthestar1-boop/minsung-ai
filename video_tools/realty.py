@@ -11,7 +11,7 @@ def ov(d,t,idx,s):
     f=font(FS,40); tag='장유 율하 · 34평 아파트'
     tw=d.textlength(tag,font=f); d.rounded_rectangle(((W-tw)/2-26,150,(W+tw)/2+26,222),36,fill=(255,255,255,235)); d.text(((W-tw)/2,158),tag,font=f,fill=(30,40,60))
     for a,b,lines,hl in CAP:
-        if a<=t<b: text_block(d,lines,1120,92,hl=hl)
+        if a<=t<b: text_karaoke(d,lines,1120,92,min(1,(t-a)/max(0.5,(b-a)*0.85)))
     if 14.5<=t<17.6:
         card(d,(130,980,950,1420),(255,255,255,240))
         f1=font(FS,46); f2=font(FB,120); f3=font(FS,40)
@@ -30,4 +30,4 @@ spec=dict(dur=20.3,audio=V+'realty_v1.wav',overlay=ov,scenes=[
  dict(t0=11.6,img=V+'school.jpg',cropb=.08,m='in'),
  dict(t0=14.5,img=R+'apt.jpg',mode='blurbg',m='in'),
  dict(t0=17.6,img=V+'living_v.jpg',cropb=.08,m='out')])
-render(spec,'/home/claude/chalkak-video/v2/realty_v2.mp4')
+render(spec,'/home/claude/chalkak-video/v2/realty_v3.mp4')

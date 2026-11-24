@@ -10,7 +10,7 @@ def ov(d,t,idx,s):
     f=font(FS,40); tag='장유 · 국밥 맛집'
     tw=d.textlength(tag,font=f); d.rounded_rectangle(((W-tw)/2-26,150,(W+tw)/2+26,222),36,fill=(255,255,255,235)); d.text(((W-tw)/2,158),tag,font=f,fill=(70,40,20))
     for a,b,lines,hl in CAP:
-        if a<=t<b: text_block(d,lines,1120,96,hl=hl)
+        if a<=t<b: text_karaoke(d,lines,1120,96,min(1,(t-a)/max(0.5,(b-a)*0.85)))
     if t>=16.1:
         card(d,(110,930,970,1460),(40,22,12,235))
         f1=font(FB,86); f2=font(FS,50); f3=font(FS,38)
@@ -23,4 +23,4 @@ spec=dict(dur=19.8,audio=V+'food_v1.wav',overlay=ov,scenes=[
  dict(t0=10.0,img=V+'food_spoon.jpg',cropb=.08,m='out'),
  dict(t0=13.1,img=V+'food_kkak.jpg',cropb=.08,m='left'),
  dict(t0=16.1,img=F+'food.jpg',m='out')])
-render(spec,'/home/claude/chalkak-video/v2/food_v2.mp4')
+render(spec,'/home/claude/chalkak-video/v2/food_v3.mp4')

@@ -59,3 +59,14 @@ def render(spec,out):
         fr.convert('RGB').save(f'{tmp}/{n:05d}.jpg',quality=88)
     subprocess.run(['ffmpeg','-y','-loglevel','error','-framerate',str(FPS),'-i',f'{tmp}/%05d.jpg','-i',spec['audio'],'-filter_complex',f"[1:a]apad,atrim=0:{dur},volume=1.0[a]",'-map','0:v','-map','[a]','-c:v','libx264','-preset','veryfast','-crf','21','-pix_fmt','yuv420p','-c:a','aac','-b:a','160k','-shortest',out],check=True)
     subprocess.run(['rm','-rf',tmp])
+
+def text_karaoke(d,lines,y,size,prog,hi=(255,214,80),base=(255,255,255),dim=(235,235,235),sw=10,fnt=FB):
+    f=font(fnt,size); total=sum(len(l) for l in lines); upto=int(total*prog+0.999); c=0
+    for i,ln in enumerate(lines):
+        tw=d.textlength(ln,font=f); x=(W-tw)/2; yy=y+i*int(size*1.28)
+        # soft pill for readability
+        d.rounded_rectangle((x-30,yy-14,x+tw+30,yy+size+22),28,fill=(0,0,0,110))
+        for ch in ln:
+            col=hi if c<upto else dim
+            d.text((x,yy),ch,font=f,fill=col,stroke_width=sw,stroke_fill=(15,15,15))
+            x+=d.textlength(ch,font=f); c+=1
