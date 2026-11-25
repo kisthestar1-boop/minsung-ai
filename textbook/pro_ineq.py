@@ -235,3 +235,36 @@ def opener(img):
 
 import base64 as _b64, pathlib as _pl
 OPEN = opener("data:image/jpeg;base64," + _b64.b64encode(_pl.Path("/home/claude/tbook/assets/opener_ball.jpg").read_bytes()).decode())
+
+# ───── 선생님 1분 사용 안내 (맛보기·선생님용에만) ─────
+GUIDE = CSS + """<style>
+.gd .lead{font-size:10.6pt;line-height:1.8;margin-bottom:4mm}
+.gd .flow{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm;margin-bottom:4.4mm}
+.gd .fl{border:1.4px solid var(--c1);border-radius:10px;overflow:hidden}
+.gd .fl b{display:block;background:var(--c1);color:#fff;padding:1.4mm 3mm;font-size:10pt}
+.gd .fl div{padding:2.2mm 3mm;font-size:9.4pt;line-height:1.7}
+.gd .fl small{color:#6B7280}
+.gd table{width:100%;border-collapse:collapse;font-size:9.6pt;margin-bottom:4.4mm}
+.gd th,.gd td{border-bottom:1px solid #E5E7EB;padding:1.8mm 2mm;text-align:left;vertical-align:top}
+.gd th{width:30%;color:var(--d);background:var(--t)}
+.gd .lv{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm}
+.gd .lv div{background:#F7F9FC;border-radius:8px;padding:2.2mm 3mm;font-size:9.2pt;line-height:1.6}
+.gd .lv b{display:block;color:var(--c2)}
+.gd .gft{margin-top:4.4mm;border-radius:10px;background:#FFF7F0;padding:2.6mm 4mm;font-size:9.4pt;line-height:1.7}
+</style><div class="pr gd">
+<div class="lead"><b>개념원리·쎈과 같은 순서(개념 → 예제 → 확인 → 유형 → 실전)</b>라서 따로 익히실 것 없이 평소 수업 그대로 쓰시면 됩니다.<br>이 한 장만 보시면 바로 수업하실 수 있어요.</div>
+<div style="font-weight:900;color:var(--d);margin-bottom:1.6mm">수업 흐름 (3회차 예시)</div>
+<div class="flow">
+<div class="fl"><b>1회차 · 개념</b><div>단원 들어가기 → 개념원리 이해 01-1~01-5 → 개념 확인<br><small>숙제: 필수 예제 확인체크</small></div></div>
+<div class="fl"><b>2회차 · 예제·기본</b><div>필수 예제 01~03 → 기본 다지기 16문제<br><small>숙제: 대표 유형 01~05</small></div></div>
+<div class="fl"><b>3회차 · 실전</b><div>실전·서술형·BOSS → 스스로 점검·오답 노트<br><small>숙제: 틀린 문제 다시 풀기</small></div></div></div>
+<table>
+<tr><th>개념 상자(파란 바탕)</th><td>그대로 판서하시면 되는 핵심 정리입니다.</td></tr>
+<tr><th>오른쪽 ‘왜 그럴까?’</th><td>학생이 “왜요?” 할 때 1분 설명용 멘트입니다. 외우게 하지 않고 이해시키는 부분이에요.</td></tr>
+<tr><th>예제 바로 아래 풀이</th><td>개념 직후 바로 확인하는 쉬운 예제입니다. 학생 스스로 읽어도 이해되게 썼어요.</td></tr>
+<tr><th>정답 위치</th><td>각 쪽 맨 아래 작은 글씨(확인 문제) · 책 뒤 ‘정답과 해설’(유형·실전, 오답 함정·서술형 채점 기준 포함)</td></tr>
+<tr><th>학생용 / 선생님용</th><td>학생용 파일에는 정답과 이 안내가 빠져 있습니다. 바로 인쇄해 나눠 주시면 돼요.</td></tr></table>
+<div style="font-weight:900;color:var(--d);margin-bottom:1.6mm">수준별로 이렇게 쓰세요</div>
+<div class="lv"><div><b>기초반</b>개념원리 이해 + 개념 확인 + 기본 다지기 위주</div><div><b>기본반</b>필수 예제 + 대표 유형 전체 + 실전 일부</div><div><b>심화반</b>실전 · 서술형 · BOSS 집중, 개념은 ‘왜 그럴까?’로 빠르게</div></div>
+<div class="gft">📩 학교·교과서 출판사·시험 범위를 알려 주시면 <b>그 범위에 맞춘 챕터</b>로 만들어 드려요. 학원 이름·로고·문구도 원하시는 대로 바꿔 드립니다.</div>
+</div>"""
