@@ -89,7 +89,7 @@ footer{{text-align:center;color:var(--mu);font-size:13px;padding:30px 0 40px}}
 <a class="go" href="{home}" target="_blank" rel="noopener">홈페이지 시안 크게 보기 →</a></div></section>
 
 <section id="book"><div class="w"><div class="no">02 · TEXTBOOK</div><h2>{N} 전용 교재 샘플</h2>
-<p class="lead">표지와 모든 쪽에 <b>{N}</b> 이름이 들어가요. 학생은 퀘스트·XP로 재미있게, 선생님은 유형 코드·수준별 배정·학부모 확인 칸으로 편하게 쓰시도록 만들었어요.</p>
+<p class="lead"><b>지금 쓰시는 교재는 그대로 두시고</b>, 학교 시험 대비·숙제용 보충 교재로 함께 쓰시면 돼요. 표지와 모든 쪽에 <b>{N}</b> 이름이 들어가요. 학생은 퀘스트·XP로 재미있게, 선생님은 유형 코드·수준별 배정·학부모 확인 칸으로 편하게 쓰시도록 만들었어요.</p>
 <div class="bts">{tabs}</div>
 <div class="view"><div class="strip" id="strip"></div><div class="nav"><button id="pv" aria-label="이전 쪽">‹</button><button id="nx" aria-label="다음 쪽">›</button><span id="cnt"></span><a id="pdf" class="go l" style="margin:0 0 0 auto;padding:8px 14px" target="_blank" rel="noopener">PDF로 보기</a></div></div>
 <div class="pts"><div><b>🎮 퀘스트 · XP · 메달</b>학생이 스스로 하고 싶게</div><div><b>📈 Level 1 → 2 → 3 + BOSS</b>기초부터 학평·수능형까지</div><div><b>🧾 유형 코드 · 오답 분석</b>약한 유형이 한눈에</div><div><b>✍ 선생님 가이드</b>회차안 · 수준별 숙제 배정</div></div>
