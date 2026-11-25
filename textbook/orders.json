@@ -28,6 +28,13 @@
    "grade": "중학교 1학년",
    "unit": "2학기 Ⅴ. 기본 도형",
    "color": "#1E5BA8"
+  },
+  "hs1-math-ineq": {
+   "mod": "s_hs1_ineq.py",
+   "subj": "수학",
+   "grade": "고등학교 1학년",
+   "unit": "공통수학1 이차부등식·연립부등식",
+   "color": "#1E5BA8"
   }
  },
  "next": [
@@ -76,6 +83,13 @@
    "code": "thewiz-2d2d42",
    "plan": "시안",
    "set": "thewiz"
+  },
+  "daon": {
+   "name": "다온수학전문학원",
+   "mark": "다",
+   "code": "daon-9d69c6",
+   "plan": "시안",
+   "set": "daon"
   }
  },
  "orders": [
@@ -90,6 +104,13 @@
    "date": "2026-11-25",
    "acad": "thewiz",
    "ch": "hs1-eng-main",
+   "status": "전달",
+   "note": "무료 첫 챕터 (시안)"
+  },
+  {
+   "date": "2026-11-25",
+   "acad": "daon",
+   "ch": "hs1-math-ineq",
    "status": "전달",
    "note": "무료 첫 챕터 (시안)"
   }
