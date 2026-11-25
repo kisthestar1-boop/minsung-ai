@@ -202,7 +202,7 @@ K3 = CSS + CSS2 + f"""<div class="pr"><div class="two"><div class="main">
 <div class="sec"><div class="sh"><i>개념 확인</i><b>배운 개념을 바로 확인해 보자</b></div>
 <div class="chk" style="grid-template-columns:1fr 1fr"><div><b class="n">01</b>$x^2-9\\le0$을 푸시오.</div><div><b class="n">02</b>$x^2+4x+4>0$을 푸시오.</div>
 <div><b class="n">03</b>$x^2-x+1<0$을 푸시오.</div><div><b class="n">04</b>$\\begin{{cases}}x^2-1>0\\\\x^2-4x\\le0\\end{{cases}}$을 푸시오.</div></div>
-<div class="ref">정답 — 01 $-3\\le x\\le3$ · 02 $x\\ne-2$인 모든 실수 · 03 해는 없다 · 04 $1<x\\le4$</div></div>
+<div class="ref">정답 — 01 $-3\\le x\\le3$ · 02 $x\\ne-2$인 모든 실수 · 03 해는 없다 · 04 $1<x\\le4$ │ 단원 들어가기: $-5t^2+15t+2>12$ → $t^2-3t+2<0$ → 1초 후부터 2초 후까지</div></div>
 </div>
 <div class="side">
 <div class="nt"><b class="h">참고</b><br>수직선에서 <b>●</b>는 그 점을 포함, <b>○</b>는 포함하지 않음을 뜻한다.</div>
@@ -210,3 +210,28 @@ K3 = CSS + CSS2 + f"""<div class="pr"><div class="two"><div class="main">
 <div class="nt why"><b class="h">왜 그럴까?</b><br>연립부등식의 해는 <b>두 부등식을 동시에</b> 만족해야 하므로 겹치는 부분(공통부분)만 남는다.</div>
 <div class="nt"><b class="h">TIP</b><br>정수 해의 개수를 묻는 문제는 끝점의 ●○에서 가장 많이 틀린다.</div>
 </div></div></div>"""
+
+# ───── 단원 도입 쪽 (사진 + 궁금증 하나 + 배울 것) ─────
+def opener(img):
+    return CSS + f"""<style>
+.opx .oph{{position:relative;border-radius:10px;overflow:hidden;height:128mm;background:#eee url({img}) center/cover}}
+.opx .oph .ott{{position:absolute;left:6mm;bottom:6mm;color:#0B2545;background:rgba(255,255,255,.88);border-radius:8px;padding:2.4mm 5mm}}
+.opx .oph .ott small{{display:block;font-size:8.6pt;font-weight:900;color:var(--c2);letter-spacing:.1em}}
+.opx .oph .ott b{{font-family:'Noto Sans CJK KR';font-weight:900;font-size:22pt;line-height:1.2}}
+.opx .oq{{margin:5mm 0 4mm;border-left:4px solid var(--c2);background:#FFF7F0;border-radius:0 10px 10px 0;padding:3.4mm 5mm;font-size:10.6pt;line-height:1.85}}
+.opx .oq b.oh{{display:block;font-size:9pt;color:var(--c2);font-weight:900;letter-spacing:.06em}}
+.opx .otoc{{display:grid;grid-template-columns:repeat(5,1fr);gap:2.4mm;margin-top:2mm}}
+.opx .otoc div{{border:1.3px solid #D5DCE6;border-radius:8px;padding:2.2mm 2.4mm;font-size:9pt;line-height:1.45;background:#fff}}
+.opx .otoc i{{font-style:normal;display:block;font-weight:900;color:var(--c1);font-size:8.4pt}}
+.opx .oln{{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:2mm;align-items:center;margin-top:5mm;font-size:9pt;text-align:center}}
+.opx .oln span{{background:var(--t);border-radius:99px;padding:1.4mm 2mm}}.opx .oln span.on{{background:var(--c1);color:#fff;font-weight:900}}
+</style><div class="pr opx">
+<div class="oph"><div class="ott"><small>공통수학1 · Ⅱ. 방정식과 부등식</small><b>이차부등식</b></div></div>
+<div class="oq"><b class="oh">이 단원을 마치면 풀 수 있어요</b>던진 농구공의 $t$초 후 높이가 $h=-5t^2+15t+2\\,(\\text{{m}})$일 때,<br>공이 <b>12 m보다 높이</b> 떠 있는 것은 몇 초 후부터 몇 초 후까지일까?</div>
+<div style="font-weight:900;color:var(--d);font-size:10.6pt">이 단원에서 배울 것</div>
+<div class="otoc"><div><i>01-1</i>이차부등식이란?</div><div><i>01-2</i>해와 그래프</div><div><i>01-3</i>판별식과 해</div><div><i>01-4</i>항상 성립하는 부등식</div><div><i>01-5</i>연립이차부등식</div></div>
+<div class="oln"><span>이차방정식 · 판별식</span>→<span>이차함수의 그래프</span>→<span class="on">이차부등식</span></div>
+</div>"""
+
+import base64 as _b64, pathlib as _pl
+OPEN = opener("data:image/jpeg;base64," + _b64.b64encode(_pl.Path("/home/claude/tbook/assets/opener_ball.jpg").read_bytes()).decode())

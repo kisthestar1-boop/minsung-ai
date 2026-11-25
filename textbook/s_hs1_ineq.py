@@ -35,6 +35,7 @@ assert all((x*x-3*x-10<0)==(-2<x<5) for x in G) and all((x*x-3*x-10>=0)==(x<=-2 
 assert all(((x-3)**2>0)==(x!=3) for x in G) and not any(x*x+2*x+5<0 for x in G) and all(x*x-2*x+2>0 for x in G)
 assert all((all(x*x+k*x+4>0 for x in G))==(-4<k<4) for k in ks)
 assert all((x*x+4*x+4>0)==(x!=-2) for x in G) and not any(x*x-x+1<0 for x in G) and all(((x*x-1>0) and (x*x-4*x<=0))==(1<x<=4) for x in G)
+assert all((-5*t*t+15*t+2>12)==(1<t<2) for t in G)
 assert [n for n in Z if n*n-4*n-5 < 0 and n*n-3*n >= 0] == [0, 3, 4]
 assert all((x*x-4 <= 0) == (-2 <= x <= 2) for x in G) and all(((x-3)**2 > 0) == (x != 3) for x in G) and all((-x*x+1 < 0) == (x < -1 or x > 1) for x in G)
 assert [x for x in G if x*x - 5*x + 6 < 0] and min(x for x in G if x*x-5*x+6 < 0) > 2 and max(x for x in G if x*x-5*x+6 < 0) < 3
@@ -144,6 +145,7 @@ spec = dict(
               "문제 번호 아래 □□□는 학생 3회독 체크, 쪽 아래 ‘확인’ 칸은 선생님 도장 자리입니다.",
               "자기 평가 쪽의 ‘학부모 확인’ 칸으로 상담·학부모 연락에 바로 쓰실 수 있습니다."]),
     pages=[
+        dict(sec="개념", head=[("band", "단원 들어가기", "공은 언제 12 m보다 높이 있을까?")], blocks=[("html", PI.OPEN)]),
         dict(sec="개념", head=[("band", "개념원리 이해 ①", "이차부등식과 그래프")], blocks=[("html", PI.K1)]),
         dict(sec="개념", head=[("band", "개념원리 이해 ②", "판별식 · 항상 성립")], blocks=[("html", PI.K2)]),
         dict(sec="개념", head=[("band", "개념원리 이해 ③", "연립이차부등식")], blocks=[("html", PI.K3)]),
