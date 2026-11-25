@@ -1,5 +1,5 @@
 import sys; sys.path.insert(0, "/home/claude/tbook")
-import concept_ineq as CI
+import concept_ineq as CI, lesson_ineq as LI
 from engine import build, pdf, M
 from fractions import Fraction as F
 
@@ -12,6 +12,8 @@ assert all((-x*x+x+6 > 0) == (-2 < x < 3) for x in G)
 assert all((x*x-9 <= 0) == (-3 <= x <= 3) for x in G) and all((x*x+2*x+1 > 0) == (x != -1) for x in G)
 assert not any(x*x-6*x+10 < 0 for x in G) and all((-x*x+4*x >= 0) == (0 <= x <= 4) for x in G)
 assert all((x*x-2*x-3 < 0) == (-1 < x < 3) for x in G)
+assert all(((2*x-3)*(x+1)<=0)==(-1<=x<=F(3,2)) for x in G) and all((x*x+2*x-8>0)==(x<-4 or x>2) for x in G)
+assert all((x*x-x-6<0)==(-2<x<3) for x in G) and all((-x*x+3*x+10>=0)==(-2<=x<=5) for x in G) and all((x*x-9<0)==(-3<x<3) for x in G)
 ks = [F(i, 10) for i in range(-50, 51)]
 assert all((all(x*x-2*k*x+k+2 > 0 for x in G)) == (-1 < k < 2) for k in ks)
 assert (2-1)*(2-4) < 0 and (5-1)*(5-4) > 0 and (0-1)*(0-4) > 0 and (3-1)*(3-4) < 0
@@ -104,7 +106,7 @@ spec = dict(
               art=('<svg viewBox="0 0 360 300" width="100%"><g stroke="#fff" stroke-width="3" fill="none"><path d="M20 200 H340" opacity=".6"/><path d="M60 40 Q180 380 300 40" stroke="#FFE680" stroke-width="5"/></g>'
                    '<path d="M108 200 H252" stroke="#F2683A" stroke-width="12" stroke-linecap="round"/><circle cx="108" cy="200" r="9" fill="#fff" stroke="#F2683A" stroke-width="4"/><circle cx="252" cy="200" r="9" fill="#fff" stroke="#F2683A" stroke-width="4"/>'
                    '<text x="180" y="250" fill="#fff" font-size="26" font-weight="900" text-anchor="middle" font-family="Noto Sans CJK KR">α ＜ x ＜ β</text></svg>'),
-              inside=[("원리 탐험 + 강의 노트", "외우지 않고 깨닫기"), ("유형 5", "예제 보고 따라 풀기"), ("실전 5", "학교 시험형 + BOSS"), ("해설", "끝점 함정까지")]),
+              inside=[("1회차 2쪽 + 개념 정리", "예상→실험→아하→연습"), ("유형 5", "예제 보고 따라 풀기"), ("실전 5", "학교 시험형 + BOSS"), ("해설", "끝점 함정까지")]),
     plan=dict(goals=["이차부등식의 해를 <span class=mk>그래프와 연결</span>해 구할 수 있다.", "해가 주어진 부등식·항상 성립하는 부등식의 미정계수를 구할 수 있다.",
                      "연립이차부등식의 <b>정수 해의 개수</b> 조건을 다룰 수 있다."],
               link=("이어지는 공부", "이차방정식·판별식 → 이차함수 그래프 → <b>이차부등식</b> → 경우의 수·행렬"),
@@ -124,9 +126,10 @@ spec = dict(
               "문제 번호 아래 □□□는 학생 3회독 체크, 쪽 아래 ‘확인’ 칸은 선생님 도장 자리입니다.",
               "자기 평가 쪽의 ‘학부모 확인’ 칸으로 상담·학부모 연락에 바로 쓰실 수 있습니다."]),
     pages=[
-        dict(sec="개념", head=[("band", "DISCOVER · 원리 탐험", "외우지 말고, 직접 발견하기")], blocks=[("html", CI.PAGE0)]),
-        dict(sec="개념", head=[("band", "CONCEPT · 강의 노트 ①", "그래프로 푸는 이차부등식")], blocks=[("html", CI.PAGE1)]),
-        dict(sec="개념", head=[("band", "CONCEPT · 강의 노트 ②", "거꾸로 · 항상 성립 · 연립")], blocks=[("html", CI.PAGE2)]),
+        dict(sec="개념", head=[("band", "1회차 · 개념", "이차부등식은 그래프로 ‘읽는’ 것")], blocks=[("html", LI.L1A)]),
+        dict(sec="개념", head=[("band", "1회차 · 연습", "예제 → 따라 하기 → 혼자 풀기")], blocks=[("html", LI.L1B)]),
+        dict(sec="개념", head=[("band", "2회차 · 개념 정리 ①", "판별식으로 한눈에")], blocks=[("html", CI.PAGE1)]),
+        dict(sec="개념", head=[("band", "2회차 · 개념 정리 ②", "거꾸로 · 항상 성립 · 연립")], blocks=[("html", CI.PAGE2)]),
         dict(sec="대표 유형", cols=True, head=[("lv", 1, "대표 유형 익히기 · 예제 보고 따라 풀기", "모두 맞히기")], blocks=list(TY)),
         dict(sec="실전", head=[("lv", 2, "학교 시험 · 학평 수준 실전", "5문제 중 4개 이상")], cols=True,
              blocks=[("endtype",)] + [("q", p) for p in L2] + [("group", [("lv", 3, "풀이 과정을 쓰는 서술형", "채점 기준 80%↑"), ("essay", SVQ[0])]), ("essay", SVQ[1])]),

@@ -106,11 +106,11 @@ CSS = f"""<style>
 B = "<span class=blank></span>"
 
 PAGE1 = CSS + f"""<div class="ln">
-<div class="bx"><div class="bh"><i>강의 1</i>이차부등식은 ‘그래프가 x축의 어디에 있나’를 묻는 문제<span class="xp">⭐ +10 XP</span></div>
+<div class="bx"><div class="bh"><i>강의 1</i>이차부등식은 ‘그래프가 x축의 어디에 있나’를 묻는 문제</div>
 <div class="bb row"><div class="fig">{para(lambda x:(x-1)*(x-4)*0.9,[1,4],-0.6,5.6,h=176,ymin=-3.4,ymax=5.2,ticks=[(1,"1"),(4,"4")])}
 <div style="text-align:center;font-size:9pt;font-weight:700;color:{INK}">$y=x^2-5x+4=(x-1)(x-4)$</div></div>
 <div class="note">
-<div class="eq"><span class="ch">⏱ 3초 컷</span>$x^2-5x+4<0$ ⇔ 그래프가 x축 {B} ⇔ <b>$1<x<4$</b></div>
+<div class="eq">$x^2-5x+4<0$ ⇔ 그래프가 x축 {B} ⇔ <b>$1<x<4$</b></div>
 <div class="eq">$x^2-5x+4>0$ ⇔ 그래프가 x축 {B} ⇔ {B}</div>
 <div class="stp"><em>1</em><span>우변을 0으로 만들고, $x^2$ 계수를 <b>양수</b>로 맞춘다.</span></div>
 <div class="stp"><em>2</em><span>$=0$으로 놓고 두 근 $\\alpha,\\beta$를 구한다. (인수분해·근의 공식)</span></div>
@@ -118,7 +118,7 @@ PAGE1 = CSS + f"""<div class="ln">
 <div class="pt">외우지 말고 <b>매번 그려서 읽기!</b> ＜0이면 두 근 <b>사이</b>, ＞0이면 두 근 <b>바깥</b>.</div>
 </div></div></div>
 
-<div class="bx"><div class="bh"><i>강의 2</i>판별식으로 한눈에 — 이차부등식의 해 총정리 <span style="font-weight:700;font-size:9pt">($a>0$)</span><span class="xp">⭐ +10 XP · 시험 단골</span></div>
+<div class="bx"><div class="bh"><i>강의 2</i>판별식으로 한눈에 — 이차부등식의 해 총정리 <span style="font-weight:700;font-size:9pt">($a>0$)</span></div>
 <div class="bb"><table class="tb"><thead><tr><th style="width:24%">$D=b^2-4ac$</th><th>$D>0$<br>{mini(0)}서로 다른 두 근 $\\alpha<\\beta$</th><th>$D=0$<br>{mini(1)}중근 $\\alpha$ (x축에 접함)</th><th>$D<0$<br>{mini(2)}x축과 만나지 않음</th></tr></thead>
 <tbody><tr><th>$ax^2+bx+c>0$</th><td>$x<\\alpha$ 또는 $x>\\beta$</td><td class="hot">$x\\ne\\alpha$인 모든 실수</td><td>모든 실수</td></tr>
 <tr><th>$ax^2+bx+c\\ge0$</th><td>$x\\le\\alpha$ 또는 $x\\ge\\beta$</td><td class="hot">모든 실수</td><td>모든 실수</td></tr>
@@ -138,14 +138,14 @@ PAGE1 = CSS + f"""<div class="ln">
 
 PAGE2 = CSS + f"""<div class="ln">
 <div class="row">
-<div class="bx" style="flex:1"><div class="bh"><i>강의 3</i>해가 주어지면 ‘거꾸로’<span class="xp">⭐ +10</span></div>
+<div class="bx" style="flex:1"><div class="bh"><i>강의 3</i>해가 주어지면 ‘거꾸로’</div>
 <div class="bb"><div class="eq" style="margin-bottom:1.6mm">해가 $\\alpha<x<\\beta$ ⇔ $(x-\\alpha)(x-\\beta)<0$<br>해가 $x<\\alpha$ 또는 $x>\\beta$ ⇔ $(x-\\alpha)(x-\\beta)>0$</div>
 <div style="font-weight:800;color:{INK};margin-bottom:.6mm">예) $x^2+ax+b<0$의 해가 $-1<x<3$일 때 $a,b$</div>
 <div class="stp"><em>1</em><span>해 → 식: $(x+1)(x-3)<0$</span></div>
 <div class="stp"><em>2</em><span>전개: $x^2-2x-3<0$</span></div>
 <div class="stp"><em>3</em><span>계수 비교: $a=$ {B}, $b=$ {B}</span></div>
 <div class="pt" style="margin-top:1.6mm">$x^2$ 계수가 <b>음수</b>로 주어지면 부등호가 <b>반대</b>로 바뀌는 것까지 확인!</div></div></div>
-<div class="bx" style="flex:1"><div class="bh"><i>강의 4</i>‘모든 실수 x’ = 항상 성립<span class="xp">⭐ +10</span></div>
+<div class="bx" style="flex:1"><div class="bh"><i>강의 4</i>‘모든 실수 x’ = 항상 성립</div>
 <div class="bb"><div class="row" style="gap:2mm;align-items:center"><div style="flex:1">{floating()}</div>
 <div style="flex:1.1"><div class="eq">$ax^2+bx+c>0$ 항상 ⇔ <b>$a>0,\\ D<0$</b></div><div class="eq" style="margin-top:1.2mm">$ax^2+bx+c\\ge0$ 항상 ⇔ <b>$a>0,\\ D\\le0$</b></div></div></div>
 <div style="font-weight:800;color:{INK};margin:1.2mm 0 .4mm">예) $x^2-2kx+k+2>0$이 항상 성립</div>
@@ -153,22 +153,21 @@ PAGE2 = CSS + f"""<div class="ln">
 <div class="pt" style="margin-top:1.4mm">$x^2$ 계수에 문자가 있으면 <b>$a=0$인 경우부터</b> 따로 확인!</div></div></div>
 </div>
 
-<div class="bx"><div class="bh"><i>강의 5</i>연립이차부등식 = 수직선 위의 공통부분<small style="margin-left:auto">●포함 · ○불포함</small><span class="xp" style="margin-left:2mm">⭐ +10 XP</span></div>
+<div class="bx"><div class="bh"><i>강의 5</i>연립이차부등식 = 수직선 위의 공통부분<small style="margin-left:auto">●포함 · ○불포함</small></div>
 <div class="bb row" style="align-items:center"><div style="flex:1.45">{numline()}</div>
 <div class="note"><div class="eq">① $x^2-4x-5<0$ → $-1<x<5$</div><div class="eq">② $x^2-3x\\ge0$ → $x\\le0$ 또는 $x\\ge3$</div>
 <div class="eq" style="background:#FFF6CC">공통부분: <b>$-1<x\\le0$ 또는 $3\\le x<5$</b><br>정수 해: {B} → 모두 {B}개</div></div></div></div>
 
-<div class="bx"><div class="bh"><i>함정 피하기</i>학교 시험에서 점수가 새는 곳 TOP 3<span class="xp">⭐ 3개 다 피하면 +15 XP</span></div>
+<div class="bx"><div class="bh"><i>실수 TOP 3</i>학교 시험에서 점수가 새는 곳</div>
 <div class="bb trap">
 <div class="tr"><b class="h">① 끝점 포함</b><span class="x">✕ $x^2-4\\le0$ → $-2<x<2$</span><span class="o">○ $-2\\le x\\le2$</span><span class="why">등호가 있으면 끝점 ●</span></div>
 <div class="tr"><b class="h">② 중근</b><span class="x">✕ $(x-3)^2>0$ → 모든 실수</span><span class="o">○ $x\\ne3$인 모든 실수</span><span class="why">$x=3$이면 $0>0$ 거짓</span></div>
 <div class="tr"><b class="h">③ 음수 계수</b><span class="x">✕ $-x^2+1<0$ → $-1<x<1$</span><span class="o">○ $x<-1$ 또는 $x>1$</span><span class="why">$-1$ 곱하면 부등호도 뒤집기</span></div>
 </div></div>
-<div class="bx"><div class="bh"><i>미니 퀘스트</i>그래프를 그려서 빈칸 채우기 · 2분<span class="xp">🏅 4개 다 맞히면 배지!</span></div>
+<div class="bx"><div class="bh"><i>바로 확인</i>그래프를 그려서 빈칸 채우기</div>
 <div class="bb" style="display:grid;grid-template-columns:1fr 1fr;gap:1.6mm 6mm">
 <div>① $x^2-9\\le0$ ⇔ {B}</div><div>② $x^2+2x+1>0$ ⇔ {B}</div>
 <div>③ $x^2-6x+10<0$ ⇔ {B}</div><div>④ $-x^2+4x\\ge0$ ⇔ {B}</div></div></div>
-<div class="lvbar"><span>🎮 개념 STAGE</span><div class="g"><i></i></div><span>강의 5개 + 퀘스트 = <b>최대 65 XP</b> → 다음은 <b>대표 유형 LEVEL 1</b> ▶</span></div>
 <div class="key">빈칸 정답 — 강의3: $a=-2$, $b=-3$ │ 강의4: $-1<k<2$ │ 강의5: $0, 3, 4$ → 3개 │ 바로 확인: ① $-3\\le x\\le3$ ② $x\\ne-1$인 모든 실수 ③ 해는 없다 ④ $0\\le x\\le4$</div>
 </div>"""
 
@@ -222,7 +221,7 @@ CSS0 = """<style>
 
 PAGE0 = CSS + CSS0 + f"""<div class="ln">
 <div class="path"><span>① 예상하기</span><i>›</i><span>② 직접 실험</span><i>›</i><span class="a">③ 아하!</span><i>›</i><span>④ 강의 노트 정리</span><i>›</i><span>⑤ 퀘스트</span></div>
-<div class="bx"><div class="bh"><i>발견 1</i>왜 하필 ‘두 근 사이’일까?<span class="xp">⭐ +10 XP</span></div><div class="bb">
+<div class="bx"><div class="bh"><i>발견 1</i>왜 하필 ‘두 근 사이’일까?</div><div class="bb">
 {talk("s", "쌤, $x^2-5x+4<0$의 답이 $1<x<4$래요. 그냥 외우면 안 돼요?")}
 {talk("t", "외운 건 시험장에서 헷갈려. 대신 <b>직접 숫자를 넣어서</b> 범인을 찾아보자. 먼저 예상부터!")}
 <div class="pred"><b>내 예상:</b> 음수가 되는 x는 <i>1보다 작을 때</i><i>1과 4 사이</i><i>4보다 클 때</i></div>
@@ -233,7 +232,7 @@ PAGE0 = CSS + CSS0 + f"""<div class="ln">
 <div class="aha">두 수를 곱해서 <b>음수</b>가 되려면 <b>부호가 서로 달라야</b> 해요. $x-1$은 양수인데 $x-4$는 아직 음수인 구간 — 바로 <b>1과 4 사이</b>!</div>
 </div></div>
 
-<div class="bx"><div class="bh"><i>발견 2</i>판별식 $D$는 사실 ‘꼭짓점의 높이’ 신호등<span class="xp">⭐ +10 XP</span></div><div class="bb row" style="align-items:center">
+<div class="bx"><div class="bh"><i>발견 2</i>판별식 $D$는 사실 ‘꼭짓점의 높이’ 신호등</div><div class="bb row" style="align-items:center">
 <div style="flex:1.15">{shift3()}</div>
 <div style="flex:1">
 {talk("t", "완전제곱식으로 바꾸면 비밀이 보여.<br>$ax^2+bx+c=a\\left(x+\\dfrac{{b}}{{2a}}\\right)^2-\\dfrac{{D}}{{4a}}$")}
@@ -241,7 +240,7 @@ PAGE0 = CSS + CSS0 + f"""<div class="ln">
 </div></div>
 <div class="bb" style="padding-top:0"><div class="aha"><b>$D>0$</b> 꼭짓점이 아래 → 두 점에서 만남 · <b>$D=0$</b> 딱 닿음 · <b>$D<0$</b> 공중에 떠 있음 → 해 총정리 표는 외울 필요 없이 <b>그림 3개</b>로 끝!</div></div></div>
 
-<div class="bx"><div class="bh"><i>발견 3</i>제곱은 절대 음수가 될 수 없다<span class="xp">⭐ +10 XP</span></div><div class="bb row" style="align-items:center;gap:5mm">
+<div class="bx"><div class="bh"><i>발견 3</i>제곱은 절대 음수가 될 수 없다</div><div class="bb row" style="align-items:center;gap:5mm">
 <div style="flex:1">
 {talk("s", "$(x-3)^2>0$은 모든 실수 아닌가요?")}
 {talk("t", "$x=3$을 넣어 봐. $0>0$… 참일까?")}
