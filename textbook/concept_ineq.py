@@ -171,3 +171,83 @@ PAGE2 = CSS + f"""<div class="ln">
 <div class="lvbar"><span>🎮 개념 STAGE</span><div class="g"><i></i></div><span>강의 5개 + 퀘스트 = <b>최대 65 XP</b> → 다음은 <b>대표 유형 LEVEL 1</b> ▶</span></div>
 <div class="key">빈칸 정답 — 강의3: $a=-2$, $b=-3$ │ 강의4: $-1<k<2$ │ 강의5: $0, 3, 4$ → 3개 │ 바로 확인: ① $-3\\le x\\le3$ ② $x\\ne-1$인 모든 실수 ③ 해는 없다 ④ $0\\le x\\le4$</div>
 </div>"""
+
+# ───────── 원리 탐험 (외우지 않고 깨닫기) — 예상 → 실험 → 아하! ─────────
+def face(kind):
+    if kind == "t":  # 쌤
+        return ('<svg viewBox="0 0 40 40" width="9.5mm"><circle cx="20" cy="20" r="19" fill="#FDE7EE"/><path d="M8 18 q12 -16 24 0 v-4 q-12 -12 -24 0z" fill="#3A2E2A"/>'
+                '<circle cx="20" cy="21" r="9" fill="#FFD9C2"/><path d="M11 19 q9 -10 18 0" fill="#3A2E2A"/><circle cx="16.5" cy="22" r="1.3" fill="#222"/><circle cx="23.5" cy="22" r="1.3" fill="#222"/>'
+                '<path d="M17 26 q3 2.5 6 0" stroke="#C2335F" stroke-width="1.4" fill="none"/><path d="M9 38 q11 -10 22 0" fill="#E0457B"/></svg>')
+    return ('<svg viewBox="0 0 40 40" width="9.5mm"><circle cx="20" cy="20" r="19" fill="#E3EEFB"/><circle cx="20" cy="21" r="9" fill="#FFD9C2"/><path d="M10 19 q10 -13 20 0 q-3 -4 -10 -4 q-7 0 -10 4z" fill="#222"/>'
+            '<circle cx="16.5" cy="22" r="1.3" fill="#222"/><circle cx="23.5" cy="22" r="1.3" fill="#222"/><ellipse cx="20" cy="26.5" rx="2" ry="1.5" fill="#C2335F"/><path d="M9 38 q11 -10 22 0" fill="#1E5BA8"/></svg>')
+
+def talk(who, txt):
+    nm = "쌤" if who == "t" else "하준"
+    return f'<div class="tk {who}"><div class="fc">{face(who)}<small>{nm}</small></div><div class="bu">{txt}</div></div>'
+
+def shift3():
+    """같은 모양 포물선을 위아래로 옮기며 꼭짓점 높이 ↔ x축과 만나는 점 개수"""
+    w, h = 360, 172; ax = 82
+    s = [f'<svg viewBox="0 0 {w} {h}" width="100%" style="display:block"><line x1="6" y1="{ax}" x2="{w-6}" y2="{ax}" stroke="#334" stroke-width="1.3"/><text x="{w-14}" y="{ax-5}" font-size="11" fill="#334">x</text>']
+    for cx, dy, col, lab, n in [(62, 30, PK, "D＞0", "두 점"), (180, 0, "#F2A100", "D＝0", "한 점(접함)"), (298, -30, BL, "D＜0", "안 만남")]:
+        vy = ax + dy
+        s.append(f'<path d="M{cx-42} {vy-66} Q{cx} {vy+66} {cx+42} {vy-66}" fill="none" stroke="{col}" stroke-width="2.6"/>')
+        s.append(f'<circle cx="{cx}" cy="{vy}" r="3.6" fill="{col}"/>')
+        if dy:
+            s.append(f'<line x1="{cx+10}" y1="{ax}" x2="{cx+10}" y2="{vy}" stroke="{col}" stroke-width="1.6" stroke-dasharray="3 2"/>')
+        s.append(f'<text x="{cx}" y="{h-20}" font-size="13" text-anchor="middle" font-weight="900" fill="{col}">{lab}</text><text x="{cx}" y="{h-5}" font-size="11" text-anchor="middle" fill="#334">x축과 {n}</text>')
+    s.append(f'<text x="{w/2}" y="12" font-size="11" text-anchor="middle" fill="#6B7280">같은 그래프를 위로 올려 보면…</text></svg>')
+    return "".join(s)
+
+CSS0 = """<style>
+.ln .path{display:flex;gap:1.4mm;align-items:center;margin-bottom:3mm;font-size:8.6pt;font-weight:800}
+.ln .path span{flex:1;text-align:center;background:#EAF1FA;color:#123A6B;border-radius:99px;padding:1mm 0}
+.ln .path span.a{background:#FFE680;color:#5A3B00}.ln .path i{font-style:normal;color:#9CA3AF}
+.ln .tk{display:flex;gap:2.4mm;align-items:flex-start;margin:1mm 0}
+.ln .tk .fc{flex:none;text-align:center;font-size:7pt;font-weight:800;color:#6B7280;line-height:1}
+.ln .tk .bu{background:#F7F9FC;border-radius:3px 12px 12px 12px;padding:1.6mm 3.4mm;font-size:9.4pt;line-height:1.55}
+.ln .tk.t .bu{background:#FFF0F5}
+.ln .tk.s{flex-direction:row-reverse}.ln .tk.s .bu{border-radius:12px 3px 12px 12px;background:#EAF1FA}
+.ln .aha{background:linear-gradient(90deg,#FFF6CC,#FFFBEA);border:2px solid #FFD84D;border-radius:10px;padding:1.8mm 4mm;font-size:9.6pt;margin-top:2mm}
+.ln .aha:before{content:"💡 아하!";font-weight:900;color:#B7791F;margin-right:2mm}
+.ln .pred{display:flex;gap:3mm;align-items:center;font-size:9pt;font-weight:700;margin:1mm 0}
+.ln .pred i{font-style:normal;display:inline-flex;align-items:center;gap:1.2mm}.ln .pred i:before{content:"";width:3.6mm;height:3.6mm;border:1.4px solid #6B7280;border-radius:3px}
+.ln .lab{width:100%;border-collapse:collapse;font-size:9.2pt;text-align:center}
+.ln .lab th,.ln .lab td{border:1px solid var(--ln);padding:.7mm 1mm}
+.ln .lab th{background:var(--t);color:var(--d)}
+.ln .lab .bl{background:#FFFDF2}
+.ln .lab .sg td{font-weight:900;font-size:10.5pt}
+.ln .lab .p{color:#1E5BA8}.ln .lab .m{color:#E0457B}
+</style>"""
+
+PAGE0 = CSS + CSS0 + f"""<div class="ln">
+<div class="path"><span>① 예상하기</span><i>›</i><span>② 직접 실험</span><i>›</i><span class="a">③ 아하!</span><i>›</i><span>④ 강의 노트 정리</span><i>›</i><span>⑤ 퀘스트</span></div>
+<div class="bx"><div class="bh"><i>발견 1</i>왜 하필 ‘두 근 사이’일까?<span class="xp">⭐ +10 XP</span></div><div class="bb">
+{talk("s", "쌤, $x^2-5x+4<0$의 답이 $1<x<4$래요. 그냥 외우면 안 돼요?")}
+{talk("t", "외운 건 시험장에서 헷갈려. 대신 <b>직접 숫자를 넣어서</b> 범인을 찾아보자. 먼저 예상부터!")}
+<div class="pred"><b>내 예상:</b> 음수가 되는 x는 <i>1보다 작을 때</i><i>1과 4 사이</i><i>4보다 클 때</i></div>
+<table class="lab"><tr><th style="width:22%">넣어 볼 x</th><th>$x=0$</th><th>$x=2$</th><th>$x=3$</th><th>$x=5$</th></tr>
+<tr><th>$x-1$</th><td>$-1$</td><td class="bl">{B}</td><td>$2$</td><td class="bl">{B}</td></tr>
+<tr><th>$x-4$</th><td>$-4$</td><td class="bl">{B}</td><td>$-1$</td><td class="bl">{B}</td></tr>
+<tr class="sg"><th>곱의 부호</th><td class="p">＋</td><td class="bl">{B}</td><td class="m">－</td><td class="bl">{B}</td></tr></table>
+<div class="aha">두 수를 곱해서 <b>음수</b>가 되려면 <b>부호가 서로 달라야</b> 해요. $x-1$은 양수인데 $x-4$는 아직 음수인 구간 — 바로 <b>1과 4 사이</b>!</div>
+</div></div>
+
+<div class="bx"><div class="bh"><i>발견 2</i>판별식 $D$는 사실 ‘꼭짓점의 높이’ 신호등<span class="xp">⭐ +10 XP</span></div><div class="bb row" style="align-items:center">
+<div style="flex:1.15">{shift3()}</div>
+<div style="flex:1">
+{talk("t", "완전제곱식으로 바꾸면 비밀이 보여.<br>$ax^2+bx+c=a\\left(x+\\dfrac{{b}}{{2a}}\\right)^2-\\dfrac{{D}}{{4a}}$")}
+{talk("s", "아! $a>0$이면 꼭짓점 높이가 $-\\dfrac{{D}}{{4a}}$니까 <b>$D<0$이면 꼭짓점이 x축 위</b>… 그래서 항상 양수!")}
+</div></div>
+<div class="bb" style="padding-top:0"><div class="aha"><b>$D>0$</b> 꼭짓점이 아래 → 두 점에서 만남 · <b>$D=0$</b> 딱 닿음 · <b>$D<0$</b> 공중에 떠 있음 → 해 총정리 표는 외울 필요 없이 <b>그림 3개</b>로 끝!</div></div></div>
+
+<div class="bx"><div class="bh"><i>발견 3</i>제곱은 절대 음수가 될 수 없다<span class="xp">⭐ +10 XP</span></div><div class="bb row" style="align-items:center;gap:5mm">
+<div style="flex:1">
+{talk("s", "$(x-3)^2>0$은 모든 실수 아닌가요?")}
+{talk("t", "$x=3$을 넣어 봐. $0>0$… 참일까?")}
+</div>
+<div style="flex:1"><div class="eq">$(x-3)^2\\ge0$ → 모든 실수 <span style="color:#6B7280">(0도 OK)</span></div>
+<div class="eq" style="margin-top:.8mm">$(x-3)^2>0$ → <b>{B}</b> <span style="color:#6B7280">(0만 빼기!)</span></div>
+<div class="eq" style="margin-top:.8mm">$(x-3)^2<0$ → <b>{B}</b></div></div></div></div>
+<div class="key">실험 정답 — x=2: $1, -2$, 곱 － │ x=5: $4, 1$, 곱 ＋ │ 발견 3: $x\\ne3$인 모든 실수, 해는 없다</div>
+</div>"""
