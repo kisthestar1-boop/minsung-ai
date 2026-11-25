@@ -125,3 +125,88 @@ def drill():
 
 C3 = CSS + f"""<div class="pr"><div class="drill">{drill()}</div>
 <div class="ref">정답 — {" · ".join(f"{i:04d} {a}" for i, a in enumerate(DANS, 1))}</div></div>"""
+
+# ───── 개념 먼저, 쉽게 → 바로 예제 (개념원리식 흐름) ─────
+CSS2 = """<style>
+.pr .exq{margin:2mm 0 1mm;padding:2mm 3.4mm;border-top:1.4px solid var(--c1);background:#FAFBFD}
+.pr .exq .h{font-weight:900;color:var(--c1);margin-right:2mm}
+.pr .easy{font-size:10.4pt;line-height:1.85}
+.pr .sp{height:3.4mm}
+</style>"""
+
+def graph2():
+    return para(lambda x: (x + 2) * (x - 5) * 0.45, [-2, 5], -4, 7, w=300, h=150, ymin=-6, ymax=5.6, ticks=[(-2, "−2"), (5, "5")])
+
+def sol(t):
+    return f'<div class="sol"><span class="tg2">풀이</span>{t}</div>'
+
+K1 = CSS + CSS2 + f"""<div class="pr"><div class="two"><div class="main">
+<div class="sec"><div class="sh"><i>01-1</i><b>이차부등식이란?</b></div>
+<div class="easy">$x^2-5x+4<0$, $\\ 2x^2+x-3\\ge0$처럼 모든 항을 좌변으로 옮겨 정리했을 때<br><b>좌변이 $x$에 대한 이차식</b>인 부등식을 <span class="hl">이차부등식</span>이라 한다.</div>
+<div class="cbx">이차방정식 $x^2-5x+4=0$의 해 → $x=1,\\ 4$ &nbsp;(<b>점</b> 두 개)<br>이차부등식 $x^2-5x+4<0$의 해 → $1<x<4$ &nbsp;(<b>범위</b>)</div></div>
+
+<div class="sec"><div class="sh"><i>01-2</i><b>이차부등식의 해와 그래프</b></div>
+<div style="display:grid;grid-template-columns:1fr 1.15fr;gap:4mm;align-items:center"><div>{graph()}</div>
+<div class="cbx" style="margin:0">$a>0$이고 $ax^2+bx+c=0$의 두 근이 $\\alpha,\\beta\\ (\\alpha<\\beta)$일 때<br>
+① $ax^2+bx+c<0$의 해 → <span class="hl">$\\alpha<x<\\beta$</span><br>
+② $ax^2+bx+c>0$의 해 → <span class="hl">$x<\\alpha$ 또는 $x>\\beta$</span></div></div>
+<div class="it" style="margin-top:1.2mm">그래프가 $x$축보다 <b>아래</b>에 있는 부분 → $y<0$ &nbsp;·&nbsp; <b>위</b>에 있는 부분 → $y>0$</div>
+<div class="exq"><span class="h">예제</span>다음 이차부등식을 푸시오. &nbsp;(1) $x^2-3x-10<0$ &nbsp;&nbsp;(2) $x^2-3x-10\\ge0$</div>
+{sol("$x^2-3x-10=(x+2)(x-5)$이므로 두 근은 $-2,\\ 5$")}
+<div style="display:grid;grid-template-columns:1.2fr 1fr;gap:3mm;align-items:center"><div style="padding-left:12mm">(1) 그래프가 $x$축 아래 → <span class="ans">$-2<x<5$</span><br>(2) 그래프가 $x$축 위(또는 위에 닿음) → <span class="ans">$x\\le-2$ 또는 $x\\ge5$</span></div><div>{graph2()}</div></div>
+</div></div>
+
+<div class="side">
+<div class="nt"><b class="h">참고</b><br>부등식의 해 = 부등식을 참이 되게 하는 $x$의 값 전체</div>
+<div style="height:30mm"></div>
+<div class="nt why"><b class="h">왜 그럴까?</b><br>$(x-\\alpha)(x-\\beta)<0$은 두 수의 곱이 음수 → 부호가 <b>서로 다르다</b>.<br>$x-\\alpha>0$, $x-\\beta<0$인 곳은 <b>두 근 사이</b>뿐!</div>
+<div class="nt"><b class="h">TIP</b><br>등호(≤, ≥)가 있으면 두 근도 해에 <b>포함</b>된다.</div>
+</div></div></div>"""
+
+K2 = CSS + CSS2 + f"""<div class="pr"><div class="two"><div class="main">
+<div class="sec"><div class="sh"><i>01-3</i><b>판별식과 이차부등식의 해</b></div>
+<div class="easy">$x^2$의 계수 $a>0$일 때, 이차방정식 $ax^2+bx+c=0$의 판별식 $D=b^2-4ac$의 부호에 따라 그래프와 $x$축의 위치가 정해진다.</div>
+<table class="tb"><thead><tr><th style="width:23%"></th><th>$D>0$<br>{mini(0)}</th><th>$D=0$<br>{mini(1)}</th><th>$D<0$<br>{mini(2)}</th></tr></thead>
+<tbody><tr><th>$ax^2+bx+c>0$</th><td>$x<\\alpha$ 또는 $x>\\beta$</td><td class="k">$x\\ne\\alpha$인 모든 실수</td><td>모든 실수</td></tr>
+<tr><th>$ax^2+bx+c\\ge0$</th><td>$x\\le\\alpha$ 또는 $x\\ge\\beta$</td><td class="k">모든 실수</td><td>모든 실수</td></tr>
+<tr><th>$ax^2+bx+c<0$</th><td>$\\alpha<x<\\beta$</td><td class="k">해는 없다.</td><td>해는 없다.</td></tr>
+<tr><th>$ax^2+bx+c\\le0$</th><td>$\\alpha\\le x\\le\\beta$</td><td class="k">$x=\\alpha$</td><td>해는 없다.</td></tr></tbody></table>
+<div class="exq"><span class="h">예제</span>다음 이차부등식을 푸시오. &nbsp;(1) $x^2-6x+9>0$ &nbsp;&nbsp;(2) $x^2+2x+5<0$ &nbsp;&nbsp;(3) $x^2-2x+2>0$</div>
+{sol("(1) $(x-3)^2>0$ → <span class='ans'>$x\\ne3$인 모든 실수</span>")}
+<div style="padding-left:12mm">(2) $\\dfrac{{D}}{{4}}=1-5<0$이므로 그래프가 $x$축보다 항상 위 → <span class="ans">해는 없다.</span><br>(3) $\\dfrac{{D}}{{4}}=1-2<0$ → <span class="ans">모든 실수</span></div></div>
+
+<div class="sec"><div class="sh"><i>01-4</i><b>모든 실수 $x$에 대하여 성립하는 이차부등식</b></div>
+<div class="cbx">모든 실수 $x$에 대하여 $ax^2+bx+c>0$ ⇔ <span class="hl">$a>0,\\ D<0$</span><br>모든 실수 $x$에 대하여 $ax^2+bx+c\\ge0$ ⇔ <span class="hl">$a>0,\\ D\\le0$</span></div>
+<div class="exq"><span class="h">예제</span>모든 실수 $x$에 대하여 $x^2+kx+4>0$이 성립하도록 하는 실수 $k$의 값의 범위를 구하시오.</div>
+{sol("$D=k^2-16<0$, $(k+4)(k-4)<0$ &nbsp;∴ <span class='ans'>$-4<k<4$</span>")}
+</div></div>
+
+<div class="side">
+<div class="nt"><b class="h">참고</b><br>$D>0$: 서로 다른 두 실근<br>$D=0$: 중근<br>$D<0$: 서로 다른 두 허근</div>
+<div class="nt"><b class="h">주의</b><br>$(x-3)^2>0$은 ‘모든 실수’가 아니라 <b>$x\\ne3$인 모든 실수</b>.</div>
+<div style="height:22mm"></div>
+<div class="nt why"><b class="h">왜 그럴까?</b><br>$ax^2+bx+c=a\\left(x+\\frac{{b}}{{2a}}\\right)^2-\\frac{{D}}{{4a}}$<br>꼭짓점의 높이가 $-\\frac{{D}}{{4a}}$ → $a>0,\\ D<0$이면 꼭짓점이 $x$축보다 위에 있어서 그래프 전체가 위!</div>
+<div class="nt"><b class="h">주의</b><br>$x^2$의 계수에 문자가 있으면 (계수)$=0$인 경우부터 확인한다.</div>
+</div></div></div>"""
+
+K3 = CSS + CSS2 + f"""<div class="pr"><div class="two"><div class="main">
+<div class="sec"><div class="sh"><i>01-5</i><b>연립이차부등식</b></div>
+<div class="easy">두 개 이상의 부등식을 한 쌍으로 묶어 놓은 것을 <b>연립부등식</b>이라 하고, 그중 차수가 가장 높은 부등식이 이차부등식인 것을 <span class="hl">연립이차부등식</span>이라 한다.</div>
+<div class="cbx"><b>푸는 순서</b> ① 각 부등식의 해를 구한다. ② 수직선 위에 함께 나타낸다. ③ <b>공통부분</b>을 구한다.</div>
+<div class="exq"><span class="h">예제</span>연립부등식 $\\begin{{cases}}x^2-4x-5<0\\\\x^2-3x\\ge0\\end{{cases}}$을 푸시오.</div>
+{sol("$x^2-4x-5<0$에서 $(x+1)(x-5)<0$ → $-1<x<5$ &nbsp;⋯⋯ ①")}
+<div style="padding-left:12mm">$x^2-3x\\ge0$에서 $x(x-3)\\ge0$ → $x\\le0$ 또는 $x\\ge3$ &nbsp;⋯⋯ ②</div>
+<div style="margin:1.6mm 0">{numline()}</div>
+<div style="padding-left:12mm">①, ②의 공통부분 &nbsp;∴ <span class="ans">$-1<x\\le0$ 또는 $3\\le x<5$</span></div></div>
+
+<div class="sec"><div class="sh"><i>개념 확인</i><b>배운 개념을 바로 확인해 보자</b></div>
+<div class="chk" style="grid-template-columns:1fr 1fr"><div><b class="n">01</b>$x^2-9\\le0$을 푸시오.</div><div><b class="n">02</b>$x^2+4x+4>0$을 푸시오.</div>
+<div><b class="n">03</b>$x^2-x+1<0$을 푸시오.</div><div><b class="n">04</b>$\\begin{{cases}}x^2-1>0\\\\x^2-4x\\le0\\end{{cases}}$을 푸시오.</div></div>
+<div class="ref">정답 — 01 $-3\\le x\\le3$ · 02 $x\\ne-2$인 모든 실수 · 03 해는 없다 · 04 $1<x\\le4$</div></div>
+</div>
+<div class="side">
+<div class="nt"><b class="h">참고</b><br>수직선에서 <b>●</b>는 그 점을 포함, <b>○</b>는 포함하지 않음을 뜻한다.</div>
+<div style="height:40mm"></div>
+<div class="nt why"><b class="h">왜 그럴까?</b><br>연립부등식의 해는 <b>두 부등식을 동시에</b> 만족해야 하므로 겹치는 부분(공통부분)만 남는다.</div>
+<div class="nt"><b class="h">TIP</b><br>정수 해의 개수를 묻는 문제는 끝점의 ●○에서 가장 많이 틀린다.</div>
+</div></div></div>"""
