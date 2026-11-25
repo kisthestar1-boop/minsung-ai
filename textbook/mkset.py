@@ -7,12 +7,14 @@ from engine import build, pdf
 REPO = "/home/claude/chalkakhome"
 SUBJ = {"elem": ("/home/claude/tbook/s_elem_math.py", "초등 수학", "약수와 배수"),
         "mid": ("/home/claude/tbook/s_mid_math.py", "중등 수학", "경우의 수"),
-        "eng": ("/home/claude/tbook/s_eng.py", "고1 영어 독해", "요지·주제·제목")}
+        "eng": ("/home/claude/tbook/s_eng.py", "고1 영어 독해", "요지·주제·제목"),
+        "hs1": ("/home/claude/tbook/s_hs1_ineq.py", "고1 수학", "이차부등식·연립부등식"),
+        "mid1": ("/home/claude/tbook/s_mid1_geo.py", "중1 수학", "기본 도형")}
 
 def load(path):
     sp = importlib.util.spec_from_file_location("m" + str(abs(hash(path))), path); m = importlib.util.module_from_spec(sp); sp.loader.exec_module(m); return m
 
-def make(slug, name, subjects, mark=None, slogan=""):
+def make(slug, name, subjects, mark=None, slogan="", admin=True):
     d = f"{REPO}/p/{slug}"; os.makedirs(d, exist_ok=True)
     # 기존 홈페이지 시안은 home/ 으로 옮김 (예전 링크는 묶음 페이지로 열림)
     old = f"{d}/index.html"
@@ -30,7 +32,15 @@ def make(slug, name, subjects, mark=None, slogan=""):
         subprocess.run(["pdftoppm", "-r", "96", "-jpeg", "-jpegopt", "quality=80", out, f"{pd}/p"], check=True)
         pages = sorted(os.path.basename(x) for x in glob.glob(f"{pd}/p-*.jpg"))
         books.append((s, SUBJ[s][1], SUBJ[s][2], pages))
-    open(f"{d}/index.html", "w").write(page(name, slug, home, books))
+    html_ = page(name, slug, home, books)
+    if not admin:
+        import re as _re
+        html_ = _re.sub(r'<section id="admin">.*?</section>', '', html_, flags=_re.S)
+        html_ = _re.sub(r'<a href="#admin">.*?</a>', '', html_, flags=_re.S)
+        html_ = html_.replace(".three{{", ".three{{").replace("grid-template-columns:repeat(3,1fr);gap:12px}.three a", "grid-template-columns:repeat(2,1fr);gap:12px}.three a")
+        html_ = html_.replace("원장님은 <b>수업만</b> 하세요.<br>홈페이지·관리·교재는 저희가 할게요.", "원장님은 <b>수업만</b> 하세요.<br>홈페이지와 교재는 저희가 할게요.")
+        html_ = html_.replace("아래 세 가지를", "아래 두 가지를").replace("홈페이지 · 학원 전용 교재는 바로 시작할 수 있고, 학원 관리 프로그램은 완성되는 대로 먼저 써 보실 수 있어요.", "홈페이지와 학원 전용 교재를 함께 맡기실 수 있어요.")
+    open(f"{d}/index.html", "w").write(html_)
     return d
 
 def page(name, slug, home, books):
@@ -115,4 +125,4 @@ document.querySelectorAll('.bt').forEach(b=>b.onclick=()=>show(+b.dataset.b));sh
 
 if __name__ == "__main__":
     slug, name, subs = sys.argv[1], sys.argv[2], sys.argv[3].split(",")
-    print(make(slug, name, subs, sys.argv[4] if len(sys.argv) > 4 else None))
+    print(make(slug, name, subs, sys.argv[4] if len(sys.argv) > 4 else None, admin="--no-admin" not in sys.argv))

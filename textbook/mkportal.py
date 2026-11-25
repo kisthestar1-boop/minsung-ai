@@ -65,12 +65,12 @@ def pub():
         res = make_chapter(cid, dict(academy="찰칵출판사 견본", mark="찰", slogan="학원 이름·로고가 들어가는 자리", teacher="원장 선생님"), f"{out}/{cid}", previews=True)
         cards += card(cid, cid, res)
     nxt = "".join(f'<div class="nx"><b style="color:var(--c);font-size:12px">{E(a)}</b>{E(b)} · {E(c)}<em class="{"on" if d=="다음 제작" else ""}">{E(d)}</em></div>' for a, b, c, d in O["next"])
-    mail = "mailto:kisthestar1@gmail.com?subject=" + "[찰칵출판사] 교재 챕터 요청" + "&body=" + "학원 이름:%0A학년·과목:%0A필요한 단원(시험 범위):%0A받으실 날짜:%0A"
+    mail = "mailto:kisthestar1@gmail.com?subject=" + "[찰칵출판사] 교재 챕터 요청" + "&body=" + "학원 이름:%0A학교·학년·과목:%0A교과서 출판사(예: 천재·비상·미래엔):%0A시험 범위(단원·쪽):%0A받으실 날짜:%0A"
     page = HEAD.format(title="찰칵출판사 · 학원 전용 교재 자료실") + f"""
 <div class="top"><div class="w"><h1>📘 찰칵출판사 · 학원 전용 교재 자료실</h1><p>쓰시던 교재는 그대로 두시고, 필요한 챕터만 받아 보충·내신 대비용으로 쓰세요. 챕터마다 학생용 · 정답과 해설 · 선생님용 3개 파일이에요.</p></div></div>
 <div class="w"><h2>견본 챕터 <small>표지를 누르면 넘겨 보기 · 학원 구독 시 학원 이름·로고가 들어가요</small></h2><div class="grid">{cards}</div>
 <div class="two"><div><h2>🛠 다음 만들 챕터</h2><div class="box">{nxt}</div></div>
-<div><h2>📮 이렇게 받아 보세요</h2><div class="box"><p style="margin:0 0 8px">① 필요한 챕터를 메일·인스타 DM으로 알려 주세요 (학년·단원·시험 범위)<br>② 학원 이름이 들어간 챕터를 만들어 <b>학원 전용 다운로드 페이지</b>에 올려 드려요<br>③ 언제든 다시 내려받아 인쇄해 쓰시면 돼요 · 첫 챕터는 무료</p>
+<div><h2>📮 이렇게 받아 보세요</h2><div class="box"><p style="margin:0 0 8px">① 필요한 챕터를 메일·인스타 DM으로 알려 주세요 (학교·교과서 출판사·시험 범위)<br>② 학원 이름이 들어간 챕터를 만들어 <b>학원 전용 다운로드 페이지</b>에 올려 드려요<br>③ 언제든 다시 내려받아 인쇄해 쓰시면 돼요 · 첫 챕터는 무료</p>
 <a class="btn" href="{mail}">✉ 챕터 요청 메일 쓰기</a></div></div></div>
 <h2>✅ 출고 기준</h2><div class="box">문항은 모두 새로 만든 문제 · 수학 정답은 계산으로 전부 검산 · EBS·평가원 자료와 저작권 유사도 검사 0건 · 쪽 넘침 자동 검사 0건 · 2022 개정 교육과정 반영</div>
 <footer>찰칵출판사 · 찰칵홈 chalkakhome.com</footer></div>{LB}</body></html>"""
@@ -90,7 +90,7 @@ def portals():
             res = make_chapter(o["ch"], dict(academy=a["name"], mark=a.get("mark") or a["name"][0]), f"{base}/{o['ch']}", previews=True)
             cards += card(o["ch"], o["ch"], res, f" · {E(o['date'])} 전달")
         wait = "".join(f'<div class="nx">{E(CH.get(o["ch"],{}).get("grade",""))} · {E(CH.get(o["ch"],{}).get("unit",o["ch"]))}<em class="on">{E(o["status"])}</em></div>' for o in doing) or '<div class="nx" style="color:var(--mu)">진행 중인 요청이 없어요</div>'
-        mail = f"mailto:kisthestar1@gmail.com?subject=[{a['name']}] 교재 챕터 요청&body=학년·과목:%0A필요한 단원(시험 범위):%0A받으실 날짜:%0A"
+        mail = f"mailto:kisthestar1@gmail.com?subject=[{a['name']}] 교재 챕터 요청&body=학교·학년·과목:%0A교과서 출판사(예: 천재·비상·미래엔):%0A시험 범위(단원·쪽):%0A받으실 날짜:%0A"
         page = HEAD.format(title=f"{a['name']} · 전용 교재") + f"""
 <div class="top"><div class="w"><h1>📘 {E(a['name'])} 전용 교재</h1><p>받으신 챕터는 여기서 언제든 다시 내려받으실 수 있어요. 이 주소는 원장님만 아시는 주소예요.</p></div></div>
 <div class="w"><h2>받은 챕터 <small>{len(done)}개 · 표지를 누르면 넘겨 보기</small></h2><div class="grid">{cards or '<div class="box">아직 받은 챕터가 없어요.</div>'}</div>

@@ -105,7 +105,7 @@ table.plan td:first-child{text-align:left;font-weight:700;color:var(--d)}
 .steps{margin-top:2mm;background:#fff;border-radius:8px;padding:2.5mm 3.5mm;font-size:9.4pt}
 .steps p{display:flex;gap:6px;margin:.6mm 0}.steps p i{font-style:normal;font-family:'Noto Sans CJK KR';font-weight:900;color:var(--c2);flex:none;font-size:8.6pt;margin-top:1px}
 .steps .an{text-align:right;font-family:'Noto Sans CJK KR';font-weight:900;color:var(--d);font-size:9pt}
-.steps .an span{background:var(--hl);padding:0 8px;border-radius:4px;margin-left:4px}
+.steps .an>span{background:var(--hl);padding:0 8px;border-radius:4px;margin-left:4px;white-space:nowrap;display:inline-block}
 /* 문제 */
 .q{break-inside:avoid;display:flex;gap:7px}
 .q .qn{flex:none;width:30px;text-align:center}
@@ -378,7 +378,16 @@ class Book:
  document.querySelectorAll('td[data-sec]').forEach(t=>{const L=S[t.dataset.sec]||[];t.textContent=L.length?(L.length>1?L[0]+'~'+L[L.length-1]:L[0]):''});
 }renderMathInElement(document.body,{delimiters:[{left:"$",right:"$",display:false}],throwOnError:false});document.fonts.ready.then(()=>{flow();document.body.dataset.ok=1})</script></body></html>''')
 
-def build(spec): return Book(spec).render()
+def _fixmath(o):
+    """$...$ 안의 < > 를 KaTeX 명령으로 (HTML 태그로 오인되는 것 방지)"""
+    if isinstance(o, str):
+        return re.sub(r"\$[^$]+\$", lambda m: m.group(0).replace("<", "\\lt ").replace(">", "\\gt "), o)
+    if isinstance(o, list): return [_fixmath(x) for x in o]
+    if isinstance(o, tuple): return tuple(_fixmath(x) for x in o)
+    if isinstance(o, dict): return {k: (_fixmath(v) if k not in ("art",) else v) for k, v in o.items()}
+    return o
+
+def build(spec): return Book(_fixmath(spec)).render()
 
 QA_JS = r"""() => { const out=[]; document.querySelectorAll('.pg').forEach((pg,i)=>{ const b=pg.querySelector('.body'); if(!b) return;
  const r=b.getBoundingClientRect(); let bad=0, ex='';
