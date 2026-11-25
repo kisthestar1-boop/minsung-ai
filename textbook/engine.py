@@ -384,7 +384,7 @@ QA_JS = r"""() => { const out=[]; document.querySelectorAll('.pg').forEach((pg,i
  const r=b.getBoundingClientRect(); let bad=0, ex='';
  b.querySelectorAll('*').forEach(e=>{ const q=e.getBoundingClientRect(); if(q.width===0&&q.height===0) return; if(e.closest('.katex-mathml')) return;
    if(q.bottom>r.bottom+1||q.right>r.right+1){ bad++; if(!ex) ex=(e.className||e.tagName)+':'+(e.textContent||'').slice(0,30)} });
- out.push([i+1,bad,ex,Math.round(r.bottom - Math.max(...[...b.children].map(c=>c.getBoundingClientRect().bottom),r.top))]); }); return out; }"""
+ const sc=pg.querySelector('.hd .sc'); out.push([i+1,bad,ex,Math.round(r.bottom - Math.max(...[...b.children].map(c=>c.getBoundingClientRect().bottom),r.top)),sc?sc.textContent:'']); }); return out; }"""
 
 def pdf(html, out, shots=None):
     p = pathlib.Path(out).with_suffix(".html"); p.write_text(html)
@@ -416,3 +416,19 @@ def M(t):
             return f'{lead}${c}${trail}'
         out.append(re.sub(r'[0-9A-Za-z(][0-9A-Za-z()×＋－÷＝…\s.,]*[0-9A-Za-z)]', rep, p))
     return ''.join(out)
+
+
+def split(full, qa, outdir, name):
+    """한 챕터 PDF를 3개로: 학생용(표지~자기 평가) · 정답과 해설 · 선생님용(가이드+해설)"""
+    from pypdf import PdfReader, PdfWriter
+    R = PdfReader(full); n = len(R.pages)
+    sec = {r[0]: r[4] for r in qa}  # 1-based page -> section (cover 없음)
+    ans = [i for i in range(1, n+1) if sec.get(i) == "정답과 해설"]
+    tch = [i for i in range(1, n+1) if sec.get(i) == "선생님용"]
+    stu = [i for i in range(1, n+1) if i not in ans and i not in tch]
+    out = {}
+    for key, pages in (("student", stu), ("answers", ans), ("teacher", tch + ans)):
+        W = PdfWriter()
+        for i in pages: W.add_page(R.pages[i-1])
+        p = f"{outdir}/{name}_{key}.pdf"; W.write(p); out[key] = (p, len(pages))
+    return out
