@@ -81,7 +81,7 @@ footer{{text-align:center;color:var(--mu);font-size:13px;padding:30px 0 40px}}
 <p>원장님 학원을 생각하며 미리 만들어 본 시안이에요. 아래 세 가지를 편하게 둘러보시고, <b>시안 먼저 보시고 결정하셔도 돼요.</b></p>
 <div class="three"><a href="#home"><i>🖥</i><b>① 우리 학원 홈페이지</b><small>휴대폰·PC에서 바로 보이는 시안</small></a>
 <a href="#book"><i>📘</i><b>② 우리 학원 전용 교재</b><small>학원 이름이 들어간 교재 샘플</small></a>
-<a href="#admin"><i>📊</i><b>③ 학원 관리 화면</b><small>출결·원비·학부모 문자 한 화면</small></a></div></div></div>
+<a href="#admin"><i>📊</i><b>③ 학원 관리 프로그램</b><small>개발 중 · 미리보기</small></a></div></div></div>
 
 <section id="home"><div class="w"><div class="no">01 · HOMEPAGE</div><h2>우리 학원 홈페이지 시안</h2><p class="lead">학부모님이 인스타·검색으로 들어왔을 때 가장 먼저 보는 화면이에요. 내용·사진은 원장님 학원에 맞게 바꿔 드려요.</p>
 <div class="dev"><div class="desk"><div class="bar"><i></i><i></i><i></i></div><iframe src="{home}" loading="lazy" title="홈페이지 시안 PC"></iframe></div>
@@ -95,11 +95,11 @@ footer{{text-align:center;color:var(--mu);font-size:13px;padding:30px 0 40px}}
 <div class="pts"><div><b>🎮 퀘스트 · XP · 메달</b>학생이 스스로 하고 싶게</div><div><b>📈 Level 1 → 2 → 3 + BOSS</b>기초부터 학평·수능형까지</div><div><b>🧾 유형 코드 · 오답 분석</b>약한 유형이 한눈에</div><div><b>✍ 선생님 가이드</b>회차안 · 수준별 숙제 배정</div></div>
 <p class="lead" style="margin-top:14px;font-size:14px">모든 문제는 새로 만든 문항이고, 정답은 계산으로 전부 검산했어요. 학교 시험 범위·진도에 맞춘 단원도 만들어 드려요.</p></div></section>
 
-<section id="admin"><div class="w"><div class="no">03 · MANAGEMENT</div><h2>학원 관리 화면 미리보기</h2><p class="lead">출결을 누르면 학부모 문자가 자동으로 써지고, 원비·교재 진도까지 한 화면에서 봐요. (시연용 예시 데이터)</p>
+<section id="admin"><div class="w"><div class="no">03 · MANAGEMENT</div><h2>학원 관리 프로그램 미리보기 <small style="font-size:15px;background:#FFE27A;border-radius:99px;padding:3px 10px;vertical-align:middle">개발 중</small></h2><p class="lead">지금 만들고 있는 관리 프로그램의 미리보기예요. 출결을 누르면 학부모 문자가 자동으로 써지고, 원비·교재 진도까지 한 화면에서 보게 될 거예요. 먼저 함께하시는 학원은 완성되면 가장 먼저 무료로 써 보실 수 있어요. (예시 데이터)</p>
 <div class="adm"><iframe src="/demo/academy/?n={html.escape(name)}" loading="lazy" title="학원 관리 화면 미리보기"></iframe></div></div></section>
 
 <section><div class="w"><div class="cta"><span class="gift">처음 함께하는 3곳 · 특별 조건</span><h2>마음에 드시면 편하게 답장 주세요</h2>
-<p>홈페이지 · 학원 관리 · 학원 전용 교재를 한 번에 맡기실 수 있어요.<br>시안은 무료이고, 보시고 결정하셔도 괜찮아요. 수정은 메일로 편하게 보내 주시면 돼요.</p>
+<p>홈페이지 · 학원 전용 교재는 바로 시작할 수 있고, 학원 관리 프로그램은 완성되는 대로 먼저 써 보실 수 있어요.<br>시안은 무료이고, 보시고 결정하셔도 괜찮아요. 수정은 메일로 편하게 보내 주시면 돼요.</p>
 <a href="mailto:kisthestar1@gmail.com?subject={html.escape(name)}%20시안%20문의">✉ 메일로 답장하기</a><a href="https://chalkakhome.com/#contact" target="_blank" rel="noopener">찰칵홈 둘러보기</a></div></div></section>
 <footer>찰칵홈 · 찰칵출판사 — 동네 학원의 홈페이지·관리·교재 파트너</footer>
 <script>

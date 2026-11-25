@@ -215,6 +215,8 @@ class Book:
             op = f'<div class="op {cls}">' + "".join(f"<i>{NUM[i]} {c}</i>" for i, c in enumerate(ch)) + "</div>"
         g = gap if gap is not None else p.get("gap", {1: 12, 2: 20, 3: 30}.get(p.get("lv", 2), 16))
         ty = p.get("ty") or s.cur; boss = "BOSS" in p.get("tags", [])
+        if s.M.get("subject") != "eng":  # 수학: 풀이 공간 넉넉히 (Level 1 26mm · Level 2 34mm · BOSS 44mm)
+            g = max(g, 44 if boss else {1: 26, 2: 34, 3: 40}[s.stage])
         xp = 50 if boss else {1: 10, 2: 20, 3: 30}[s.stage]
         s.ans.append({**p, "n": n, "ty": ty, "xp": xp, "stage": s.stage})
         code = f'<span class=tyc>유형{ty}</span>' if ty else ""
